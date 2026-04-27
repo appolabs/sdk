@@ -55,7 +55,7 @@
     "docs": "typedoc",
     "docs:check": "typedoc --emit none",
     "playground": "node playground/serve.mjs",
-    "prepublishOnly": "pnpm build",
+    "prepublishOnly": "npm run build",
     "docs:dev": "cd website && pnpm dev",
     "docs:build": "cd website && pnpm build"
   },
