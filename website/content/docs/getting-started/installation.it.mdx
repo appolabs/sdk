@@ -8,21 +8,21 @@ description: Installa e inizializza l'SDK Appo nella tua applicazione web.
 Installa con il tuo gestore di pacchetti:
 
 ```bash tab="npm"
-npm install @appolabs/appo
+npm install @appolabs/sdk
 ```
 
 ```bash tab="pnpm"
-pnpm add @appolabs/appo
+pnpm add @appolabs/sdk
 ```
 
 ```bash tab="yarn"
-yarn add @appolabs/appo
+yarn add @appolabs/sdk
 ```
 
 Oppure includi tramite tag script (inizializza automaticamente `window.appo`):
 
 ```html
-<script src="https://unpkg.com/@appolabs/appo"></script>
+<script src="https://unpkg.com/@appolabs/sdk"></script>
 ```
 
 ## Inizializzazione
@@ -30,7 +30,7 @@ Oppure includi tramite tag script (inizializza automaticamente `window.appo`):
 L'SDK fornisce due funzioni di inizializzazione e un pattern singleton:
 
 ```typescript
-import { getAppo, initAppo } from '@appolabs/appo';
+import { getAppo, initAppo } from '@appolabs/sdk';
 
 // Opzione 1: getAppo() — inizializza alla prima chiamata, restituisce l'istanza esistente dopo
 const appo = getAppo();
@@ -55,7 +55,7 @@ import type {
   Position,
   NetworkStatus,
   DeviceInfo,
-} from '@appolabs/appo';
+} from '@appolabs/sdk';
 
 import {
   getAppo,
@@ -64,5 +64,5 @@ import {
   AppoError,
   AppoErrorCode,
   VERSION,
-} from '@appolabs/appo';
+} from '@appolabs/sdk';
 ```

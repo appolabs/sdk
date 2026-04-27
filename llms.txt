@@ -1,4 +1,4 @@
-# @appolabs/appo
+# @appolabs/sdk
 
 > JavaScript bridge SDK for native app features in React Native WebViews.
 

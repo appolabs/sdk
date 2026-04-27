@@ -121,7 +121,7 @@ When a user taps a notification while the app is terminated, the following seque
 To handle cold start notifications, register your `push.onResponse` listener early in your application's initialization — before any async operations that might delay listener registration.
 
 ```typescript
-import { getAppo } from '@appolabs/appo';
+import { getAppo } from '@appolabs/sdk';
 
 const appo = getAppo();
 

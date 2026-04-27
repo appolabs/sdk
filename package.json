@@ -1,15 +1,15 @@
 {
-  "name": "@appolabs/appo",
-  "version": "2.0.2",
+  "name": "@appolabs/sdk",
+  "version": "1.0.0",
   "description": "JavaScript bridge SDK for native app features in React Native WebViews",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appolabs/appo.git"
+    "url": "git+https://github.com/appolabs/sdk.git"
   },
-  "homepage": "https://github.com/appolabs/appo#readme",
+  "homepage": "https://github.com/appolabs/sdk#readme",
   "bugs": {
-    "url": "https://github.com/appolabs/appo/issues"
+    "url": "https://github.com/appolabs/sdk/issues"
   },
   "keywords": [
     "appo",

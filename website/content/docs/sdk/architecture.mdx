@@ -105,7 +105,7 @@ Message IDs use the format `msg_{timestamp}_{counter}` for request/response corr
 The SDK exports type guards for validating incoming messages:
 
 ```typescript
-import { isBridgeResponse, isBridgeEvent } from '@appolabs/appo';
+import { isBridgeResponse, isBridgeEvent } from '@appolabs/sdk';
 
 isBridgeResponse(data); // Validates { id: string, success: boolean }
 isBridgeEvent(data);    // Validates { event: string }

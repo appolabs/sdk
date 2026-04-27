@@ -1,31 +1,31 @@
-# @appolabs/appo
+# @appolabs/sdk
 
 JavaScript bridge SDK for accessing native device features from web apps running inside React Native WebViews.
 
 ## Installation
 
 ```bash
-npm install @appolabs/appo
+npm install @appolabs/sdk
 ```
 
 ```bash
-pnpm add @appolabs/appo
+pnpm add @appolabs/sdk
 ```
 
 ```bash
-yarn add @appolabs/appo
+yarn add @appolabs/sdk
 ```
 
 Or include via script tag (auto-initializes `window.appo`):
 
 ```html
-<script src="https://unpkg.com/@appolabs/appo"></script>
+<script src="https://unpkg.com/@appolabs/sdk"></script>
 ```
 
 ## Quick Start
 
 ```typescript
-import { getAppo } from '@appolabs/appo';
+import { getAppo } from '@appolabs/sdk';
 
 const appo = getAppo();
 
@@ -42,7 +42,7 @@ if (appo.isNative) {
 The SDK provides two initialization functions and a singleton pattern:
 
 ```typescript
-import { getAppo, initAppo } from '@appolabs/appo';
+import { getAppo, initAppo } from '@appolabs/sdk';
 
 // Option 1: getAppo() - initializes on first call, returns existing instance after
 const appo = getAppo();
@@ -238,7 +238,7 @@ const info = await appo.device.getInfo();
 All bridge operations that require a native environment throw `AppoError` with categorized error codes:
 
 ```typescript
-import { AppoError, AppoErrorCode } from '@appolabs/appo';
+import { AppoError, AppoErrorCode } from '@appolabs/sdk';
 
 try {
   const token = await appo.push.getToken();
@@ -284,7 +284,7 @@ enum AppoErrorCode {
 The SDK produces no console output by default. Use `setLogger` to observe bridge activity:
 
 ```typescript
-import { setLogger } from '@appolabs/appo';
+import { setLogger } from '@appolabs/sdk';
 
 setLogger((level, message, data) => {
   // level: 'debug' | 'warn' | 'error'
@@ -375,7 +375,7 @@ import type {
   // Logging
   AppoLogLevel,
   AppoLogger,
-} from '@appolabs/appo';
+} from '@appolabs/sdk';
 
 // Value exports
 import {
@@ -387,7 +387,7 @@ import {
   isBridgeResponse,
   isBridgeEvent,
   VERSION,
-} from '@appolabs/appo';
+} from '@appolabs/sdk';
 ```
 
 ## Architecture

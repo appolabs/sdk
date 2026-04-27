@@ -31,7 +31,7 @@ beforeEach(() => {
   mockLocalStorage.clear();
 });
 
-describe('@appolabs/appo', () => {
+describe('@appolabs/sdk', () => {
   describe('exports', () => {
     it('exports VERSION matching package.json', () => {
       expect(VERSION).toBe(expectedVersion);

@@ -1,4 +1,4 @@
-# @appolabs/appo SDK
+# @appolabs/sdk SDK
 
 JavaScript bridge SDK for native app features in React Native WebViews.
 
@@ -12,7 +12,7 @@ JavaScript bridge SDK for native app features in React Native WebViews.
 │         │                                                    │
 │         ▼                                                    │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │                 @appolabs/appo                       │    │
+│  │                 @appolabs/sdk                       │    │
 │  │                                                      │    │
 │  │  ┌──────────┐  ┌──────────┐  ┌──────────┐          │    │
 │  │  │   push   │  │biometrics│  │  camera  │  ...     │    │
@@ -128,7 +128,7 @@ packages/appo/
 ## Usage
 
 ```typescript
-import { getAppo } from '@appolabs/appo';
+import { getAppo } from '@appolabs/sdk';
 // Or via script tag: window.appo is auto-initialized
 
 const appo = getAppo();

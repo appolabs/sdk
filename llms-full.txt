@@ -1,4 +1,4 @@
-# @appolabs/appo
+# @appolabs/sdk
 
 > JavaScript bridge SDK for native app features in React Native WebViews.
 
@@ -7,13 +7,13 @@ The SDK provides a unified API for accessing native device capabilities from web
 ## Installation
 
 ```bash
-npm install @appolabs/appo
+npm install @appolabs/sdk
 ```
 
 ## Initialization
 
 ```typescript
-import { getAppo } from '@appolabs/appo';
+import { getAppo } from '@appolabs/sdk';
 
 const appo = getAppo(); // Singleton, initializes on first call
 ```
@@ -262,7 +262,7 @@ All bridge operations that require a native environment throw `AppoError`. The `
 ## Logging
 
 ```typescript
-import { setLogger } from '@appolabs/appo';
+import { setLogger } from '@appolabs/sdk';
 
 setLogger((level: 'debug' | 'warn' | 'error', message: string, data?: unknown) => {
   console.log(`[appo:${level}]`, message, data);
@@ -325,7 +325,7 @@ The SDK produces no console output by default. Log events include message sends,
 ## Type Guards
 
 ```typescript
-import { isBridgeResponse, isBridgeEvent } from '@appolabs/appo';
+import { isBridgeResponse, isBridgeEvent } from '@appolabs/sdk';
 
 isBridgeResponse(data: unknown): data is BridgeResponse
 isBridgeEvent(data: unknown): data is BridgeEvent

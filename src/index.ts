@@ -1,5 +1,5 @@
 /**
- * @module @appolabs/appo
+ * @module @appolabs/sdk
  *
  * JavaScript bridge SDK for native app features in React Native WebViews.
  * Provides a unified API surface with automatic browser fallbacks.

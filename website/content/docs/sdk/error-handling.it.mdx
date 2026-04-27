@@ -10,7 +10,7 @@ Tutte le operazioni bridge che richiedono un ambiente nativo lanciano `AppoError
 `AppoError` estende `Error`, quindi i blocchi `catch` esistenti funzionano senza modifiche.
 
 ```typescript
-import { AppoError, AppoErrorCode } from '@appolabs/appo';
+import { AppoError, AppoErrorCode } from '@appolabs/sdk';
 
 try {
   const token = await appo.push.getToken();

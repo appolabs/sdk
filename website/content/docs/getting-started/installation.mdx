@@ -8,21 +8,21 @@ description: Install and initialize the Appo SDK in your web application.
 Install with your package manager:
 
 ```bash tab="npm"
-npm install @appolabs/appo
+npm install @appolabs/sdk
 ```
 
 ```bash tab="pnpm"
-pnpm add @appolabs/appo
+pnpm add @appolabs/sdk
 ```
 
 ```bash tab="yarn"
-yarn add @appolabs/appo
+yarn add @appolabs/sdk
 ```
 
 Or include via script tag (auto-initializes `window.appo`):
 
 ```html
-<script src="https://unpkg.com/@appolabs/appo"></script>
+<script src="https://unpkg.com/@appolabs/sdk"></script>
 ```
 
 ## Initialization
@@ -30,7 +30,7 @@ Or include via script tag (auto-initializes `window.appo`):
 The SDK provides two initialization functions and a singleton pattern:
 
 ```typescript
-import { getAppo, initAppo } from '@appolabs/appo';
+import { getAppo, initAppo } from '@appolabs/sdk';
 
 // Option 1: getAppo() — initializes on first call, returns existing instance after
 const appo = getAppo();
@@ -55,7 +55,7 @@ import type {
   Position,
   NetworkStatus,
   DeviceInfo,
-} from '@appolabs/appo';
+} from '@appolabs/sdk';
 
 import {
   getAppo,
@@ -64,5 +64,5 @@ import {
   AppoError,
   AppoErrorCode,
   VERSION,
-} from '@appolabs/appo';
+} from '@appolabs/sdk';
 ```
