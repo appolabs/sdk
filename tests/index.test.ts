@@ -149,6 +149,11 @@ describe('@appolabs/sdk', () => {
       expect(result).toBe('denied');
     });
 
+    it('camera.pickImage rejects outside native environment', async () => {
+      const appo = initAppo();
+      await expect(appo.camera.pickImage()).rejects.toThrow();
+    });
+
     it('location.requestPermission returns denied', async () => {
       const appo = initAppo();
       const result = await appo.location.requestPermission();

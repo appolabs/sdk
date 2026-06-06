@@ -29,5 +29,17 @@ export function createCameraApi(): CameraApi {
       }
       return sendMessage<CameraResult>('camera.takePicture');
     },
+
+    /**
+     * Opens the native photo library to pick an existing image.
+     * @returns The selected image data including URI, dimensions, and optional base64.
+     * @throws {Error} When called outside a native environment.
+     */
+    async pickImage(): Promise<CameraResult> {
+      if (!isNativeEnvironment()) {
+        throw new Error('Image picker not available outside native environment');
+      }
+      return sendMessage<CameraResult>('camera.pickImage');
+    },
   };
 }

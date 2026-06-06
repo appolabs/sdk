@@ -240,6 +240,27 @@ describe('feature integration: camera', () => {
     const result = await promise;
     expect(result).toEqual(nativeResponse);
   });
+
+  it('pickImage() sends correct type and resolves with CameraResult', async () => {
+    const { createCameraApi } = await import('../../src/features/camera');
+    const camera = createCameraApi();
+
+    const promise = camera.pickImage();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('camera.pickImage');
+
+    const nativeResponse = {
+      uri: 'file:///library/image.jpg',
+      base64: undefined,
+      width: 2048,
+      height: 1536,
+    };
+    simulateNativeResponse({ id: sent.id, success: true, data: nativeResponse });
+
+    const result = await promise;
+    expect(result).toEqual(nativeResponse);
+  });
 });
 
 describe('feature integration: location', () => {

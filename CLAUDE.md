@@ -228,6 +228,7 @@ All SDK features are implemented using Expo packages:
 |-------------|----------------------|
 | `push.*` | `expo-notifications` |
 | `biometrics.*` | `expo-local-authentication` |
+| `camera.*` | `expo-image-picker` |
 | `haptics.*` | `expo-haptics` |
 | `storage.*` | `@react-native-async-storage/async-storage` |
 | `location.*` | `expo-location` |

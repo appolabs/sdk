@@ -154,6 +154,7 @@ export interface BiometricsApi {
 export interface CameraApi {
   requestPermission(): Promise<PermissionStatus>;
   takePicture(): Promise<CameraResult>;
+  pickImage(): Promise<CameraResult>;
 }
 
 /**

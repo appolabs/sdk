@@ -184,6 +184,7 @@ if (available) {
 interface CameraApi {
   requestPermission(): Promise<PermissionStatus>;
   takePicture(): Promise<CameraResult>;
+  pickImage(): Promise<CameraResult>;
 }
 ```
 
@@ -193,6 +194,9 @@ if (status === 'granted') {
   const result = await appo.camera.takePicture();
   // result: { uri: string, base64?: string, width: number, height: number }
 }
+
+// Pick an existing image from the photo library
+const image = await appo.camera.pickImage();
 ```
 
 ### Location
@@ -412,6 +416,7 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | Biometrics | `authenticate()` | Returns `false` |
 | Camera | `requestPermission()` | Returns `'denied'` |
 | Camera | `takePicture()` | Throws `Error` |
+| Camera | `pickImage()` | Throws `Error` |
 | Location | `requestPermission()` | Returns `'denied'` |
 | Location | `getCurrentPosition()` | Throws `Error` |
 | Haptics | `impact()` | No-op |

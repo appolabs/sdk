@@ -124,6 +124,15 @@ describe('Feature native paths', () => {
       expect(mockSendMessage).toHaveBeenCalledWith('camera.takePicture');
       expect(result).toEqual(photo);
     });
+
+    it('pickImage sends camera.pickImage message', async () => {
+      const photo = { uri: 'file://library.jpg', width: 1024, height: 768 };
+      mockSendMessage.mockResolvedValue(photo);
+      const camera = createCameraApi();
+      const result = await camera.pickImage();
+      expect(mockSendMessage).toHaveBeenCalledWith('camera.pickImage');
+      expect(result).toEqual(photo);
+    });
   });
 
   describe('Location API', () => {
