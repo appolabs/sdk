@@ -119,6 +119,8 @@ interface PushApi {
   getToken(): Promise<string | null>;
   onMessage(callback: (message: PushMessage) => void): () => void;
   onResponse(callback: (response: PushResponse) => void): () => void;
+  setBadgeCount(count: number): Promise<void>;
+  clearNotifications(): Promise<void>;
 }
 ```
 
@@ -151,6 +153,13 @@ Subscribe to notification tap events (when user taps a notification):
 const unsubscribe = appo.push.onResponse((response) => {
   console.log(response.title, response.body, response.actionIdentifier);
 });
+```
+
+Manage the app icon badge and delivered notifications:
+
+```typescript
+await appo.push.setBadgeCount(3); // 0 clears the badge
+await appo.push.clearNotifications();
 ```
 
 ### Biometrics
@@ -397,6 +406,8 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | Push | `getToken()` | Returns `null` |
 | Push | `onMessage()` | Returns no-op unsubscribe |
 | Push | `onResponse()` | Returns no-op unsubscribe |
+| Push | `setBadgeCount()` | Uses the Badging API (`navigator.setAppBadge`) if available, otherwise no-op |
+| Push | `clearNotifications()` | No-op |
 | Biometrics | `isAvailable()` | Returns `false` |
 | Biometrics | `authenticate()` | Returns `false` |
 | Camera | `requestPermission()` | Returns `'denied'` |

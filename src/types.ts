@@ -136,6 +136,8 @@ export interface PushApi {
   getToken(): Promise<string | null>;
   onMessage(callback: (message: PushMessage) => void): () => void;
   onResponse(callback: (response: PushResponse) => void): () => void;
+  setBadgeCount(count: number): Promise<void>;
+  clearNotifications(): Promise<void>;
 }
 
 /**

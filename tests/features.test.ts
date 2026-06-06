@@ -69,6 +69,22 @@ describe('Feature native paths', () => {
       );
       expect(unsub).toBe(mockUnsub);
     });
+
+    it('setBadgeCount sends push.setBadgeCount with count payload', async () => {
+      mockSendMessage.mockResolvedValue(undefined);
+      const push = createPushApi();
+      await push.setBadgeCount(5);
+      expect(mockSendMessage).toHaveBeenCalledWith('push.setBadgeCount', {
+        count: 5,
+      });
+    });
+
+    it('clearNotifications sends push.clearNotifications message', async () => {
+      mockSendMessage.mockResolvedValue(undefined);
+      const push = createPushApi();
+      await push.clearNotifications();
+      expect(mockSendMessage).toHaveBeenCalledWith('push.clearNotifications');
+    });
   });
 
   describe('Biometrics API', () => {

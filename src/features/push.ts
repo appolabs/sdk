@@ -51,5 +51,41 @@ export function createPushApi(): PushApi {
         callback(data as PushResponse);
       });
     },
+
+    /**
+     * Sets the app icon badge count.
+     * In browser, uses the Badging API (`navigator.setAppBadge`/`clearAppBadge`) when available; otherwise a no-op.
+     * @param count - The badge number to display. `0` clears the badge.
+     * @returns Resolves when the badge is updated.
+     */
+    async setBadgeCount(count: number): Promise<void> {
+      if (!isNativeEnvironment()) {
+        if (typeof navigator !== 'undefined') {
+          const nav = navigator as Navigator & {
+            setAppBadge?: (count?: number) => Promise<void>;
+            clearAppBadge?: () => Promise<void>;
+          };
+          if (count > 0 && nav.setAppBadge) {
+            await nav.setAppBadge(count);
+          } else if (count <= 0 && nav.clearAppBadge) {
+            await nav.clearAppBadge();
+          }
+        }
+        return;
+      }
+      return sendMessage<void>('push.setBadgeCount', { count });
+    },
+
+    /**
+     * Dismisses all delivered notifications from the notification center.
+     * No-op in browser.
+     * @returns Resolves when notifications are cleared.
+     */
+    async clearNotifications(): Promise<void> {
+      if (!isNativeEnvironment()) {
+        return;
+      }
+      return sendMessage<void>('push.clearNotifications');
+    },
   };
 }

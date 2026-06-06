@@ -71,6 +71,35 @@ describe('feature integration: push', () => {
     const result = await promise;
     expect(result).toBeNull();
   });
+
+  it('setBadgeCount() sends the count payload and resolves', async () => {
+    const { createPushApi } = await import('../../src/features/push');
+    const push = createPushApi();
+
+    const promise = push.setBadgeCount(7);
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('push.setBadgeCount');
+    expect(sent.payload).toEqual({ count: 7 });
+
+    simulateNativeResponse({ id: sent.id, success: true });
+
+    await expect(promise).resolves.toBeUndefined();
+  });
+
+  it('clearNotifications() sends correct type and resolves', async () => {
+    const { createPushApi } = await import('../../src/features/push');
+    const push = createPushApi();
+
+    const promise = push.clearNotifications();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('push.clearNotifications');
+
+    simulateNativeResponse({ id: sent.id, success: true });
+
+    await expect(promise).resolves.toBeUndefined();
+  });
 });
 
 describe('feature integration: biometrics', () => {

@@ -88,6 +88,8 @@ All APIs provide browser fallbacks when not in native environment:
 |-----|-------------------|
 | `push.requestPermission()` | Returns `'denied'` |
 | `push.getToken()` | Returns `null` |
+| `push.setBadgeCount()` | Uses Badging API (`navigator.setAppBadge`) or no-op |
+| `push.clearNotifications()` | No-op (silent) |
 | `biometrics.isAvailable()` | Returns `false` |
 | `biometrics.authenticate()` | Returns `false` |
 | `camera.requestPermission()` | Returns `'denied'` |

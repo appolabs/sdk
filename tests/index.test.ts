@@ -109,6 +109,16 @@ describe('@appolabs/sdk', () => {
       expect(result).toBeNull();
     });
 
+    it('push.setBadgeCount resolves without a Badging API', async () => {
+      const appo = initAppo();
+      await expect(appo.push.setBadgeCount(3)).resolves.toBeUndefined();
+    });
+
+    it('push.clearNotifications resolves', async () => {
+      const appo = initAppo();
+      await expect(appo.push.clearNotifications()).resolves.toBeUndefined();
+    });
+
     it('biometrics.isAvailable returns false', async () => {
       const appo = initAppo();
       const result = await appo.biometrics.isAvailable();
