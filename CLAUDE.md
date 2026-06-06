@@ -98,6 +98,8 @@ All APIs provide browser fallbacks when not in native environment:
 | `share.open()` | Uses `navigator.share` or rejects |
 | `network.getStatus()` | Returns `{ isConnected: true, type: 'unknown' }` |
 | `device.getInfo()` | Returns user agent info |
+| `clipboard.getString()` | Uses `navigator.clipboard.readText()` or `''` |
+| `clipboard.setString()` | Uses `navigator.clipboard.writeText()` or throws |
 
 ## File Structure
 
@@ -117,7 +119,8 @@ packages/appo/
 │       ├── storage.ts     # Secure storage (localStorage fallback)
 │       ├── share.ts       # Native share sheet
 │       ├── network.ts     # Network status
-│       └── device.ts      # Device info
+│       ├── device.ts      # Device info
+│       └── clipboard.ts   # Clipboard access
 ├── tests/
 │   └── index.test.ts      # Vitest tests
 ├── package.json
@@ -227,6 +230,7 @@ All SDK features are implemented using Expo packages:
 | `network.*` | `@react-native-community/netinfo` |
 | `share.*` | React Native `Share` |
 | `device.*` | `expo-device` |
+| `clipboard.*` | `expo-clipboard` |
 
 ### Event Broadcasts (`src/index.tsx`)
 

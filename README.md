@@ -281,6 +281,22 @@ const info = await appo.device.getInfo();
 // info: { platform, osVersion, appVersion, deviceId, deviceName, isTablet }
 ```
 
+### Clipboard
+
+```typescript
+interface ClipboardApi {
+  getString(): Promise<string>;
+  setString(text: string): Promise<void>;
+  hasString(): Promise<boolean>;
+}
+```
+
+```typescript
+await appo.clipboard.setString('Copied!');
+const text = await appo.clipboard.getString();
+const hasText = await appo.clipboard.hasString();
+```
+
 ## Error Handling
 
 All bridge operations that require a native environment throw `AppoError` with categorized error codes:
@@ -372,6 +388,9 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | Network | `getStatus()` | Returns `{ isConnected: navigator.onLine, type: 'unknown' }` |
 | Network | `onChange()` | Listens to browser `online`/`offline` events |
 | Device | `getInfo()` | Returns user agent-based info with `osVersion: 'web'` |
+| Clipboard | `getString()` | Uses `navigator.clipboard.readText()` if available, otherwise `''` |
+| Clipboard | `setString()` | Uses `navigator.clipboard.writeText()` if available, otherwise throws `Error` |
+| Clipboard | `hasString()` | Returns `false` (avoids a read-permission prompt) |
 
 ## TypeScript
 
@@ -417,6 +436,9 @@ import type {
   // Device
   DeviceApi,
   DeviceInfo,
+
+  // Clipboard
+  ClipboardApi,
 
   // Biometrics
   BiometricsApi,

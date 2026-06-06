@@ -91,6 +91,7 @@ describe('@appolabs/sdk', () => {
       expect(appo.share).toBeDefined();
       expect(appo.network).toBeDefined();
       expect(appo.device).toBeDefined();
+      expect(appo.clipboard).toBeDefined();
     });
   });
 
@@ -151,6 +152,23 @@ describe('@appolabs/sdk', () => {
     it('haptics.notification does not throw', () => {
       const appo = initAppo();
       expect(() => appo.haptics.notification('success')).not.toThrow();
+    });
+
+    it('clipboard.getString returns empty string without navigator.clipboard', async () => {
+      const appo = initAppo();
+      const result = await appo.clipboard.getString();
+      expect(result).toBe('');
+    });
+
+    it('clipboard.hasString returns false', async () => {
+      const appo = initAppo();
+      const result = await appo.clipboard.hasString();
+      expect(result).toBe(false);
+    });
+
+    it('clipboard.setString rejects without navigator.clipboard', async () => {
+      const appo = initAppo();
+      await expect(appo.clipboard.setString('x')).rejects.toThrow();
     });
   });
 });

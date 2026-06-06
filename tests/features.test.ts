@@ -25,6 +25,7 @@ import { createStorageApi } from '../src/features/storage';
 import { createShareApi } from '../src/features/share';
 import { createNetworkApi } from '../src/features/network';
 import { createDeviceApi } from '../src/features/device';
+import { createClipboardApi } from '../src/features/clipboard';
 import { isBridgeResponse, isBridgeEvent } from '../src/types';
 
 const mockSendMessage = vi.mocked(sendMessage);
@@ -231,6 +232,33 @@ describe('Feature native paths', () => {
       const result = await device.getInfo();
       expect(mockSendMessage).toHaveBeenCalledWith('device.getInfo');
       expect(result).toEqual(info);
+    });
+  });
+
+  describe('Clipboard API', () => {
+    it('getString sends clipboard.getString message', async () => {
+      mockSendMessage.mockResolvedValue('copied text');
+      const clipboard = createClipboardApi();
+      const result = await clipboard.getString();
+      expect(mockSendMessage).toHaveBeenCalledWith('clipboard.getString');
+      expect(result).toBe('copied text');
+    });
+
+    it('setString sends clipboard.setString with text payload', async () => {
+      mockSendMessage.mockResolvedValue(undefined);
+      const clipboard = createClipboardApi();
+      await clipboard.setString('hello');
+      expect(mockSendMessage).toHaveBeenCalledWith('clipboard.setString', {
+        text: 'hello',
+      });
+    });
+
+    it('hasString sends clipboard.hasString message', async () => {
+      mockSendMessage.mockResolvedValue(true);
+      const clipboard = createClipboardApi();
+      const result = await clipboard.hasString();
+      expect(mockSendMessage).toHaveBeenCalledWith('clipboard.hasString');
+      expect(result).toBe(true);
     });
   });
 });

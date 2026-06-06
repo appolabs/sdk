@@ -202,6 +202,15 @@ export interface DeviceApi {
 }
 
 /**
+ * Clipboard API
+ */
+export interface ClipboardApi {
+  getString(): Promise<string>;
+  setString(text: string): Promise<void>;
+  hasString(): Promise<boolean>;
+}
+
+/**
  * Native host capabilities reported by the bridge handshake
  */
 export interface Capabilities {
@@ -248,6 +257,8 @@ export interface Appo {
   network: NetworkApi;
   /** Device information */
   device: DeviceApi;
+  /** Clipboard access */
+  clipboard: ClipboardApi;
 }
 
 /**

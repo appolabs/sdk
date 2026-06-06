@@ -12,3 +12,4 @@ export { createStorageApi } from './storage';
 export { createShareApi } from './share';
 export { createNetworkApi } from './network';
 export { createDeviceApi } from './device';
+export { createClipboardApi } from './clipboard';

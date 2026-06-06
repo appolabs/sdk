@@ -18,6 +18,7 @@ import {
   createShareApi,
   createNetworkApi,
   createDeviceApi,
+  createClipboardApi,
 } from './features';
 
 import { VERSION } from './version';
@@ -42,6 +43,7 @@ function createAppo(): Appo {
     share: createShareApi(),
     network: createNetworkApi(),
     device: createDeviceApi(),
+    clipboard: createClipboardApi(),
   };
 }
 
@@ -110,6 +112,7 @@ export type {
   ShareApi,
   NetworkApi,
   DeviceApi,
+  ClipboardApi,
   BridgeResponse,
   BridgeEvent,
   AppoLogLevel,

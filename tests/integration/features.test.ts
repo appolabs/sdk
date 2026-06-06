@@ -488,3 +488,61 @@ describe('feature integration: device', () => {
     expect(result).toEqual(nativeResponse);
   });
 });
+
+describe('feature integration: clipboard', () => {
+  let postMessageSpy: Mock;
+
+  beforeEach(async () => {
+    const env = await setupIntegrationEnv();
+    postMessageSpy = env.postMessageSpy as Mock;
+  });
+
+  afterEach(() => {
+    cleanupIntegrationEnv();
+  });
+
+  it('getString() sends correct type and resolves with the clipboard text', async () => {
+    const { createClipboardApi } = await import('../../src/features/clipboard');
+    const clipboard = createClipboardApi();
+
+    const promise = clipboard.getString();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('clipboard.getString');
+
+    simulateNativeResponse({ id: sent.id, success: true, data: 'copied text' });
+
+    const result = await promise;
+    expect(result).toBe('copied text');
+  });
+
+  it('setString() sends the text payload and resolves', async () => {
+    const { createClipboardApi } = await import('../../src/features/clipboard');
+    const clipboard = createClipboardApi();
+
+    const promise = clipboard.setString('hello world');
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('clipboard.setString');
+    expect(sent.payload).toEqual({ text: 'hello world' });
+
+    simulateNativeResponse({ id: sent.id, success: true });
+
+    await expect(promise).resolves.toBeUndefined();
+  });
+
+  it('hasString() sends correct type and resolves with a boolean', async () => {
+    const { createClipboardApi } = await import('../../src/features/clipboard');
+    const clipboard = createClipboardApi();
+
+    const promise = clipboard.hasString();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('clipboard.hasString');
+
+    simulateNativeResponse({ id: sent.id, success: true, data: true });
+
+    const result = await promise;
+    expect(result).toBe(true);
+  });
+});
