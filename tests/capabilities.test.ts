@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { initializeBridge, handleNativeMessage } from '../src/bridge';
+import { sendMessage, initializeBridge, handleNativeMessage } from '../src/bridge';
+import { AppoError, AppoErrorCode } from '../src/types';
 import {
   getCapabilities,
   supports,
@@ -211,6 +212,71 @@ describe('capabilities', () => {
       await promise2;
 
       expect(postMessageSpy).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('fail-fast guard on sendMessage', () => {
+    async function warmCache(postMessageSpy: ReturnType<typeof vi.fn>, data: unknown) {
+      const promise = getCapabilities();
+      const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+      simulateNativeResponse({ id: sent.id, success: true, data });
+      await promise;
+      postMessageSpy.mockClear();
+    }
+
+    it('rejects an unsupported call immediately without posting a message', async () => {
+      const postMessageSpy = setupNativeEnv();
+      initializeBridge();
+      await warmCache(postMessageSpy, { features: ['push'] });
+
+      try {
+        await sendMessage('clipboard.read');
+        expect.unreachable('Should have thrown');
+      } catch (err) {
+        expect(err).toBeInstanceOf(AppoError);
+        expect((err as AppoError).code).toBe(AppoErrorCode.NOT_SUPPORTED);
+      }
+      expect(postMessageSpy).not.toHaveBeenCalled();
+    });
+
+    it('allows a supported call through to the native host', async () => {
+      const postMessageSpy = setupNativeEnv();
+      initializeBridge();
+      await warmCache(postMessageSpy, { features: ['push'] });
+
+      const promise = sendMessage('push.getToken');
+      expect(postMessageSpy).toHaveBeenCalledOnce();
+      const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+      simulateNativeResponse({ id: sent.id, success: true, data: 'token' });
+
+      expect(await promise).toBe('token');
+    });
+
+    it('does not block when the cache is cold', async () => {
+      const postMessageSpy = setupNativeEnv();
+      initializeBridge();
+
+      const promise = sendMessage('clipboard.read');
+      expect(postMessageSpy).toHaveBeenCalledOnce();
+      const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+      simulateNativeResponse({ id: sent.id, success: true, data: 'ok' });
+
+      expect(await promise).toBe('ok');
+    });
+
+    it('fails fast for non-baseline features on a legacy host', async () => {
+      vi.useFakeTimers();
+      setupNativeEnv();
+      initializeBridge();
+
+      const probe = getCapabilities(50);
+      await vi.advanceTimersByTimeAsync(50);
+      await probe;
+      vi.useRealTimers();
+
+      await expect(sendMessage('clipboard.read')).rejects.toMatchObject({
+        code: AppoErrorCode.NOT_SUPPORTED,
+      });
     });
   });
 });

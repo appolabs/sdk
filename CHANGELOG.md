@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `appo.supports(feature)` convenience helper matching a feature namespace (`'push'`) or method (`'push.getToken'`)
 - `PROTOCOL_VERSION` export and `Capabilities` type
 - New `system.getCapabilities` bridge message (native host responds with `{ protocolVersion, nativeVersion, features }`)
-- Graceful degradation: the probe uses a short 2s timeout and never rejects — legacy native hosts fall back to the baseline feature set, browsers to an empty set, so unsupported calls fail fast instead of hanging for the full 30s request timeout
+- Graceful degradation: the probe uses a short 2s timeout and never rejects — legacy native hosts fall back to the baseline feature set, browsers to an empty set
+- Fail-fast guard: once capabilities are resolved, `sendMessage` calls to unsupported features reject immediately with the new `AppoErrorCode.NOT_SUPPORTED` instead of hanging for the full 30s request timeout. The guard only acts on resolved capabilities and never triggers a probe, so it adds no latency to calls made before the handshake completes
 
 ## [2.0.0] - 2026-06-06
 

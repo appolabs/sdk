@@ -91,6 +91,24 @@ The handshake degrades gracefully:
 
 The probe uses a short timeout (2s, configurable via `getCapabilities(timeoutMs)`) so a legacy host fails fast rather than waiting the full 30s request timeout. The result is cached for the session, and the call never rejects.
 
+### Fail-fast on unsupported calls
+
+Once capabilities are resolved, calls to a feature the host does not support reject immediately with `AppoError(NOT_SUPPORTED)` instead of waiting the 30s timeout:
+
+```typescript
+await appo.getCapabilities(); // resolve capabilities once, e.g. at startup
+
+try {
+  await appo.clipboard.read(); // host lacks clipboard support
+} catch (error) {
+  if (error instanceof AppoError && error.code === AppoErrorCode.NOT_SUPPORTED) {
+    // handle gracefully
+  }
+}
+```
+
+The guard only acts on resolved capabilities and never triggers a probe on its own, so it adds no latency to calls made before the handshake completes. Resolve capabilities early (call `getCapabilities()` or `supports()` at startup) to enable fail-fast for subsequent calls.
+
 ## API Reference
 
 ### Push Notifications
@@ -278,6 +296,9 @@ try {
       case AppoErrorCode.NOT_NATIVE:
         // Not running inside a native Appo app
         break;
+      case AppoErrorCode.NOT_SUPPORTED:
+        // Native host does not support this feature (known via the capability handshake)
+        break;
       case AppoErrorCode.TIMEOUT:
         // Native layer did not respond within 30s
         break;
@@ -303,6 +324,7 @@ class AppoError extends Error {
 
 enum AppoErrorCode {
   NOT_NATIVE = 'NOT_NATIVE',
+  NOT_SUPPORTED = 'NOT_SUPPORTED',
   TIMEOUT = 'TIMEOUT',
   NATIVE_ERROR = 'NATIVE_ERROR',
   BRIDGE_UNAVAILABLE = 'BRIDGE_UNAVAILABLE',

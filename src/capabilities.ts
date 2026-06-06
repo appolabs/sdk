@@ -1,5 +1,5 @@
 import type { Capabilities } from './types';
-import { sendMessage, isNativeEnvironment } from './bridge';
+import { sendMessage, isNativeEnvironment, setUnsupportedCheck } from './bridge';
 
 /**
  * Bridge protocol version this SDK speaks. Sent to the native host during the
@@ -79,6 +79,18 @@ function browserCapabilities(): Capabilities {
 }
 
 /**
+ * Checks a feature or method identifier against a resolved capability set,
+ * matching an exact identifier (`'push.getToken'`) or its namespace (`'push'`).
+ */
+function featureInSet(capabilities: Capabilities, feature: string): boolean {
+  if (capabilities.features.includes(feature)) {
+    return true;
+  }
+  const namespace = feature.split('.')[0];
+  return capabilities.features.includes(namespace);
+}
+
+/**
  * Resolves the native host's capabilities, caching the result for the session.
  *
  * Outcomes:
@@ -139,11 +151,7 @@ export function getCapabilities(timeoutMs = DEFAULT_HANDSHAKE_TIMEOUT): Promise<
  */
 export async function supports(feature: string): Promise<boolean> {
   const capabilities = await getCapabilities();
-  if (capabilities.features.includes(feature)) {
-    return true;
-  }
-  const namespace = feature.split('.')[0];
-  return capabilities.features.includes(namespace);
+  return featureInSet(capabilities, feature);
 }
 
 /**
@@ -153,3 +161,11 @@ export function resetCapabilitiesCache(): void {
   cache = null;
   inFlight = null;
 }
+
+/**
+ * Registers the fail-fast guard with the bridge. Only acts once capabilities
+ * have been resolved (cache warm); it never triggers a probe, so messages are
+ * never blocked before the host's capabilities are known and no latency is
+ * added to calls made before the handshake completes.
+ */
+setUnsupportedCheck((type) => (cache ? !featureInSet(cache, type) : false));

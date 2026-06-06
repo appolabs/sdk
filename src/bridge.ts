@@ -11,6 +11,25 @@ let messageIdCounter = 0;
 let logger: AppoLogger | null = null;
 
 /**
+ * Predicate that reports whether a message type targets a feature the native
+ * host is known not to support. Returns `false` until proven otherwise so that
+ * messages are never blocked without authoritative information.
+ */
+type UnsupportedCheck = (type: string) => boolean;
+
+let isUnsupported: UnsupportedCheck = () => false;
+
+/**
+ * Registers a pre-send guard used by {@link sendMessage} to fail fast on calls
+ * to features the native host does not support. The capability layer plugs in
+ * here once it has resolved the host's capabilities.
+ * @param fn - Predicate receiving the message type, returning `true` to block it.
+ */
+export function setUnsupportedCheck(fn: UnsupportedCheck): void {
+  isUnsupported = fn;
+}
+
+/**
  * Registers a callback to observe bridge activity. Pass `null` to disable.
  * The SDK produces no console output by default.
  * @param fn - Logger callback receiving level, message, and optional data, or `null` to disable.
@@ -45,6 +64,7 @@ export function isNativeEnvironment(): boolean {
  * @param timeout - Maximum wait time in milliseconds before rejecting. Defaults to 30000.
  * @returns The response data from the native handler.
  * @throws {AppoError} With code `NOT_NATIVE` if not in a native environment.
+ * @throws {AppoError} With code `NOT_SUPPORTED` if the native host is known not to support the feature.
  * @throws {AppoError} With code `TIMEOUT` if the native layer does not respond in time.
  * @throws {AppoError} With code `NATIVE_ERROR` if the native handler returns an error.
  */
@@ -56,6 +76,12 @@ export function sendMessage<T = unknown>(
   return new Promise((resolve, reject) => {
     if (!isNativeEnvironment()) {
       reject(new AppoError(AppoErrorCode.NOT_NATIVE, 'Not running in native environment'));
+      return;
+    }
+
+    if (isUnsupported(type)) {
+      log('warn', 'Blocked unsupported message', { type });
+      reject(new AppoError(AppoErrorCode.NOT_SUPPORTED, `Native host does not support "${type}"`, type));
       return;
     }
 
