@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- App lifecycle API: `appState.getCurrent()` and `appState.onChange()` for foreground/background transitions, broadcast on the `appState.change` channel, with a `document.visibilitychange` browser fallback. Feature-detectable via `appo.supports('appState')`
 - Clipboard API: `clipboard.getString()`, `clipboard.setString(text)`, and `clipboard.hasString()`, with `navigator.clipboard` browser fallbacks. Feature-detectable via `appo.supports('clipboard')`
 - Capability handshake: `appo.getCapabilities()` resolves the native host's `protocolVersion`, `nativeVersion`, and supported `features`, letting web apps feature-detect at runtime
 - `appo.supports(feature)` convenience helper matching a feature namespace (`'push'`) or method (`'push.getToken'`)

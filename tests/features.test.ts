@@ -26,6 +26,7 @@ import { createShareApi } from '../src/features/share';
 import { createNetworkApi } from '../src/features/network';
 import { createDeviceApi } from '../src/features/device';
 import { createClipboardApi } from '../src/features/clipboard';
+import { createAppStateApi } from '../src/features/appstate';
 import { isBridgeResponse, isBridgeEvent } from '../src/types';
 
 const mockSendMessage = vi.mocked(sendMessage);
@@ -259,6 +260,29 @@ describe('Feature native paths', () => {
       const result = await clipboard.hasString();
       expect(mockSendMessage).toHaveBeenCalledWith('clipboard.hasString');
       expect(result).toBe(true);
+    });
+  });
+
+  describe('AppState API', () => {
+    it('getCurrent sends appState.getCurrent message', async () => {
+      mockSendMessage.mockResolvedValue('active');
+      const appState = createAppStateApi();
+      const result = await appState.getCurrent();
+      expect(mockSendMessage).toHaveBeenCalledWith('appState.getCurrent');
+      expect(result).toBe('active');
+    });
+
+    it('onChange subscribes to appState.change events', () => {
+      const mockUnsub = vi.fn();
+      mockAddEventListener.mockReturnValue(mockUnsub);
+      const appState = createAppStateApi();
+      const callback = vi.fn();
+      const unsub = appState.onChange(callback);
+      expect(mockAddEventListener).toHaveBeenCalledWith(
+        'appState.change',
+        expect.any(Function),
+      );
+      expect(unsub).toBe(mockUnsub);
     });
   });
 });

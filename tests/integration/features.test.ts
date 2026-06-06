@@ -546,3 +546,31 @@ describe('feature integration: clipboard', () => {
     expect(result).toBe(true);
   });
 });
+
+describe('feature integration: appState', () => {
+  let postMessageSpy: Mock;
+
+  beforeEach(async () => {
+    const env = await setupIntegrationEnv();
+    postMessageSpy = env.postMessageSpy as Mock;
+  });
+
+  afterEach(() => {
+    cleanupIntegrationEnv();
+  });
+
+  it('getCurrent() sends correct type and resolves with the state', async () => {
+    const { createAppStateApi } = await import('../../src/features/appstate');
+    const appState = createAppStateApi();
+
+    const promise = appState.getCurrent();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('appState.getCurrent');
+
+    simulateNativeResponse({ id: sent.id, success: true, data: 'active' });
+
+    const result = await promise;
+    expect(result).toBe('active');
+  });
+});

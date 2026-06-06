@@ -297,6 +297,28 @@ const text = await appo.clipboard.getString();
 const hasText = await appo.clipboard.hasString();
 ```
 
+### App State
+
+```typescript
+interface AppStateApi {
+  getCurrent(): Promise<AppStateStatus>;
+  onChange(callback: (state: AppStateStatus) => void): () => void;
+}
+```
+
+```typescript
+const state = await appo.appState.getCurrent();
+// state: 'active' | 'background' | 'inactive'
+
+const unsubscribe = appo.appState.onChange((state) => {
+  if (state === 'active') {
+    // app returned to the foreground
+  }
+});
+```
+
+In browser, the state is derived from `document.visibilityState` and `onChange` listens to the `visibilitychange` event (visible maps to `'active'`, hidden to `'background'`).
+
 ## Error Handling
 
 All bridge operations that require a native environment throw `AppoError` with categorized error codes:
@@ -391,6 +413,8 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | Clipboard | `getString()` | Uses `navigator.clipboard.readText()` if available, otherwise `''` |
 | Clipboard | `setString()` | Uses `navigator.clipboard.writeText()` if available, otherwise throws `Error` |
 | Clipboard | `hasString()` | Returns `false` (avoids a read-permission prompt) |
+| App State | `getCurrent()` | Derives state from `document.visibilityState` |
+| App State | `onChange()` | Listens to the browser `visibilitychange` event |
 
 ## TypeScript
 
@@ -439,6 +463,10 @@ import type {
 
   // Clipboard
   ClipboardApi,
+
+  // App State
+  AppStateApi,
+  AppStateStatus,
 
   // Biometrics
   BiometricsApi,

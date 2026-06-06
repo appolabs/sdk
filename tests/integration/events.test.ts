@@ -77,6 +77,16 @@ describe('event broadcasting integration', () => {
     });
   });
 
+  it('appState.change event reaches listener with the new state', () => {
+    const callback = vi.fn();
+    bridge.addEventListener('appState.change', callback);
+
+    simulateNativeEvent('appState.change', 'background');
+
+    expect(callback).toHaveBeenCalledOnce();
+    expect(callback).toHaveBeenCalledWith('background');
+  });
+
   it('multiple listeners on same event all receive the broadcast', () => {
     const callback1 = vi.fn();
     const callback2 = vi.fn();

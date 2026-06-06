@@ -19,6 +19,7 @@ import {
   createNetworkApi,
   createDeviceApi,
   createClipboardApi,
+  createAppStateApi,
 } from './features';
 
 import { VERSION } from './version';
@@ -44,6 +45,7 @@ function createAppo(): Appo {
     network: createNetworkApi(),
     device: createDeviceApi(),
     clipboard: createClipboardApi(),
+    appState: createAppStateApi(),
   };
 }
 
@@ -113,6 +115,8 @@ export type {
   NetworkApi,
   DeviceApi,
   ClipboardApi,
+  AppStateApi,
+  AppStateStatus,
   BridgeResponse,
   BridgeEvent,
   AppoLogLevel,

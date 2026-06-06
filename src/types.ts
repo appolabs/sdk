@@ -211,6 +211,19 @@ export interface ClipboardApi {
 }
 
 /**
+ * App lifecycle state
+ */
+export type AppStateStatus = 'active' | 'background' | 'inactive';
+
+/**
+ * App lifecycle (foreground/background) API
+ */
+export interface AppStateApi {
+  getCurrent(): Promise<AppStateStatus>;
+  onChange(callback: (state: AppStateStatus) => void): () => void;
+}
+
+/**
  * Native host capabilities reported by the bridge handshake
  */
 export interface Capabilities {
@@ -259,6 +272,8 @@ export interface Appo {
   device: DeviceApi;
   /** Clipboard access */
   clipboard: ClipboardApi;
+  /** App lifecycle (foreground/background) */
+  appState: AppStateApi;
 }
 
 /**

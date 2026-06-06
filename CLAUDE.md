@@ -100,6 +100,7 @@ All APIs provide browser fallbacks when not in native environment:
 | `device.getInfo()` | Returns user agent info |
 | `clipboard.getString()` | Uses `navigator.clipboard.readText()` or `''` |
 | `clipboard.setString()` | Uses `navigator.clipboard.writeText()` or throws |
+| `appState.getCurrent()` | Derives from `document.visibilityState` |
 
 ## File Structure
 
@@ -120,7 +121,8 @@ packages/appo/
 │       ├── share.ts       # Native share sheet
 │       ├── network.ts     # Network status
 │       ├── device.ts      # Device info
-│       └── clipboard.ts   # Clipboard access
+│       ├── clipboard.ts   # Clipboard access
+│       └── appstate.ts    # App lifecycle (foreground/background)
 ├── tests/
 │   └── index.test.ts      # Vitest tests
 ├── package.json
@@ -231,6 +233,7 @@ All SDK features are implemented using Expo packages:
 | `share.*` | React Native `Share` |
 | `device.*` | `expo-device` |
 | `clipboard.*` | `expo-clipboard` |
+| `appState.*` | React Native `AppState` |
 
 ### Event Broadcasts (`src/index.tsx`)
 
@@ -250,6 +253,14 @@ NetInfo.addEventListener(state => {
   broadcastEvent({
     event: 'network.change',
     data: { isConnected: state.isConnected, type: state.type }
+  });
+});
+
+// App lifecycle changed
+AppState.addEventListener('change', status => {
+  broadcastEvent({
+    event: 'appState.change',
+    data: status
   });
 });
 ```

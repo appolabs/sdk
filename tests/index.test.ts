@@ -92,6 +92,7 @@ describe('@appolabs/sdk', () => {
       expect(appo.network).toBeDefined();
       expect(appo.device).toBeDefined();
       expect(appo.clipboard).toBeDefined();
+      expect(appo.appState).toBeDefined();
     });
   });
 
@@ -169,6 +170,19 @@ describe('@appolabs/sdk', () => {
     it('clipboard.setString rejects without navigator.clipboard', async () => {
       const appo = initAppo();
       await expect(appo.clipboard.setString('x')).rejects.toThrow();
+    });
+
+    it('appState.getCurrent returns active without a document', async () => {
+      const appo = initAppo();
+      const result = await appo.appState.getCurrent();
+      expect(result).toBe('active');
+    });
+
+    it('appState.onChange returns a no-op unsubscribe without a document', () => {
+      const appo = initAppo();
+      const unsubscribe = appo.appState.onChange(vi.fn());
+      expect(typeof unsubscribe).toBe('function');
+      expect(() => unsubscribe()).not.toThrow();
     });
   });
 });
