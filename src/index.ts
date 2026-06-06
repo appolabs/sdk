@@ -21,6 +21,8 @@ import {
   createClipboardApi,
   createAppStateApi,
   createReviewApi,
+  createBrowserApi,
+  createLinksApi,
 } from './features';
 
 import { VERSION } from './version';
@@ -48,6 +50,8 @@ function createAppo(): Appo {
     clipboard: createClipboardApi(),
     appState: createAppStateApi(),
     review: createReviewApi(),
+    browser: createBrowserApi(),
+    links: createLinksApi(),
   };
 }
 
@@ -120,6 +124,10 @@ export type {
   AppStateApi,
   AppStateStatus,
   ReviewApi,
+  BrowserApi,
+  BrowserOpenOptions,
+  BrowserResult,
+  LinksApi,
   BridgeResponse,
   BridgeEvent,
   AppoLogLevel,

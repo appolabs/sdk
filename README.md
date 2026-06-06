@@ -349,6 +349,47 @@ if (await appo.review.isAvailable()) {
 
 `request()` asks the OS to show the in-app store review prompt. The operating system decides whether to actually display it, so the call may resolve without anything appearing.
 
+### Browser
+
+```typescript
+interface BrowserApi {
+  open(url: string, options?: BrowserOpenOptions): Promise<BrowserResult>;
+  openSystem(url: string): Promise<void>;
+}
+```
+
+```typescript
+// In-app browser (stays inside the app)
+const result = await appo.browser.open('https://example.com', { showTitle: true });
+// result: { type: 'cancel' | 'dismiss' | 'opened' }
+
+// Hand off to the device's default browser or associated app
+await appo.browser.openSystem('https://example.com');
+```
+
+In browser, both methods open a new tab via `window.open`.
+
+### Links
+
+```typescript
+interface LinksApi {
+  getInitial(): Promise<string | null>;
+  onOpen(callback: (url: string) => void): () => void;
+}
+```
+
+```typescript
+// The deep link that launched the app, if any
+const launchUrl = await appo.links.getInitial();
+
+// Incoming deep links while the app is running
+const unsubscribe = appo.links.onOpen((url) => {
+  console.log('Opened via deep link:', url);
+});
+```
+
+Deep links have no browser equivalent, so `getInitial()` returns `null` and `onOpen()` is a no-op in browser.
+
 ## Error Handling
 
 All bridge operations that require a native environment throw `AppoError` with categorized error codes:
@@ -450,6 +491,10 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | App State | `onChange()` | Listens to the browser `visibilitychange` event |
 | Review | `isAvailable()` | Returns `false` |
 | Review | `request()` | No-op |
+| Browser | `open()` | Opens a new tab via `window.open` |
+| Browser | `openSystem()` | Opens a new tab via `window.open` |
+| Links | `getInitial()` | Returns `null` |
+| Links | `onOpen()` | Returns no-op unsubscribe |
 
 ## TypeScript
 
@@ -505,6 +550,14 @@ import type {
 
   // Review
   ReviewApi,
+
+  // Browser
+  BrowserApi,
+  BrowserOpenOptions,
+  BrowserResult,
+
+  // Links
+  LinksApi,
 
   // Biometrics
   BiometricsApi,

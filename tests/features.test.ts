@@ -28,6 +28,8 @@ import { createDeviceApi } from '../src/features/device';
 import { createClipboardApi } from '../src/features/clipboard';
 import { createAppStateApi } from '../src/features/appstate';
 import { createReviewApi } from '../src/features/review';
+import { createBrowserApi } from '../src/features/browser';
+import { createLinksApi } from '../src/features/links';
 import { isBridgeResponse, isBridgeEvent } from '../src/types';
 
 const mockSendMessage = vi.mocked(sendMessage);
@@ -326,6 +328,51 @@ describe('Feature native paths', () => {
       const review = createReviewApi();
       await review.request();
       expect(mockSendMessage).toHaveBeenCalledWith('review.request');
+    });
+  });
+
+  describe('Browser API', () => {
+    it('open sends browser.open with url and options payload', async () => {
+      mockSendMessage.mockResolvedValue({ type: 'dismiss' });
+      const browser = createBrowserApi();
+      const result = await browser.open('https://example.com', { showTitle: true });
+      expect(mockSendMessage).toHaveBeenCalledWith('browser.open', {
+        url: 'https://example.com',
+        options: { showTitle: true },
+      });
+      expect(result).toEqual({ type: 'dismiss' });
+    });
+
+    it('openSystem sends browser.openSystem with url payload', async () => {
+      mockSendMessage.mockResolvedValue(undefined);
+      const browser = createBrowserApi();
+      await browser.openSystem('https://example.com');
+      expect(mockSendMessage).toHaveBeenCalledWith('browser.openSystem', {
+        url: 'https://example.com',
+      });
+    });
+  });
+
+  describe('Links API', () => {
+    it('getInitial sends links.getInitial message', async () => {
+      mockSendMessage.mockResolvedValue('myapp://item/42');
+      const links = createLinksApi();
+      const result = await links.getInitial();
+      expect(mockSendMessage).toHaveBeenCalledWith('links.getInitial');
+      expect(result).toBe('myapp://item/42');
+    });
+
+    it('onOpen subscribes to links.open events', () => {
+      const mockUnsub = vi.fn();
+      mockAddEventListener.mockReturnValue(mockUnsub);
+      const links = createLinksApi();
+      const callback = vi.fn();
+      const unsub = links.onOpen(callback);
+      expect(mockAddEventListener).toHaveBeenCalledWith(
+        'links.open',
+        expect.any(Function),
+      );
+      expect(unsub).toBe(mockUnsub);
     });
   });
 });

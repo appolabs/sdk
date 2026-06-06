@@ -105,6 +105,8 @@ All APIs provide browser fallbacks when not in native environment:
 | `appState.getCurrent()` | Derives from `document.visibilityState` |
 | `review.isAvailable()` | Returns `false` |
 | `review.request()` | No-op (silent) |
+| `browser.open()` | Opens a new tab via `window.open` |
+| `links.getInitial()` | Returns `null` |
 
 ## File Structure
 
@@ -127,7 +129,9 @@ packages/appo/
 │       ├── device.ts      # Device info
 │       ├── clipboard.ts   # Clipboard access
 │       ├── appstate.ts    # App lifecycle (foreground/background)
-│       └── review.ts      # In-app store review
+│       ├── review.ts      # In-app store review
+│       ├── browser.ts     # In-app browser
+│       └── links.ts       # Deep links
 ├── tests/
 │   └── index.test.ts      # Vitest tests
 ├── package.json
@@ -241,6 +245,8 @@ All SDK features are implemented using Expo packages:
 | `clipboard.*` | `expo-clipboard` |
 | `appState.*` | React Native `AppState` |
 | `review.*` | `expo-store-review` |
+| `browser.*` | `expo-web-browser` / React Native `Linking` |
+| `links.*` | React Native `Linking` |
 
 ### Event Broadcasts (`src/index.tsx`)
 
@@ -268,6 +274,14 @@ AppState.addEventListener('change', status => {
   broadcastEvent({
     event: 'appState.change',
     data: status
+  });
+});
+
+// Incoming deep link
+Linking.addEventListener('url', ({ url }) => {
+  broadcastEvent({
+    event: 'links.open',
+    data: url
   });
 });
 ```

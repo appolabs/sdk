@@ -87,6 +87,16 @@ describe('event broadcasting integration', () => {
     expect(callback).toHaveBeenCalledWith('background');
   });
 
+  it('links.open event reaches listener with the deep link URL', () => {
+    const callback = vi.fn();
+    bridge.addEventListener('links.open', callback);
+
+    simulateNativeEvent('links.open', 'myapp://item/42');
+
+    expect(callback).toHaveBeenCalledOnce();
+    expect(callback).toHaveBeenCalledWith('myapp://item/42');
+  });
+
   it('multiple listeners on same event all receive the broadcast', () => {
     const callback1 = vi.fn();
     const callback2 = vi.fn();

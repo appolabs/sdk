@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- In-app browser API: `browser.open(url, options)` and `browser.openSystem(url)`, with `window.open` browser fallbacks
+- Deep link API: `links.getInitial()` for the launch URL and `links.onOpen()` for incoming deep links (broadcast on the `links.open` channel)
 - In-app store review API: `review.isAvailable()` and `review.request()` for prompting an app-store review
 - Camera library access: `camera.pickImage()` to select an existing image from the photo library
 - Push badge and notification management: `push.setBadgeCount(count)` (Badging API browser fallback) and `push.clearNotifications()`

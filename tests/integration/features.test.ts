@@ -666,3 +666,78 @@ describe('feature integration: review', () => {
     await expect(promise).resolves.toBeUndefined();
   });
 });
+
+describe('feature integration: browser', () => {
+  let postMessageSpy: Mock;
+
+  beforeEach(async () => {
+    const env = await setupIntegrationEnv();
+    postMessageSpy = env.postMessageSpy as Mock;
+  });
+
+  afterEach(() => {
+    cleanupIntegrationEnv();
+  });
+
+  it('open() sends url and options and resolves with the result', async () => {
+    const { createBrowserApi } = await import('../../src/features/browser');
+    const browser = createBrowserApi();
+
+    const promise = browser.open('https://example.com', { showTitle: true });
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('browser.open');
+    expect(sent.payload).toEqual({
+      url: 'https://example.com',
+      options: { showTitle: true },
+    });
+
+    simulateNativeResponse({ id: sent.id, success: true, data: { type: 'dismiss' } });
+
+    const result = await promise;
+    expect(result).toEqual({ type: 'dismiss' });
+  });
+
+  it('openSystem() sends the url payload and resolves', async () => {
+    const { createBrowserApi } = await import('../../src/features/browser');
+    const browser = createBrowserApi();
+
+    const promise = browser.openSystem('https://example.com');
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('browser.openSystem');
+    expect(sent.payload).toEqual({ url: 'https://example.com' });
+
+    simulateNativeResponse({ id: sent.id, success: true });
+
+    await expect(promise).resolves.toBeUndefined();
+  });
+});
+
+describe('feature integration: links', () => {
+  let postMessageSpy: Mock;
+
+  beforeEach(async () => {
+    const env = await setupIntegrationEnv();
+    postMessageSpy = env.postMessageSpy as Mock;
+  });
+
+  afterEach(() => {
+    cleanupIntegrationEnv();
+  });
+
+  it('getInitial() sends correct type and resolves with the launch URL', async () => {
+    const { createLinksApi } = await import('../../src/features/links');
+    const links = createLinksApi();
+
+    const promise = links.getInitial();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('links.getInitial');
+
+    simulateNativeResponse({ id: sent.id, success: true, data: 'myapp://item/42' });
+
+    const result = await promise;
+    expect(result).toBe('myapp://item/42');
+  });
+});

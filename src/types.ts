@@ -235,6 +235,39 @@ export interface ReviewApi {
 }
 
 /**
+ * Presentation options for the in-app browser
+ */
+export interface BrowserOpenOptions {
+  /** Preferred toolbar background color (hex string, e.g. `'#1a1a1a'`). */
+  toolbarColor?: string;
+  /** Whether to show the page title in the toolbar. */
+  showTitle?: boolean;
+}
+
+/**
+ * Result of an in-app browser session
+ */
+export interface BrowserResult {
+  type: 'cancel' | 'dismiss' | 'opened';
+}
+
+/**
+ * In-app browser API
+ */
+export interface BrowserApi {
+  open(url: string, options?: BrowserOpenOptions): Promise<BrowserResult>;
+  openSystem(url: string): Promise<void>;
+}
+
+/**
+ * Deep link API
+ */
+export interface LinksApi {
+  getInitial(): Promise<string | null>;
+  onOpen(callback: (url: string) => void): () => void;
+}
+
+/**
  * Native host capabilities reported by the bridge handshake
  */
 export interface Capabilities {
@@ -287,6 +320,10 @@ export interface Appo {
   appState: AppStateApi;
   /** In-app store review prompt */
   review: ReviewApi;
+  /** In-app browser */
+  browser: BrowserApi;
+  /** Deep links */
+  links: LinksApi;
 }
 
 /**

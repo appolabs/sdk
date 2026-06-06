@@ -15,3 +15,5 @@ export { createDeviceApi } from './device';
 export { createClipboardApi } from './clipboard';
 export { createAppStateApi } from './appstate';
 export { createReviewApi } from './review';
+export { createBrowserApi } from './browser';
+export { createLinksApi } from './links';

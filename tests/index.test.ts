@@ -94,6 +94,8 @@ describe('@appolabs/sdk', () => {
       expect(appo.clipboard).toBeDefined();
       expect(appo.appState).toBeDefined();
       expect(appo.review).toBeDefined();
+      expect(appo.browser).toBeDefined();
+      expect(appo.links).toBeDefined();
     });
   });
 
@@ -210,6 +212,30 @@ describe('@appolabs/sdk', () => {
     it('review.request resolves', async () => {
       const appo = initAppo();
       await expect(appo.review.request()).resolves.toBeUndefined();
+    });
+
+    it('browser.open resolves with a result type', async () => {
+      const appo = initAppo();
+      const result = await appo.browser.open('https://example.com');
+      expect(typeof result.type).toBe('string');
+    });
+
+    it('browser.openSystem resolves', async () => {
+      const appo = initAppo();
+      await expect(appo.browser.openSystem('https://example.com')).resolves.toBeUndefined();
+    });
+
+    it('links.getInitial returns null', async () => {
+      const appo = initAppo();
+      const result = await appo.links.getInitial();
+      expect(result).toBeNull();
+    });
+
+    it('links.onOpen returns a no-op unsubscribe', () => {
+      const appo = initAppo();
+      const unsubscribe = appo.links.onOpen(vi.fn());
+      expect(typeof unsubscribe).toBe('function');
+      expect(() => unsubscribe()).not.toThrow();
     });
   });
 });
