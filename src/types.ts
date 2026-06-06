@@ -227,6 +227,14 @@ export interface AppStateApi {
 }
 
 /**
+ * In-app store review API
+ */
+export interface ReviewApi {
+  isAvailable(): Promise<boolean>;
+  request(): Promise<void>;
+}
+
+/**
  * Native host capabilities reported by the bridge handshake
  */
 export interface Capabilities {
@@ -277,6 +285,8 @@ export interface Appo {
   clipboard: ClipboardApi;
   /** App lifecycle (foreground/background) */
   appState: AppStateApi;
+  /** In-app store review prompt */
+  review: ReviewApi;
 }
 
 /**

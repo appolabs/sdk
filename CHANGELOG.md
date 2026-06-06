@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- In-app store review API: `review.isAvailable()` and `review.request()` for prompting an app-store review
 - Camera library access: `camera.pickImage()` to select an existing image from the photo library
 - Push badge and notification management: `push.setBadgeCount(count)` (Badging API browser fallback) and `push.clearNotifications()`
 - App lifecycle API: `appState.getCurrent()` and `appState.onChange()` for foreground/background transitions, broadcast on the `appState.change` channel, with a `document.visibilitychange` browser fallback. Feature-detectable via `appo.supports('appState')`

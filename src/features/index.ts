@@ -14,3 +14,4 @@ export { createNetworkApi } from './network';
 export { createDeviceApi } from './device';
 export { createClipboardApi } from './clipboard';
 export { createAppStateApi } from './appstate';
+export { createReviewApi } from './review';

@@ -20,6 +20,7 @@ import {
   createDeviceApi,
   createClipboardApi,
   createAppStateApi,
+  createReviewApi,
 } from './features';
 
 import { VERSION } from './version';
@@ -46,6 +47,7 @@ function createAppo(): Appo {
     device: createDeviceApi(),
     clipboard: createClipboardApi(),
     appState: createAppStateApi(),
+    review: createReviewApi(),
   };
 }
 
@@ -117,6 +119,7 @@ export type {
   ClipboardApi,
   AppStateApi,
   AppStateStatus,
+  ReviewApi,
   BridgeResponse,
   BridgeEvent,
   AppoLogLevel,

@@ -103,6 +103,8 @@ All APIs provide browser fallbacks when not in native environment:
 | `clipboard.getString()` | Uses `navigator.clipboard.readText()` or `''` |
 | `clipboard.setString()` | Uses `navigator.clipboard.writeText()` or throws |
 | `appState.getCurrent()` | Derives from `document.visibilityState` |
+| `review.isAvailable()` | Returns `false` |
+| `review.request()` | No-op (silent) |
 
 ## File Structure
 
@@ -124,7 +126,8 @@ packages/appo/
 │       ├── network.ts     # Network status
 │       ├── device.ts      # Device info
 │       ├── clipboard.ts   # Clipboard access
-│       └── appstate.ts    # App lifecycle (foreground/background)
+│       ├── appstate.ts    # App lifecycle (foreground/background)
+│       └── review.ts      # In-app store review
 ├── tests/
 │   └── index.test.ts      # Vitest tests
 ├── package.json
@@ -237,6 +240,7 @@ All SDK features are implemented using Expo packages:
 | `device.*` | `expo-device` |
 | `clipboard.*` | `expo-clipboard` |
 | `appState.*` | React Native `AppState` |
+| `review.*` | `expo-store-review` |
 
 ### Event Broadcasts (`src/index.tsx`)
 

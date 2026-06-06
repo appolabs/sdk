@@ -93,6 +93,7 @@ describe('@appolabs/sdk', () => {
       expect(appo.device).toBeDefined();
       expect(appo.clipboard).toBeDefined();
       expect(appo.appState).toBeDefined();
+      expect(appo.review).toBeDefined();
     });
   });
 
@@ -198,6 +199,17 @@ describe('@appolabs/sdk', () => {
       const unsubscribe = appo.appState.onChange(vi.fn());
       expect(typeof unsubscribe).toBe('function');
       expect(() => unsubscribe()).not.toThrow();
+    });
+
+    it('review.isAvailable returns false', async () => {
+      const appo = initAppo();
+      const result = await appo.review.isAvailable();
+      expect(result).toBe(false);
+    });
+
+    it('review.request resolves', async () => {
+      const appo = initAppo();
+      await expect(appo.review.request()).resolves.toBeUndefined();
     });
   });
 });

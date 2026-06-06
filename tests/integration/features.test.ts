@@ -624,3 +624,45 @@ describe('feature integration: appState', () => {
     expect(result).toBe('active');
   });
 });
+
+describe('feature integration: review', () => {
+  let postMessageSpy: Mock;
+
+  beforeEach(async () => {
+    const env = await setupIntegrationEnv();
+    postMessageSpy = env.postMessageSpy as Mock;
+  });
+
+  afterEach(() => {
+    cleanupIntegrationEnv();
+  });
+
+  it('isAvailable() sends correct type and resolves with a boolean', async () => {
+    const { createReviewApi } = await import('../../src/features/review');
+    const review = createReviewApi();
+
+    const promise = review.isAvailable();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('review.isAvailable');
+
+    simulateNativeResponse({ id: sent.id, success: true, data: true });
+
+    const result = await promise;
+    expect(result).toBe(true);
+  });
+
+  it('request() sends correct type and resolves', async () => {
+    const { createReviewApi } = await import('../../src/features/review');
+    const review = createReviewApi();
+
+    const promise = review.request();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('review.request');
+
+    simulateNativeResponse({ id: sent.id, success: true });
+
+    await expect(promise).resolves.toBeUndefined();
+  });
+});

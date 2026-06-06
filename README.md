@@ -332,6 +332,23 @@ const unsubscribe = appo.appState.onChange((state) => {
 
 In browser, the state is derived from `document.visibilityState` and `onChange` listens to the `visibilitychange` event (visible maps to `'active'`, hidden to `'background'`).
 
+### Review
+
+```typescript
+interface ReviewApi {
+  isAvailable(): Promise<boolean>;
+  request(): Promise<void>;
+}
+```
+
+```typescript
+if (await appo.review.isAvailable()) {
+  await appo.review.request();
+}
+```
+
+`request()` asks the OS to show the in-app store review prompt. The operating system decides whether to actually display it, so the call may resolve without anything appearing.
+
 ## Error Handling
 
 All bridge operations that require a native environment throw `AppoError` with categorized error codes:
@@ -431,6 +448,8 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | Clipboard | `hasString()` | Returns `false` (avoids a read-permission prompt) |
 | App State | `getCurrent()` | Derives state from `document.visibilityState` |
 | App State | `onChange()` | Listens to the browser `visibilitychange` event |
+| Review | `isAvailable()` | Returns `false` |
+| Review | `request()` | No-op |
 
 ## TypeScript
 
@@ -483,6 +502,9 @@ import type {
   // App State
   AppStateApi,
   AppStateStatus,
+
+  // Review
+  ReviewApi,
 
   // Biometrics
   BiometricsApi,

@@ -27,6 +27,7 @@ import { createNetworkApi } from '../src/features/network';
 import { createDeviceApi } from '../src/features/device';
 import { createClipboardApi } from '../src/features/clipboard';
 import { createAppStateApi } from '../src/features/appstate';
+import { createReviewApi } from '../src/features/review';
 import { isBridgeResponse, isBridgeEvent } from '../src/types';
 
 const mockSendMessage = vi.mocked(sendMessage);
@@ -308,6 +309,23 @@ describe('Feature native paths', () => {
         expect.any(Function),
       );
       expect(unsub).toBe(mockUnsub);
+    });
+  });
+
+  describe('Review API', () => {
+    it('isAvailable sends review.isAvailable message', async () => {
+      mockSendMessage.mockResolvedValue(true);
+      const review = createReviewApi();
+      const result = await review.isAvailable();
+      expect(mockSendMessage).toHaveBeenCalledWith('review.isAvailable');
+      expect(result).toBe(true);
+    });
+
+    it('request sends review.request message', async () => {
+      mockSendMessage.mockResolvedValue(undefined);
+      const review = createReviewApi();
+      await review.request();
+      expect(mockSendMessage).toHaveBeenCalledWith('review.request');
     });
   });
 });
