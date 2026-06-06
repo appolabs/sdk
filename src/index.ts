@@ -7,6 +7,7 @@
 
 import type { Appo } from './types';
 import { initializeBridge, isNativeEnvironment } from './bridge';
+import { getCapabilities, supports } from './capabilities';
 import {
   createPushApi,
   createBiometricsApi,
@@ -30,6 +31,8 @@ function createAppo(): Appo {
   return {
     isNative: isNativeEnvironment(),
     version: VERSION,
+    getCapabilities,
+    supports,
     push: createPushApi(),
     biometrics: createBiometricsApi(),
     camera: createCameraApi(),
@@ -80,9 +83,13 @@ export function getAppo(): Appo {
 export { isBridgeResponse, isBridgeEvent, AppoError, AppoErrorCode } from './types';
 export { setLogger } from './bridge';
 
+// Export capability handshake API
+export { getCapabilities, supports, PROTOCOL_VERSION } from './capabilities';
+
 // Export types
 export type {
   Appo,
+  Capabilities,
   PermissionStatus,
   PushMessage,
   PushResponse,

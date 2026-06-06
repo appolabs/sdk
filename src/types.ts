@@ -201,6 +201,20 @@ export interface DeviceApi {
 }
 
 /**
+ * Native host capabilities reported by the bridge handshake
+ */
+export interface Capabilities {
+  /** Bridge protocol version implemented by the native host. `0` for legacy or browser hosts. */
+  protocolVersion: number;
+  /** Native wrapper/app version, `'unknown'` for legacy hosts, or `'web'` in a browser. */
+  nativeVersion: string;
+  /** Feature identifiers the host supports (e.g. `'push'`, `'biometrics'`). */
+  features: string[];
+  /** Whether the host answered the capability handshake. `false` means features were inferred (legacy or browser). */
+  handshakeSupported: boolean;
+}
+
+/**
  * Main Appo SDK interface
  */
 export interface Appo {
@@ -208,6 +222,13 @@ export interface Appo {
   isNative: boolean;
   /** SDK version */
   version: string;
+  /**
+   * Resolves the native host's capabilities, caching the result. Never rejects;
+   * falls back to a baseline feature set for legacy hosts and an empty set in a browser.
+   */
+  getCapabilities(timeoutMs?: number): Promise<Capabilities>;
+  /** Reports whether the native host supports a given feature namespace or method identifier. */
+  supports(feature: string): Promise<boolean>;
   /** Push notifications */
   push: PushApi;
   /** Biometric authentication (Face ID / Touch ID) */

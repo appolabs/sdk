@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Capability handshake: `appo.getCapabilities()` resolves the native host's `protocolVersion`, `nativeVersion`, and supported `features`, letting web apps feature-detect at runtime
+- `appo.supports(feature)` convenience helper matching a feature namespace (`'push'`) or method (`'push.getToken'`)
+- `PROTOCOL_VERSION` export and `Capabilities` type
+- New `system.getCapabilities` bridge message (native host responds with `{ protocolVersion, nativeVersion, features }`)
+- Graceful degradation: the probe uses a short 2s timeout and never rejects — legacy native hosts fall back to the baseline feature set, browsers to an empty set, so unsupported calls fail fast instead of hanging for the full 30s request timeout
+
 ## [2.0.0] - 2026-06-06
 
 ### Added

@@ -61,6 +61,36 @@ console.log(appo.isNative);  // true inside Appo app, false in browser
 console.log(appo.version);   // SDK version string
 ```
 
+## Capabilities
+
+Different native host versions support different features. Use the capability handshake to feature-detect at runtime instead of calling a method and waiting for it to fail.
+
+```typescript
+const caps = await appo.getCapabilities();
+// caps: {
+//   protocolVersion: number,     // bridge protocol the host implements (0 = legacy/browser)
+//   nativeVersion: string,       // host version ('unknown' on legacy, 'web' in browser)
+//   features: string[],          // supported feature namespaces, e.g. ['push', 'biometrics']
+//   handshakeSupported: boolean, // false = features inferred (legacy host or browser)
+// }
+
+if (await appo.supports('push')) {
+  const token = await appo.push.getToken();
+}
+```
+
+`supports()` matches a feature namespace (`'push'`) or a specific method (`'push.getToken'`).
+
+The handshake degrades gracefully:
+
+| Environment | Result |
+|-------------|--------|
+| Browser (no native host) | `features: []`, `handshakeSupported: false` |
+| Legacy native host (no handshake support) | baseline feature set (the original 9 APIs), `handshakeSupported: false` |
+| Modern native host | reported capabilities, `handshakeSupported: true` |
+
+The probe uses a short timeout (2s, configurable via `getCapabilities(timeoutMs)`) so a legacy host fails fast rather than waiting the full 30s request timeout. The result is cached for the session, and the call never rejects.
+
 ## API Reference
 
 ### Push Notifications
@@ -329,6 +359,7 @@ All types are exported for use in consuming applications:
 import type {
   // Core
   Appo,
+  Capabilities,
   PermissionStatus,
 
   // Push
@@ -382,11 +413,14 @@ import {
   getAppo,
   initAppo,
   setLogger,
+  getCapabilities,
+  supports,
   AppoError,
   AppoErrorCode,
   isBridgeResponse,
   isBridgeEvent,
   VERSION,
+  PROTOCOL_VERSION,
 } from '@appolabs/sdk';
 ```
 
