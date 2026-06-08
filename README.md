@@ -1,6 +1,6 @@
 # @appolabs/sdk
 
-JavaScript bridge SDK for accessing native device features from web apps running inside React Native WebViews.
+JavaScript bridge SDK for accessing native device features from web apps running inside React Native WebViews. Supports push notifications, biometrics, camera, location, haptics, storage, share, network, device info, and NFC.
 
 ## Installation
 
@@ -233,6 +233,53 @@ const info = await appo.device.getInfo();
 // info: { platform, osVersion, appVersion, deviceId, deviceName, isTablet }
 ```
 
+### NFC
+
+```typescript
+interface NfcApi {
+  isAvailable(): Promise<boolean>;
+  readTag(options?: NfcReadOptions): Promise<NfcTag>;
+  writeTag(records: NdefRecord[], options?: NfcWriteOptions): Promise<void>;
+  onTag(callback: (tag: NfcTag) => void): () => void;
+}
+```
+
+Check support and read a tag:
+
+```typescript
+const available = await appo.nfc.isAvailable();
+if (available) {
+  const tag = await appo.nfc.readTag({ alertMessage: 'Hold your phone near the tag' });
+  // tag: { id?: string, records: NdefRecord[], writable?: boolean }
+  for (const record of tag.records) {
+    if (record.kind === 'uri') console.log(record.uri);
+    if (record.kind === 'text') console.log(record.text);
+  }
+}
+```
+
+Write NDEF records to a tag:
+
+```typescript
+await appo.nfc.writeTag([
+  { kind: 'text', text: 'Hello NFC', languageCode: 'en' },
+  { kind: 'uri', uri: 'https://example.com' },
+]);
+```
+
+Subscribe to passive tag-discovery events (Android only — iOS has no background NFC):
+
+```typescript
+const unsubscribe = appo.nfc.onTag((tag) => {
+  console.log('Tag discovered:', tag.id);
+});
+
+// Later: stop listening
+unsubscribe();
+```
+
+> **Note:** NFC requires a real device build. It does not work in Expo Go or simulators.
+
 ## Error Handling
 
 All bridge operations that require a native environment throw `AppoError` with categorized error codes:
@@ -320,6 +367,10 @@ All APIs provide fallback behavior when running outside a native Appo container:
 | Network | `getStatus()` | Returns `{ isConnected: navigator.onLine, type: 'unknown' }` |
 | Network | `onChange()` | Listens to browser `online`/`offline` events |
 | Device | `getInfo()` | Returns user agent-based info with `osVersion: 'web'` |
+| NFC | `isAvailable()` | Returns `false` |
+| NFC | `readTag()` | Throws `Error('NFC not available outside native environment')` |
+| NFC | `writeTag()` | Throws `Error('NFC not available outside native environment')` |
+| NFC | `onTag()` | No-op subscription (never fires) |
 
 ## TypeScript
 
@@ -367,6 +418,13 @@ import type {
 
   // Biometrics
   BiometricsApi,
+
+  // NFC
+  NfcApi,
+  NfcTag,
+  NdefRecord,
+  NfcReadOptions,
+  NfcWriteOptions,
 
   // Bridge internals
   BridgeResponse,

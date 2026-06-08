@@ -2,7 +2,7 @@
 
 > JavaScript bridge SDK for native app features in React Native WebViews.
 
-The SDK provides a unified API for accessing native device capabilities (push notifications, biometrics, camera, location, haptics, storage, share, network, device info) from web applications running inside React Native WebViews. Communication uses a request/response bridge over `window.ReactNativeWebView.postMessage()` with automatic browser fallbacks for non-native environments.
+The SDK provides a unified API for accessing native device capabilities (push notifications, biometrics, camera, location, haptics, storage, share, network, device info, NFC) from web applications running inside React Native WebViews. Communication uses a request/response bridge over `window.ReactNativeWebView.postMessage()` with automatic browser fallbacks for non-native environments.
 
 ## Quick Start
 
@@ -21,6 +21,7 @@ The SDK provides a unified API for accessing native device capabilities (push no
 - [Share](README.md#share)
 - [Network](README.md#network)
 - [Device](README.md#device)
+- [NFC](README.md#nfc)
 
 ## Error Handling
 
