@@ -255,11 +255,11 @@ describe('Feature native paths', () => {
       expect(result).toEqual(tag);
     });
 
-    it('readTag sends empty payload when no options given', async () => {
+    it('readTag sends undefined payload when no options given', async () => {
       mockSendMessage.mockResolvedValue({ records: [] });
       const nfc = createNfcApi();
       await nfc.readTag();
-      expect(mockSendMessage).toHaveBeenCalledWith('nfc.readTag', {});
+      expect(mockSendMessage).toHaveBeenCalledWith('nfc.readTag', undefined);
     });
 
     it('writeTag sends nfc.writeTag with records and options merged', async () => {

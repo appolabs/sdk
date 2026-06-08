@@ -34,7 +34,7 @@ export function createNfcApi(): NfcApi {
       if (!isNativeEnvironment()) {
         throw new Error('NFC not available outside native environment');
       }
-      return sendMessage<NfcTag>('nfc.readTag', options ?? {});
+      return sendMessage<NfcTag>('nfc.readTag', options);
     },
 
     /**
