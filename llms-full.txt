@@ -129,6 +129,42 @@ type HapticImpactStyle = 'light' | 'medium' | 'heavy';
 type HapticNotificationType = 'success' | 'warning' | 'error';
 ```
 
+### NdefRecord
+
+```typescript
+type NdefRecord =
+  | { kind: 'text'; text: string; languageCode?: string }
+  | { kind: 'uri'; uri: string }
+  | { kind: 'mime'; mimeType: string; data: string }; // data is base64
+```
+
+### NfcTag
+
+```typescript
+interface NfcTag {
+  id?: string;       // tag serial number as hex string
+  records: NdefRecord[];
+  writable?: boolean;
+}
+```
+
+### NfcReadOptions
+
+```typescript
+interface NfcReadOptions {
+  alertMessage?: string;           // iOS scan-sheet message; Android ignores
+  invalidateAfterFirstRead?: boolean;
+}
+```
+
+### NfcWriteOptions
+
+```typescript
+interface NfcWriteOptions {
+  alertMessage?: string;           // iOS scan-sheet message; Android ignores
+}
+```
+
 ## Feature APIs
 
 ### Push Notifications — `appo.push`
@@ -241,6 +277,24 @@ interface DeviceApi {
 
 - `getInfo()` — Retrieves device hardware and software information. Browser fallback: returns user agent-based info with `osVersion: 'web'`.
 
+### NFC — `appo.nfc`
+
+```typescript
+interface NfcApi {
+  isAvailable(): Promise<boolean>;
+  readTag(options?: NfcReadOptions): Promise<NfcTag>;
+  writeTag(records: NdefRecord[], options?: NfcWriteOptions): Promise<void>;
+  onTag(callback: (tag: NfcTag) => void): () => void;
+}
+```
+
+- `isAvailable()` — Checks whether NFC is supported and enabled on the device. Browser fallback: returns `false`.
+- `readTag(options?)` — Opens an NFC session and resolves with the next NDEF tag scanned. `alertMessage` is shown on the iOS scan sheet; Android ignores it. Browser fallback: throws `Error('NFC not available outside native environment')`.
+- `writeTag(records, options?)` — Writes the given NDEF records to the next tag presented. Browser fallback: throws `Error('NFC not available outside native environment')`.
+- `onTag(callback)` — Subscribes to passive tag-discovery events. Android only — iOS has no background NFC, so the callback never fires on iOS. Browser fallback: no-op subscription that never fires. Returns unsubscribe function.
+
+Native implementation: `react-native-nfc-manager`. Requires a real device build — does not work in Expo Go or simulators.
+
 ## Error Handling
 
 ```typescript
@@ -321,6 +375,7 @@ The SDK produces no console output by default. Log events include message sends,
 | `push.message` | Push notification received while app is foregrounded | `PushMessage` |
 | `push.response` | User taps a notification (warm/hot start or cold-start) | `PushResponse` |
 | `network.change` | Network connectivity state changes | `NetworkStatus` |
+| `nfc.tag` | NFC tag discovered (Android passive scan only) | `NfcTag` |
 
 ## Type Guards
 
@@ -355,3 +410,7 @@ isBridgeEvent(data: unknown): data is BridgeEvent
 | Network | `getStatus()` | `{ isConnected: navigator.onLine, type: 'unknown' }` |
 | Network | `onChange()` | Browser `online`/`offline` events |
 | Device | `getInfo()` | User agent info, `osVersion: 'web'` |
+| NFC | `isAvailable()` | `false` |
+| NFC | `readTag()` | Throws `Error('NFC not available outside native environment')` |
+| NFC | `writeTag()` | Throws `Error('NFC not available outside native environment')` |
+| NFC | `onTag()` | No-op subscription (never fires) |
