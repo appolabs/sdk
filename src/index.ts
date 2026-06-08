@@ -120,5 +120,3 @@ export type {
 if (typeof window !== 'undefined' && !window.appo) {
   initAppo();
 }
-
-export default getAppo;
