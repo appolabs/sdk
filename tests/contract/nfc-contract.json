@@ -1,0 +1,105 @@
+{
+  "_source": "Canonical NFC bridge-protocol contract. Source of truth: appolabs/sdk tests/contract/nfc-contract.json. The native repo (@appolabs/react-native-appo) keeps a verbatim copy; keep them in sync manually.",
+  "cases": [
+    {
+      "name": "isAvailable",
+      "method": "isAvailable",
+      "type": "nfc.isAvailable",
+      "args": {},
+      "requestPayload": null,
+      "responseData": true
+    },
+    {
+      "name": "read text",
+      "method": "readTag",
+      "type": "nfc.readTag",
+      "args": { "options": { "alertMessage": "Hold near tag" } },
+      "requestPayload": { "alertMessage": "Hold near tag" },
+      "responseData": {
+        "id": "04a224b2c13d80",
+        "records": [{ "kind": "text", "text": "hello", "languageCode": "en" }],
+        "writable": true
+      }
+    },
+    {
+      "name": "read uri",
+      "method": "readTag",
+      "type": "nfc.readTag",
+      "args": { "options": { "alertMessage": "Hold near tag" } },
+      "requestPayload": { "alertMessage": "Hold near tag" },
+      "responseData": {
+        "id": "04a224b2c13d80",
+        "records": [{ "kind": "uri", "uri": "https://example.com" }],
+        "writable": true
+      }
+    },
+    {
+      "name": "read mime",
+      "method": "readTag",
+      "type": "nfc.readTag",
+      "args": { "options": { "alertMessage": "Hold near tag" } },
+      "requestPayload": { "alertMessage": "Hold near tag" },
+      "responseData": {
+        "id": "04a224b2c13d80",
+        "records": [{ "kind": "mime", "mimeType": "application/json", "data": "eyJhIjoxfQ==" }],
+        "writable": true
+      }
+    },
+    {
+      "name": "read empty",
+      "method": "readTag",
+      "type": "nfc.readTag",
+      "args": { "options": { "alertMessage": "Hold near tag" } },
+      "requestPayload": { "alertMessage": "Hold near tag" },
+      "responseData": { "id": "0411223344", "records": [], "writable": false }
+    },
+    {
+      "name": "write text",
+      "method": "writeTag",
+      "type": "nfc.writeTag",
+      "args": {
+        "records": [{ "kind": "text", "text": "hello", "languageCode": "en" }],
+        "options": { "alertMessage": "Tap to write" }
+      },
+      "requestPayload": {
+        "records": [{ "kind": "text", "text": "hello", "languageCode": "en" }],
+        "alertMessage": "Tap to write"
+      },
+      "responseData": null
+    },
+    {
+      "name": "write uri",
+      "method": "writeTag",
+      "type": "nfc.writeTag",
+      "args": {
+        "records": [{ "kind": "uri", "uri": "https://example.com" }],
+        "options": { "alertMessage": "Tap to write" }
+      },
+      "requestPayload": {
+        "records": [{ "kind": "uri", "uri": "https://example.com" }],
+        "alertMessage": "Tap to write"
+      },
+      "responseData": null
+    },
+    {
+      "name": "write multi",
+      "method": "writeTag",
+      "type": "nfc.writeTag",
+      "args": {
+        "records": [
+          { "kind": "text", "text": "hello", "languageCode": "en" },
+          { "kind": "uri", "uri": "https://example.com" },
+          { "kind": "mime", "mimeType": "application/json", "data": "eyJhIjoxfQ==" }
+        ]
+      },
+      "requestPayload": {
+        "records": [
+          { "kind": "text", "text": "hello", "languageCode": "en" },
+          { "kind": "uri", "uri": "https://example.com" },
+          { "kind": "mime", "mimeType": "application/json", "data": "eyJhIjoxfQ==" }
+        ]
+      },
+      "responseData": null
+    }
+  ]
+}

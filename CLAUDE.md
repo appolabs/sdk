@@ -80,6 +80,8 @@ Message correlation uses unique IDs: `msg_{timestamp}_{counter}`
 }
 ```
 
+> The canonical NFC bridge-protocol contract lives in `tests/contract/nfc-contract.json` (source of truth). The native handler repo keeps a verbatim copy; both are asserted by contract tests and must be kept in sync.
+
 ### Graceful Fallbacks
 
 All APIs provide browser fallbacks when not in native environment:
