@@ -488,3 +488,91 @@ describe('feature integration: device', () => {
     expect(result).toEqual(nativeResponse);
   });
 });
+
+describe('feature integration: nfc', () => {
+  let postMessageSpy: Mock;
+
+  beforeEach(async () => {
+    const env = await setupIntegrationEnv();
+    postMessageSpy = env.postMessageSpy as Mock;
+  });
+
+  afterEach(() => {
+    cleanupIntegrationEnv();
+  });
+
+  it('isAvailable() sends correct type and resolves with boolean', async () => {
+    const { createNfcApi } = await import('../../src/features/nfc');
+    const nfc = createNfcApi();
+
+    const promise = nfc.isAvailable();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('nfc.isAvailable');
+
+    simulateNativeResponse({ id: sent.id, success: true, data: true });
+    const result = await promise;
+    expect(result).toBe(true);
+  });
+
+  it('readTag() sends options payload and resolves with NfcTag', async () => {
+    const { createNfcApi } = await import('../../src/features/nfc');
+    const nfc = createNfcApi();
+
+    const promise = nfc.readTag({ alertMessage: 'Hold near tag' });
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('nfc.readTag');
+    expect(sent.payload).toEqual({ alertMessage: 'Hold near tag' });
+
+    const nativeResponse = {
+      id: '04a224b2c13d80',
+      records: [{ kind: 'uri', uri: 'https://example.com' }],
+      writable: true,
+    };
+    simulateNativeResponse({ id: sent.id, success: true, data: nativeResponse });
+
+    const result = await promise;
+    expect(result).toEqual(nativeResponse);
+  });
+
+  it('writeTag() sends records and resolves', async () => {
+    const { createNfcApi } = await import('../../src/features/nfc');
+    const nfc = createNfcApi();
+
+    const records = [{ kind: 'text' as const, text: 'hello' }];
+    const promise = nfc.writeTag(records);
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    expect(sent.type).toBe('nfc.writeTag');
+    expect(sent.payload).toEqual({ records });
+
+    simulateNativeResponse({ id: sent.id, success: true, data: undefined });
+    await promise;
+  });
+
+  it('readTag() rejects with AppoError on native failure', async () => {
+    const { createNfcApi } = await import('../../src/features/nfc');
+    const { AppoError, AppoErrorCode } = await import('../../src/types');
+    const nfc = createNfcApi();
+
+    const promise = nfc.readTag();
+
+    const sent = JSON.parse(postMessageSpy.mock.calls[0][0]);
+    simulateNativeResponse({
+      id: sent.id,
+      success: false,
+      error: 'Tag read cancelled',
+    });
+
+    try {
+      await promise;
+      expect.unreachable('Should have thrown');
+    } catch (err) {
+      expect(err).toBeInstanceOf(AppoError);
+      expect((err as InstanceType<typeof AppoError>).code).toBe(
+        AppoErrorCode.NATIVE_ERROR,
+      );
+    }
+  });
+});

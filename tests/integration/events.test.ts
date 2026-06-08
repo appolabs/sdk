@@ -77,6 +77,22 @@ describe('event broadcasting integration', () => {
     });
   });
 
+  it('nfc.tag event reaches listener with NfcTag shape', () => {
+    const callback = vi.fn();
+    bridge.addEventListener('nfc.tag', callback);
+
+    simulateNativeEvent('nfc.tag', {
+      id: '04a224b2c13d80',
+      records: [{ kind: 'text', text: 'hello' }],
+    });
+
+    expect(callback).toHaveBeenCalledOnce();
+    expect(callback).toHaveBeenCalledWith({
+      id: '04a224b2c13d80',
+      records: [{ kind: 'text', text: 'hello' }],
+    });
+  });
+
   it('multiple listeners on same event all receive the broadcast', () => {
     const callback1 = vi.fn();
     const callback2 = vi.fn();
