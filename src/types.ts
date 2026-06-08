@@ -123,6 +123,54 @@ export interface DeviceInfo {
 export type HapticImpactStyle = 'light' | 'medium' | 'heavy';
 
 /**
+ * A single NDEF record. Discriminated union shared by read (decoded) and write (input).
+ */
+export type NdefRecord =
+  | { kind: 'text'; text: string; languageCode?: string }
+  | { kind: 'uri'; uri: string }
+  | { kind: 'mime'; mimeType: string; data: string }; // data = base64 (binary-safe)
+
+/**
+ * A scanned NFC tag.
+ */
+export interface NfcTag {
+  /** Tag serial number as a hex string, when exposed by the hardware. */
+  id?: string;
+  /** Decoded NDEF records. Empty array for tags with no NDEF message. */
+  records: NdefRecord[];
+  /** Whether the tag is writable, when known. */
+  writable?: boolean;
+}
+
+/**
+ * Options for a read session.
+ */
+export interface NfcReadOptions {
+  /** iOS scan-sheet message. Ignored on Android. */
+  alertMessage?: string;
+  /** iOS: close the session after the first tag is read. Defaults to true natively. */
+  invalidateAfterFirstRead?: boolean;
+}
+
+/**
+ * Options for a write session.
+ */
+export interface NfcWriteOptions {
+  /** iOS scan-sheet message. Ignored on Android. */
+  alertMessage?: string;
+}
+
+/**
+ * NFC API.
+ */
+export interface NfcApi {
+  isAvailable(): Promise<boolean>;
+  readTag(options?: NfcReadOptions): Promise<NfcTag>;
+  writeTag(records: NdefRecord[], options?: NfcWriteOptions): Promise<void>;
+  onTag(callback: (tag: NfcTag) => void): () => void;
+}
+
+/**
  * Haptic notification types
  */
 export type HapticNotificationType = 'success' | 'warning' | 'error';
@@ -226,6 +274,8 @@ export interface Appo {
   network: NetworkApi;
   /** Device information */
   device: DeviceApi;
+  /** NFC NDEF read/write */
+  nfc: NfcApi;
 }
 
 /**
