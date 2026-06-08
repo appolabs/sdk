@@ -17,6 +17,7 @@ import {
   createShareApi,
   createNetworkApi,
   createDeviceApi,
+  createNfcApi,
 } from './features';
 
 import { VERSION } from './version';
@@ -39,6 +40,7 @@ function createAppo(): Appo {
     share: createShareApi(),
     network: createNetworkApi(),
     device: createDeviceApi(),
+    nfc: createNfcApi(),
   };
 }
 
@@ -103,6 +105,11 @@ export type {
   ShareApi,
   NetworkApi,
   DeviceApi,
+  NfcApi,
+  NfcTag,
+  NdefRecord,
+  NfcReadOptions,
+  NfcWriteOptions,
   BridgeResponse,
   BridgeEvent,
   AppoLogLevel,
