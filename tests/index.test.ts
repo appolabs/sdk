@@ -91,6 +91,7 @@ describe('@appolabs/sdk', () => {
       expect(appo.share).toBeDefined();
       expect(appo.network).toBeDefined();
       expect(appo.device).toBeDefined();
+      expect(appo.nfc).toBeDefined();
     });
   });
 
@@ -151,6 +152,33 @@ describe('@appolabs/sdk', () => {
     it('haptics.notification does not throw', () => {
       const appo = initAppo();
       expect(() => appo.haptics.notification('success')).not.toThrow();
+    });
+
+    it('nfc.isAvailable returns false', async () => {
+      const appo = initAppo();
+      const result = await appo.nfc.isAvailable();
+      expect(result).toBe(false);
+    });
+
+    it('nfc.readTag throws outside native environment', async () => {
+      const appo = initAppo();
+      await expect(appo.nfc.readTag()).rejects.toThrow(
+        'NFC not available outside native environment',
+      );
+    });
+
+    it('nfc.writeTag throws outside native environment', async () => {
+      const appo = initAppo();
+      await expect(
+        appo.nfc.writeTag([{ kind: 'text', text: 'hi' }]),
+      ).rejects.toThrow('NFC not available outside native environment');
+    });
+
+    it('nfc.onTag returns an unsubscribe function', () => {
+      const appo = initAppo();
+      const unsub = appo.nfc.onTag(() => {});
+      expect(typeof unsub).toBe('function');
+      expect(() => unsub()).not.toThrow();
     });
   });
 });

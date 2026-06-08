@@ -25,6 +25,7 @@ import { createStorageApi } from '../src/features/storage';
 import { createShareApi } from '../src/features/share';
 import { createNetworkApi } from '../src/features/network';
 import { createDeviceApi } from '../src/features/device';
+import { createNfcApi } from '../src/features/nfc';
 import { isBridgeResponse, isBridgeEvent } from '../src/types';
 
 const mockSendMessage = vi.mocked(sendMessage);
@@ -231,6 +232,58 @@ describe('Feature native paths', () => {
       const result = await device.getInfo();
       expect(mockSendMessage).toHaveBeenCalledWith('device.getInfo');
       expect(result).toEqual(info);
+    });
+  });
+
+  describe('NFC API', () => {
+    it('isAvailable sends nfc.isAvailable message', async () => {
+      mockSendMessage.mockResolvedValue(true);
+      const nfc = createNfcApi();
+      const result = await nfc.isAvailable();
+      expect(mockSendMessage).toHaveBeenCalledWith('nfc.isAvailable');
+      expect(result).toBe(true);
+    });
+
+    it('readTag sends nfc.readTag with options payload', async () => {
+      const tag = { id: '04a2', records: [{ kind: 'text', text: 'hi' }] };
+      mockSendMessage.mockResolvedValue(tag);
+      const nfc = createNfcApi();
+      const result = await nfc.readTag({ alertMessage: 'Hold near tag' });
+      expect(mockSendMessage).toHaveBeenCalledWith('nfc.readTag', {
+        alertMessage: 'Hold near tag',
+      });
+      expect(result).toEqual(tag);
+    });
+
+    it('readTag sends empty payload when no options given', async () => {
+      mockSendMessage.mockResolvedValue({ records: [] });
+      const nfc = createNfcApi();
+      await nfc.readTag();
+      expect(mockSendMessage).toHaveBeenCalledWith('nfc.readTag', {});
+    });
+
+    it('writeTag sends nfc.writeTag with records and options merged', async () => {
+      mockSendMessage.mockResolvedValue(undefined);
+      const nfc = createNfcApi();
+      const records = [{ kind: 'uri' as const, uri: 'https://example.com' }];
+      await nfc.writeTag(records, { alertMessage: 'Tap to write' });
+      expect(mockSendMessage).toHaveBeenCalledWith('nfc.writeTag', {
+        records,
+        alertMessage: 'Tap to write',
+      });
+    });
+
+    it('onTag subscribes to nfc.tag events', () => {
+      const mockUnsub = vi.fn();
+      mockAddEventListener.mockReturnValue(mockUnsub);
+      const nfc = createNfcApi();
+      const callback = vi.fn();
+      const unsub = nfc.onTag(callback);
+      expect(mockAddEventListener).toHaveBeenCalledWith(
+        'nfc.tag',
+        expect.any(Function),
+      );
+      expect(unsub).toBe(mockUnsub);
     });
   });
 });
