@@ -185,7 +185,7 @@ export function createNewFeatureApi(): NewFeatureApi {
 
 ## React Native Handler
 
-The native implementation is in `wrapper-mobile-app/.vendor/appolabs/react-native-webnavigationview`:
+The native implementation lives in the `@appolabs/react-native-appo` package, vendored as a git submodule at `wrapper-mobile-app/.vendor/appolabs/react-native-webnavigationview`. The host wrapper app declares the underlying native modules (e.g. `expo-notifications`, `react-native-nfc-manager`) as its own dependencies; the handler package imports them:
 
 ### Message Handling (`src/views/WebView.tsx`)
 
