@@ -27,6 +27,8 @@ if (status === 'granted') {
 }
 ```
 
+`getToken()` returns an **Expo push token** in the form `ExponentPushToken[...]`, not the raw APNs (iOS) or FCM (Android) device token. Send notifications to this token through the [Expo Push API](https://docs.expo.dev/push-notifications/sending-notifications/), which forwards them to APNs/FCM. Raw native device tokens are not currently exposed.
+
 ### Subscribe to Messages
 
 Fires when a push notification is received while the app is in the foreground. Listens on the `push.message` event channel.

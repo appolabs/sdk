@@ -27,6 +27,8 @@ if (status === 'granted') {
 }
 ```
 
+`getToken()` restituisce un **Expo push token** nella forma `ExponentPushToken[...]`, non il token nativo grezzo APNs (iOS) o FCM (Android). Invia le notifiche a questo token tramite l'[Expo Push API](https://docs.expo.dev/push-notifications/sending-notifications/), che le inoltra a APNs/FCM. I token nativi grezzi non sono attualmente esposti.
+
 ### Sottoscriversi ai Messaggi
 
 Si attiva quando una notifica push viene ricevuta mentre l'app e in primo piano. Ascolta sul canale evento `push.message`.
