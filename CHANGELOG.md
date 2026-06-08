@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Version string now injected at build time via `__SDK_VERSION__` define (was hardcoded constant)
 - Error responses from native layer wrapped in `AppoError` with categorized codes (was generic `Error`)
 
+### Removed
+
+- **Breaking:** removed the default export. Use the named import instead: `import { getAppo } from '@appolabs/sdk'`. This gives CommonJS consumers clean named exports without `.default` access.
+
 ### Fixed
 
 - Version mismatch between package.json and runtime version constant
