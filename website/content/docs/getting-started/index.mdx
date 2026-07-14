@@ -1,58 +1,36 @@
 ---
 title: What is Appo?
-description: Turn any website into a native iOS and Android app with native device features.
+description: Your existing web app, published to the App Store and Google Play and operated for you.
 ---
 
 ## What is Appo?
 
-Not sure which surface you need? See [SDK, CLI or MCP?](/getting-started/which-tool).
-
-Appo turns your existing website into a native iOS and Android app. You integrate the Appo SDK into your web application to access native device features, then Appo handles creating, building, and publishing the app to the App Store and Play Store.
+Appo turns the website you already have into a native iOS and Android app,
+and operates the publication: builds, store submission, Apple review,
+updates. You approve; Appo executes.
 
 ### How it works
 
-1. **You have a website** — any web application (React, Vue, plain HTML, Shopify, etc.)
-2. **Integrate the SDK** — add `@appolabs/sdk` to access native features like push notifications, camera, biometrics
-3. **Create the app** — use the [Appo dashboard](https://goappo.io) or a platform plugin (e.g., Shopify) to create your native app
-4. **Appo publishes it** — Appo builds and submits your app to the App Store and Play Store
+1. **You have a working web app** — any stack: React, Vue, plain HTML,
+   Shopify, whatever serves your users today.
+2. **Appo creates the native app from its URL** — nothing is rebuilt; your
+   site is the app.
+3. **You preview it on your phone** — an installable preview, free.
+4. **Appo publishes and keeps it published** — store accounts, review,
+   certificates and updates are part of the operated path.
 
-You write web code. Appo handles everything native.
+Follow the whole path in [From URL to the stores](/getting-started/journey),
+or jump straight to the [guides](/guides/create-app).
 
-## Features
+### Drive it your way
 
-- **Push Notifications** — Permission requests, token retrieval, message and tap event subscriptions
-- **Biometrics** — Face ID / Touch ID availability check and authentication
-- **Camera** — Permission requests and photo capture
-- **Location** — Permission requests and GPS position retrieval
-- **Haptics** — Impact and notification haptic feedback
-- **Storage** — Secure key-value storage with localStorage fallback
-- **Share** — Native share sheet with Web Share API fallback
-- **Network** — Connectivity status and change subscriptions
-- **Device** — Hardware and software information
+Everything above works from the surface you prefer: the
+[dashboard, the CLI or the MCP server](/getting-started/which-tool) — same
+outcomes on all three.
 
-## Design Principles
+### Along the way
 
-**Graceful fallbacks** — Every API returns a sensible default when running outside a native container. Your web app works in browsers and in the native app.
-
-**Zero dependencies** — No runtime dependencies.
-
-**Type safety** — Full TypeScript with exported interfaces.
-
-## Quick Example
-
-```typescript
-import { getAppo } from '@appolabs/sdk';
-
-const appo = getAppo();
-
-if (appo.isNative) {
-  const status = await appo.push.requestPermission();
-  if (status === 'granted') {
-    const token = await appo.push.getToken();
-  }
-}
-
-// Storage works in both environments
-await appo.storage.set('key', 'value');
-const value = await appo.storage.get('key');
-```
+When you want native features in your own code — push notifications,
+Face ID, camera, GPS — you will meet the
+[Appo SDK](/sdk): a JavaScript bridge for the web code you already write.
+It is part of your app, not a step you start from.
