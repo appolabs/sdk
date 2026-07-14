@@ -52,7 +52,16 @@ Appo wraps an already-hosted web app in a native iOS/Android React Native WebVie
 
 ## Documentation
 
-- [SDK, CLI or MCP?](https://goappo.io/docs/getting-started/which-tool) — Three surfaces, one platform: which one you need and when
+- [Dashboard, CLI or MCP?](https://goappo.io/docs/getting-started/which-tool) — Three surfaces, one platform: which one you need and when
+- [Installation](https://goappo.io/docs/sdk/installation) — Install @appolabs/sdk and configure for your app
+- [From URL to the stores](https://goappo.io/docs/getting-started/journey) — The publishing journey: create, preview, publish, update, and reach app stores
+- [Create an app](https://goappo.io/docs/guides/create-app) — Start an Appo project from a URL or existing website
+- [Preview on device](https://goappo.io/docs/guides/preview) — Test your app on iOS and Android before publishing
+- [Publish to app stores](https://goappo.io/docs/guides/publish) — Submit your app to the Apple App Store and Google Play
+- [Update your app](https://goappo.io/docs/guides/update) — Push content updates without going through app store review
+- [Push notifications](https://goappo.io/docs/guides/push) — Add push messaging to your app
+- [Handle App Store rejections](https://goappo.io/docs/guides/rejection) — Understand and fix common rejection reasons
+- [Test builds](https://goappo.io/docs/guides/test-builds) — Build and test your app before submission
 - [CLI documentation](https://goappo.io/docs/cli) — The appo CLI: install, appo ship, command reference
 - [CLI: appo ship](https://goappo.io/docs/cli/ship) — Create and publish a new app in one command
 - [CLI: command reference](https://goappo.io/docs/cli/commands) — Every appo command and flag
