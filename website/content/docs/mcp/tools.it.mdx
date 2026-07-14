@@ -22,15 +22,15 @@ Riutilizzano il core della CLI; i nomi corrispondono all'inventario canonico `/m
 | `request_test_build` | Avvia una build di test per un'app self-managed (mai la build di pubblicazione operata interna) | — |
 | `get_rejection` | Azione richiesta per un'app rifiutata, curata (mai il testo grezzo del revisore) | — |
 | `get_fix_recipe` | Soluzioni di remediation senza modifiche al codice per il rifiuto corrente | — |
-| `publish_app` | Avvia la pubblicazione operata nei store selezionati | confirm |
+| `publish_app` | Avvia la pubblicazione operata negli store selezionati | confirm |
 | `unpublish_app` | Rimuove un'app dai store selezionati | confirm |
 | `send_push` | Invia una notifica push ai dispositivi dell'app | confirm |
 | `trigger_resubmission` | Ri-sottomette un'app rifiutata per revisione (richiede una credenziale Apple di proprietà del cliente) | confirm |
 
-Non esiste intenzionalmente un tool `ship` ne un trigger di build di
+Non esiste intenzionalmente un tool `ship` né un trigger di build di
 pubblicazione. Gli agenti concatenano `create_app` poi `publish_app` (e
 `trigger_resubmission` per i cicli di rifiuto). La build di pubblicazione
-operata e interna (Nova Release); solo la build di test e self-serve.
+operata è interna (Nova Release); solo la build di test è self-serve.
 
 ## Tool di sviluppo locale
 
@@ -38,9 +38,9 @@ Operano sul progetto locale; nessun equivalente nella CLI o nel server MCP remot
 
 | Tool | Descrizione |
 | --- | --- |
-| `generate_hook` | Genera un hook React per una funzionalita dell'SDK |
+| `generate_hook` | Genera un hook React per una funzionalità dell'SDK |
 | `generate_component` | Genera un componente UI con integrazione SDK |
-| `scaffold_feature` | Crea lo scheletro di una funzionalita (hook + componente + tipi) |
+| `scaffold_feature` | Crea lo scheletro di una funzionalità (hook + componente + tipi) |
 | `validate_setup` | Verifica l'installazione e la configurazione dell'SDK |
 | `check_permissions` | Analizza i pattern di gestione dei permessi |
 | `diagnose_issue` | Diagnostica i problemi comuni di integrazione dell'SDK |
