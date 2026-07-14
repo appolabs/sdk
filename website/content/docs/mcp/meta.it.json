@@ -1,0 +1,5 @@
+{
+  "title": "MCP",
+  "root": false,
+  "pages": ["index", "tools"]
+}

@@ -1,0 +1,53 @@
+---
+title: Server MCP
+description: Gestisci il ciclo di vita delle app Appo dal tuo assistente AI con @appolabs/appo-mcp.
+---
+
+`@appolabs/appo-mcp` è un server MCP (Model Context Protocol) locale che
+offre a un agente AI gli stessi risultati sul ciclo di vita delle app della
+CLI `appo`: creazione, configurazione, anteprima, pubblicazione operata, push,
+gestione dei rifiuti, build di test e ri-sottomissione.
+
+Non include un client API proprio: ogni chiamata riutilizza il core della CLI,
+quindi entrambe le superfici puntano sempre allo stesso ambiente e condividono
+un unico vocabolario.
+
+## Installazione
+
+Claude Code:
+
+```bash
+claude mcp add appo -- npx -y @appolabs/appo-mcp
+```
+
+Cursor, Claude Desktop o qualsiasi client che legge una configurazione JSON:
+
+```json
+{
+  "mcpServers": {
+    "appo": {
+      "command": "npx",
+      "args": ["-y", "@appolabs/appo-mcp"]
+    }
+  }
+}
+```
+
+## Autenticazione
+
+Il server non richiede credenziali in modo interattivo. Le risolve esattamente
+come fa la CLI:
+
+1. `appo login` una volta con la CLI: il token viene salvato nel profilo e il
+   server lo legge da lì.
+2. Variabile d'ambiente `APPO_TOKEN`: fornisce un PAT direttamente (CI,
+   ambienti non interattivi); ha precedenza sul token del profilo.
+3. L'URL base e il profilo seguono `APPO_API_BASE` e `APPO_ENV`, come nella CLI.
+
+Senza un token, i tool del ciclo di vita restituiscono un errore strutturato
+`not_authenticated` che indica all'operatore di eseguire `appo login`. Non
+vanno mai in crash.
+
+## Prossimi passi
+
+- [Riferimento tool](/mcp/tools) — ogni tool, il suo risultato e il suo gate.

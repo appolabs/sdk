@@ -1,0 +1,56 @@
+---
+title: Tool reference
+description: Every tool exposed by @appolabs/appo-mcp, with outcomes and confirm gates.
+---
+
+Tool names mirror the canonical `/mcp` server vocabulary, so an agent sees one
+vocabulary across both MCP surfaces.
+
+## App lifecycle
+
+Reuse the CLI core; names match the canonical `/mcp` inventory.
+
+| Tool | Outcome | Gate |
+| --- | --- | --- |
+| `create_app` | Create an app (`name`, `base_url`) | — |
+| `configure_app` | Set content fields (`name`, `base_url`); content-only, mirrors CLI `apps update` | — |
+| `set_icon` | Set the app icon from an https `icon_url` | — |
+| `list_apps` | List the apps owned by the authenticated principal | — |
+| `get_app_overview` | App config, publication state, and metadata in one read; single-app default when `app_id` is omitted. Start here | — |
+| `preview_app` | Open-on-device payload (iOS TestFlight URL, Android deeplink, QR target, per-platform readiness) | — |
+| `get_build_status` | Poll a build by id until `ready`/`failed` | — |
+| `request_test_build` | Trigger a `test`-kind build for a self-managed app (never the operator-internal publish build) | — |
+| `get_rejection` | Curated required action for a rejected app (never raw reviewer text) | — |
+| `get_fix_recipe` | Code-free remediation recipes for the current rejection | — |
+| `publish_app` | Start publication to the chosen stores | confirm |
+| `unpublish_app` | Remove an app from the chosen stores | confirm |
+| `send_push` | Send a push to the app's devices | confirm |
+| `trigger_resubmission` | Resubmit a rejected app for review (requires a customer-owned Apple credential) | confirm |
+
+There is intentionally no `ship` tool and no publish-build trigger. Agents
+chain `create_app` → `publish_app` (and `trigger_resubmission` for rejection
+cycles). The `publish`-kind build is operator-internal (Nova Release); only
+the `test` build is self-serve.
+
+## Local dev-tools
+
+Operate on the local project; no CLI or remote-MCP equivalent by design.
+
+| Tool | Description |
+| --- | --- |
+| `generate_hook` | Generate a React hook for an SDK feature |
+| `generate_component` | Generate a UI component with SDK integration |
+| `scaffold_feature` | Scaffold a feature (hook + component + types) |
+| `validate_setup` | Validate SDK installation and configuration |
+| `check_permissions` | Analyze permission-handling patterns |
+| `diagnose_issue` | Diagnose common SDK integration issues |
+| `generate_universal_links` | Emit `apple-app-site-association` + `assetlinks.json` with hosting instructions |
+
+## Confirm-gate semantics
+
+Destructive tools (`publish_app`, `unpublish_app`, `send_push`,
+`trigger_resubmission`) take an optional `confirm: boolean`. Without
+`confirm: true` they perform no write and return a preview envelope
+(`{ error: "confirm_required", will, ..., next_actions }`) describing what
+would happen. This mirrors the CLI's `--confirm` flag semantics at the MCP
+idiom layer.
