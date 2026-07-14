@@ -1,0 +1,40 @@
+---
+title: Invia una notifica push
+description: Invia una notifica push ai dispositivi della tua app.
+---
+
+Una notifica push raggiunge ogni dispositivo su cui e' installata la tua app
+e che ha concesso il permesso. Puoi indicare un URL di destinazione, allegare
+un'immagine e pianificare l'invio.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Apri la tua app su [apps.goappo.io](https://apps.goappo.io).
+2. Vai alla sezione delle notifiche push. {/* verify: dashboard */}
+3. Inserisci titolo, testo e, facoltativamente, URL di destinazione,
+   immagine o orario pianificato.
+4. Conferma. Appo invia la notifica immediatamente o all'orario stabilito.
+
+</Tab>
+<Tab value="CLI">
+
+```bash
+appo push <id> --title <t> --body <b> [--target-url <u>] [--image-path <p>] [--scheduled-at <when>] --confirm
+```
+
+`--confirm` e' obbligatorio; senza di esso il comando mostra un'anteprima e
+termina.
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di inviare la notifica push: chiamera' `send_push`
+(con passaggio di conferma) con `title`, `body` e gli eventuali campi
+facoltativi.
+
+</Tab>
+</Tabs>
+
+Le notifiche push sono incluse in tutti i piani; il piano Business rimuove i
+limiti per singola notifica.

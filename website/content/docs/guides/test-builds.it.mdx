@@ -1,0 +1,42 @@
+---
+title: Build di test
+description: Produci un binario di test installabile per un'app self-managed.
+---
+
+Le build di test sono disponibili su CLI e MCP per le app self-managed; non
+interferiscono mai con la build di pubblicazione operata.
+
+<Tabs items={['CLI', 'MCP']}>
+<Tab value="CLI">
+
+Avvia una build (piattaforma predefinita: android):
+
+```bash
+appo build <id> [--platform ios|android]
+```
+
+Scarica l'artefatto installabile quando la build e' pronta:
+
+```bash
+appo download <id> [--build <n>] [--output <path>]
+```
+
+Per iOS, registra prima i dispositivi di test:
+
+```bash
+appo devices list
+appo devices register
+```
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di avviare una build di test: chiamera'
+`request_test_build`, poi eseguira' il polling su `get_build_status` finche'
+lo stato non diventa `ready` o `failed`.
+
+</Tab>
+</Tabs>
+
+Le build di test sono self-service e isolate: non influenzano mai la build
+interna all'operatore che Appo esegue per la sottomissione sugli store.

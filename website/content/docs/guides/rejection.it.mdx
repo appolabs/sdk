@@ -1,0 +1,45 @@
+---
+title: Gestisci un rifiuto
+description: Torna in revisione dopo un rifiuto dell'App Store.
+---
+
+Quando Apple rifiuta una build, Appo trasforma il feedback del revisore in
+un'azione richiesta e una ricetta di correzione. Tu applichi la ricetta; Appo
+gestisce la nuova sottomissione.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+Quando e' attivo un rifiuto, la panoramica dell'app mostra direttamente
+l'azione richiesta elaborata da Appo. {/* verify: dashboard */} Segui le
+istruzioni a schermo e conferma per ripresentare l'app.
+
+</Tab>
+<Tab value="CLI">
+
+Leggi il rifiuto e la ricetta di correzione:
+
+```bash
+appo rejection <id>
+appo fix-recipe <id>
+```
+
+Poi invia di nuovo:
+
+```bash
+appo ship <id>
+```
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di gestire il rifiuto: chiamera' `get_rejection`
+(azione richiesta elaborata), poi `get_fix_recipe` (passi di correzione) e
+infine `trigger_resubmission` (con passaggio di conferma; richiede una
+credenziale Apple di proprieta' del cliente).
+
+</Tab>
+</Tabs>
+
+Appo elabora il testo del revisore in un'azione richiesta: non dovrai mai
+interpretare i messaggi grezzi della revisione.

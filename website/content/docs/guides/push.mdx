@@ -1,0 +1,38 @@
+---
+title: Send a push notification
+description: Deliver a push notification to your app's devices.
+---
+
+A push notification reaches every device that has your app installed and has
+granted permission. You can target a URL, attach an image, and schedule
+delivery.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Open your app on [apps.goappo.io](https://apps.goappo.io).
+2. Go to the push notifications section. {/* verify: dashboard */}
+3. Enter a title, body, and optional target URL, image, or schedule.
+4. Confirm. Appo dispatches the notification immediately or at the scheduled
+   time.
+
+</Tab>
+<Tab value="CLI">
+
+```bash
+appo push <id> --title <t> --body <b> [--target-url <u>] [--image-path <p>] [--scheduled-at <when>] --confirm
+```
+
+`--confirm` is required; without it the command prints a preview and exits.
+
+</Tab>
+<Tab value="MCP">
+
+Ask your assistant to send a push notification: it calls `send_push`
+(confirm-gated) with `title`, `body`, and any optional fields.
+
+</Tab>
+</Tabs>
+
+Push notifications are included on all plans; the Business plan removes
+per-notification limits.

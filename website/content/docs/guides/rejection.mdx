@@ -1,0 +1,45 @@
+---
+title: Handle a rejection
+description: Move from an App Store rejection back to review.
+---
+
+When Apple rejects a build, Appo curates the reviewer feedback into a
+required action and a fix recipe. You act on the recipe; Appo handles
+resubmission.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+When a rejection is active, the app overview shows the curated required action
+directly. {/* verify: dashboard */} Follow the on-screen instructions and
+confirm to resubmit.
+
+</Tab>
+<Tab value="CLI">
+
+Read the rejection and its fix recipe:
+
+```bash
+appo rejection <id>
+appo fix-recipe <id>
+```
+
+Then resubmit:
+
+```bash
+appo ship <id>
+```
+
+</Tab>
+<Tab value="MCP">
+
+Ask your assistant to handle the rejection: it calls `get_rejection` (curated
+required action), then `get_fix_recipe` (remediation steps), and finally
+`trigger_resubmission` (confirm-gated; requires a customer-owned Apple
+credential).
+
+</Tab>
+</Tabs>
+
+Appo curates the reviewer text into a required action — you never parse raw
+review messages.

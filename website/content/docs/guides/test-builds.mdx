@@ -1,0 +1,41 @@
+---
+title: Test builds
+description: Produce an installable test binary for a self-managed app.
+---
+
+Test builds are available on CLI and MCP for self-managed apps; they never
+affect the operated publish build.
+
+<Tabs items={['CLI', 'MCP']}>
+<Tab value="CLI">
+
+Trigger a build (default platform: android):
+
+```bash
+appo build <id> [--platform ios|android]
+```
+
+Download the installable artifact when the build is ready:
+
+```bash
+appo download <id> [--build <n>] [--output <path>]
+```
+
+For iOS, register test devices first:
+
+```bash
+appo devices list
+appo devices register
+```
+
+</Tab>
+<Tab value="MCP">
+
+Ask your assistant to trigger a test build: it calls `request_test_build`,
+then polls `get_build_status` until the status is `ready` or `failed`.
+
+</Tab>
+</Tabs>
+
+Test builds are self-serve and isolated: they never touch the operator-internal
+publish build that Appo runs for store submission.
