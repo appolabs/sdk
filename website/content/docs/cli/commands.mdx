@@ -1,0 +1,58 @@
+---
+title: Command reference
+description: Every appo command, grouped as in appo --help.
+---
+
+Output of `appo --help`, grouped by area. Global options work on every
+command: `--api <url>` overrides the API base (env `APPO_API_BASE`),
+`--env <name>` selects the environment profile (env `APPO_ENV`).
+
+## Auth
+
+| Command | What it does |
+| --- | --- |
+| `appo login [--api <url>]` | Authenticate via the browser (device flow) |
+| `appo login --token <pat>` | Authenticate non-interactively with a dashboard PAT |
+| `appo logout` | Revoke the token server-side and clear it locally |
+| `appo whoami` | Show the active environment, API and liveness |
+| `appo env list` | List configured environments |
+| `appo env use <name>` | Switch the active environment |
+
+## Setup
+
+| Command | What it does |
+| --- | --- |
+| `appo init [--token <pat>]` | Bootstrap config and first login |
+| `appo upgrade` | Update to the latest @appolabs/appo via npm |
+| `appo --version` | Print the CLI and Node version |
+
+## Apps
+
+| Command | What it does |
+| --- | --- |
+| `appo apps create --name <n> --url <u>` | Create a new app |
+| `appo apps list` | List your apps |
+| `appo apps show <id>` | Show one app |
+| `appo apps update <id> [--name <n>] [--url <u>] [--icon <https-url>]` | Update name, URL and icon |
+
+## Lifecycle
+
+| Command | What it does |
+| --- | --- |
+| `appo ship --url <u> --name <n> [--stores <list>] [--yes]` | Create and ship a new app |
+| `appo ship <id> [--yes]` | Ship an existing app (republish or resubmit) |
+| `appo status <id>` | App overview: publication state and next action |
+| `appo preview [id]` | Preview target (TestFlight or deep link, with QR) |
+| `appo rejection <id>` | Show the active App Store rejection |
+| `appo fix-recipe <id>` | Show the fix recipe for a rejection |
+| `appo publish <id> [--confirm]` | Publish an already-built app to its stores |
+| `appo push <id> --title <t> --body <b> [--target-url <u>] [--image-path <p>] [--scheduled-at <when>] --confirm` | Send a push notification |
+
+## Test builds (self-managed apps)
+
+| Command | What it does |
+| --- | --- |
+| `appo build <id> [--platform ios\|android]` | Trigger a test build (default android) |
+| `appo download <id> [--build <n>] [--output <path>]` | Download the installable artifact |
+| `appo devices list` | List registered iOS test devices |
+| `appo devices register` | iOS device registration link and QR |

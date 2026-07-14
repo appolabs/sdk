@@ -3,6 +3,7 @@
   "pages": [
     "...getting-started",
     "...sdk",
+    "...cli",
     "...native-app",
     "...publishing"
   ]

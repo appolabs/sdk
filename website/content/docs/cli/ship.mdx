@@ -1,0 +1,37 @@
+---
+title: appo ship
+description: The one-command lifecycle, from URL to the app stores.
+---
+
+`appo ship` is the one command that takes an app to the stores. Given a URL
+and a name it creates the app, then signals publish intent: Appo issues the
+build server-side, submits it for review and operates the publication.
+
+```bash
+appo ship --url https://example.com --name "My App"
+```
+
+## What happens
+
+1. The app is created (equivalent to `appo apps create`).
+2. The CLI stops at a confirm gate and shows what will be published.
+3. On confirmation, Appo takes over: builds, store submission, Apple review,
+   updates. You approve; Appo executes.
+
+Pass `--yes` to skip the confirm gate (CI pipelines), and `--stores <list>`
+to restrict the target stores.
+
+## Shipping an existing app
+
+`appo ship <id>` republishes an existing app, including resubmission after an
+App Store rejection. Pair it with:
+
+- `appo status <id>` — publication state and the next action.
+- `appo rejection <id>` — the active App Store rejection, if any.
+- `appo fix-recipe <id>` — the suggested fix for that rejection.
+
+## Preview before shipping
+
+`appo preview [id]` prints the preview target for your phone (TestFlight or
+deep link, with a QR code). With no id it uses your only app, or shows a
+picker.

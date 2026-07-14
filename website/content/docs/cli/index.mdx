@@ -1,0 +1,48 @@
+---
+title: CLI
+description: Create and manage Appo apps from the terminal with @appolabs/appo.
+---
+
+The Appo CLI (`@appolabs/appo`) creates and manages native Appo apps from the
+terminal or a CI pipeline, at parity with the dashboard. It is a thin,
+dependency-free Node client over the Appo public API.
+
+Looking for the JavaScript bridge inside your app? That is the
+[SDK](/getting-started/installation). Want your AI assistant to drive
+these same outcomes? That is the [MCP server](/mcp).
+
+## Install
+
+```bash
+npm install -g @appolabs/appo
+```
+
+Requires Node 18 or newer. After install the `appo` command is on your PATH:
+
+```bash
+appo --version
+```
+
+## First run
+
+`appo init` bootstraps the configuration and runs the first login:
+
+```bash
+appo init
+```
+
+Authentication uses the browser device flow: the CLI prints a link and a code,
+you approve it in the dashboard, and the token is stored in your local profile
+(`~/.appo/config.json`). For CI and non-interactive contexts, pass a personal
+access token instead:
+
+```bash
+appo login --token <pat>
+```
+
+`appo whoami` shows the active environment and API at any time.
+
+## Next
+
+- [Ship your first app](/cli/ship) — the one-command lifecycle.
+- [Command reference](/cli/commands) — everything the CLI can do.
