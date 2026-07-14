@@ -8,11 +8,11 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: {
-    default: 'Appo SDK',
-    template: '%s | Appo SDK',
+    default: 'Appo Docs',
+    template: '%s | Appo Docs',
   },
   description:
-    'JavaScript bridge SDK for native app features in React Native WebViews.',
+    'Documentation for the Appo developer surfaces: the JavaScript bridge SDK, the appo CLI and the MCP server.',
 };
 
 const locales = i18n.languages.map((lang) => ({
