@@ -1,0 +1,44 @@
+---
+title: Aggiorna un'app
+description: Mantieni i contenuti e i metadati dell'app sincronizzati con il tuo sito.
+---
+
+La tua app segue il tuo sito: gli aggiornamenti dei contenuti web sono attivi
+non appena il sito viene pubblicato, senza alcuna azione necessaria. Le
+modifiche a nome, icona o splash screen avviano una nuova build operata da
+Appo.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+Gli aggiornamenti dei contenuti non richiedono alcuna azione: pubblica il sito
+e l'app riflette la modifica immediatamente. {/* verify: dashboard */}
+
+Per modifiche a nome o icona, apri le impostazioni dell'app su
+[apps.goappo.io](https://apps.goappo.io) e aggiorna i campi. Appo avvia
+automaticamente una nuova build operata.
+
+</Tab>
+<Tab value="CLI">
+
+```bash
+appo apps update <id> [--name <n>] [--url <u>] [--icon <https-url>]
+```
+
+Ometti qualsiasi flag per lasciare invariato quel campo. Passare `--name` o
+`--icon` avvia una nuova build operata; `--url` da solo e' una modifica solo
+ai contenuti.
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di aggiornare i campi dei contenuti: chiamera'
+`configure_app` con `name` e/o `base_url`. Per le modifiche all'icona
+chiamera' `set_icon`.
+
+</Tab>
+</Tabs>
+
+Le modifiche native (nome, icona e splash screen) richiedono una nuova build
+operata da Appo. Le modifiche ai contenuti web sono attive immediatamente,
+senza passaggi di build.

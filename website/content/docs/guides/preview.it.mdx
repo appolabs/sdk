@@ -1,0 +1,41 @@
+---
+title: Anteprima sul dispositivo
+description: Installa una build di test della tua app su un telefono entro 48 ore, senza costi aggiuntivi.
+---
+
+L'anteprima rende la tua app installabile su un dispositivo reale: una build di
+test tramite TestFlight per iOS e un deep link per Android. Entrambe le
+superfici sono gratuite e disponibili entro 48 ore dalla creazione dell'app.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Apri la tua app su [apps.goappo.io](https://apps.goappo.io). {/* verify: dashboard */}
+2. Usa l'azione di apertura sul dispositivo o di anteprima. Viene mostrato un
+   codice QR per entrambe le piattaforme.
+
+</Tab>
+<Tab value="CLI">
+
+```bash
+appo preview [id]
+```
+
+Restituisce l'URL TestFlight (iOS), il deep link (Android) e il target per il
+codice QR. Se `id` viene omesso, il comando usa l'app collegata alla directory
+corrente.
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di visualizzare l'anteprima: chiamerà `preview_app`,
+che restituisce l'URL TestFlight per iOS, il deep link per Android, il target
+QR e i flag di disponibilità per piattaforma.
+
+</Tab>
+</Tabs>
+
+La disponibilità dell'anteprima su iOS puo' essere in ritardo rispetto ad
+Android: richiede una build TestFlight, che aggiunge tempi di elaborazione da
+parte di Apple. L'anteprima Android e' disponibile non appena il record
+dell'app esiste.

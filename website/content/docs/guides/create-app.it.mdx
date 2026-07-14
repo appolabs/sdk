@@ -1,0 +1,45 @@
+---
+title: Crea un'app
+description: Crea la tua app Appo a partire dall'URL del tuo sito.
+---
+
+Al termine di questo passaggio il record dell'app esiste e contiene URL, nome
+e icona. Puoi quindi visualizzarla in anteprima sul dispositivo o avviare la
+pubblicazione.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Vai su [apps.goappo.io/new](https://apps.goappo.io/new). {/* verify: dashboard */}
+2. Inserisci l'URL del sito, un nome e un'icona.
+3. Conferma. Il record dell'app viene creato.
+
+</Tab>
+<Tab value="CLI">
+
+Configurazione iniziale:
+
+```bash
+appo init
+```
+
+Poi crea l'app:
+
+```bash
+appo apps create --name "My App" --url https://example.com
+```
+
+Per creare e pubblicare in un unico comando usa invece `appo ship` — vedi la
+[guida alla pubblicazione](/docs/guides/publish).
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di creare l'app: chiamerà `create_app` con `name` e
+`base_url`, poi `set_icon` per allegare l'icona.
+
+</Tab>
+</Tabs>
+
+L'URL deve essere raggiungibile pubblicamente; Appo lo racchiude e lo serve
+all'interno della shell nativa.

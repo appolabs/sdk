@@ -1,0 +1,39 @@
+---
+title: Preview on device
+description: Install a test build of your app on a phone within 48 hours, at no extra cost.
+---
+
+Preview makes your app installable on a real device: a TestFlight build for iOS
+and a deep link for Android. Both surfaces are free and available within 48
+hours of creating the app.
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Open your app on [apps.goappo.io](https://apps.goappo.io). {/* verify: dashboard */}
+2. Use the open-on-device or preview action. A QR code is shown for both
+   platforms.
+
+</Tab>
+<Tab value="CLI">
+
+```bash
+appo preview [id]
+```
+
+Returns the TestFlight URL (iOS), deep link (Android), and a QR target. If
+`id` is omitted, the command uses the app linked to the current directory.
+
+</Tab>
+<Tab value="MCP">
+
+Ask your assistant to preview the app: it calls `preview_app`, which returns
+the iOS TestFlight URL, Android deep link, QR target, and per-platform
+readiness flags.
+
+</Tab>
+</Tabs>
+
+iOS preview readiness can lag Android: it requires a TestFlight build, which
+adds processing time on Apple's side. Android preview is available as soon as
+the app record exists.
