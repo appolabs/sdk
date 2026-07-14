@@ -2,6 +2,11 @@
 
 JavaScript bridge SDK for accessing native device features from web apps running inside React Native WebViews. Supports push notifications, biometrics, camera, location, haptics, storage, share, network, device info, and NFC.
 
+> Looking for the terminal or agent tooling? The app lifecycle lives in
+> [`@appolabs/appo`](https://www.npmjs.com/package/@appolabs/appo) (CLI) and
+> [`@appolabs/appo-mcp`](https://www.npmjs.com/package/@appolabs/appo-mcp)
+> (MCP server). Docs: <https://goappo.io/docs>.
+
 ## Installation
 
 ```bash
