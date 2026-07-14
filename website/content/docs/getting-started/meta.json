@@ -1,5 +1,5 @@
 {
   "title": "Getting Started",
   "root": true,
-  "pages": ["index", "installation", "environment"]
+  "pages": ["index", "which-tool", "installation", "environment"]
 }

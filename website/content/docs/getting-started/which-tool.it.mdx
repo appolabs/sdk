@@ -1,0 +1,20 @@
+---
+title: SDK, CLI o MCP?
+description: "Tre superfici, una piattaforma: quale ti serve e quando."
+---
+
+Appo offre tre superfici per gli sviluppatori. Sono complementari, non
+alternative: la maggior parte dei progetti usa l'SDK all'interno dell'app e
+la CLI o l'MCP intorno ad essa.
+
+| | SDK | CLI | MCP |
+| --- | --- | --- | --- |
+| Pacchetto | `@appolabs/sdk` | `@appolabs/appo` | `@appolabs/appo-mcp` |
+| Cos'è | Bridge JavaScript all'interno della tua web app | Client da terminale per il ciclo di vita dell'app | Lo stesso ciclo di vita, guidato da un assistente AI |
+| Usalo per | Chiamare API native (push, biometria, fotocamera, GPS) dal codice web | Creare, spedire, pubblicare e monitorare app dal terminale o da CI | Lasciare che il tuo agente crei, spedisca e gestisca app per te |
+| Installa | `npm install @appolabs/sdk` | `npm install -g @appolabs/appo` | `claude mcp add appo -- npx -y @appolabs/appo-mcp` |
+| Inizia da | [Installazione](/getting-started/installation) | [CLI](/cli) | [Server MCP](/mcp) |
+
+Una regola pratica: l'SDK vive nel codice della tua app; la CLI e l'MCP
+vivono nel tuo flusso di lavoro. Se non apri mai un terminale, la dashboard
+copre tutto quello che fa la CLI.
