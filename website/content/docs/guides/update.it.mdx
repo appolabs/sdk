@@ -5,8 +5,8 @@ description: Mantieni i contenuti e i metadati dell'app sincronizzati con il tuo
 
 La tua app segue il tuo sito: gli aggiornamenti dei contenuti web sono attivi
 non appena il sito viene pubblicato, senza alcuna azione necessaria. Le
-modifiche a nome, icona o splash screen avviano una nuova build operata da
-Appo.
+modifiche a nome e icona aggiornano subito il record e raggiungono i
+dispositivi con la prossima build operata, eseguita da Appo.
 
 <Tabs items={['Dashboard', 'CLI', 'MCP']}>
 <Tab value="Dashboard">
@@ -15,8 +15,8 @@ Gli aggiornamenti dei contenuti non richiedono alcuna azione: pubblica il sito
 e l'app riflette la modifica immediatamente.
 
 Per modifiche a nome o icona, apri le impostazioni dell'app su
-[apps.goappo.io](https://apps.goappo.io) e aggiorna i campi. Appo avvia
-automaticamente una nuova build operata.
+[apps.goappo.io](https://apps.goappo.io) e aggiorna i campi. Il record si
+aggiorna subito; i dispositivi ricevono la modifica con la prossima build operata.
 
 </Tab>
 <Tab value="CLI">
@@ -25,9 +25,9 @@ automaticamente una nuova build operata.
 appo apps update <id> [--name <n>] [--url <u>] [--icon <https-url>]
 ```
 
-Ometti qualsiasi flag per lasciare invariato quel campo. Passare `--name` o
-`--icon` avvia una nuova build operata; `--url` da solo e' una modifica solo
-ai contenuti.
+Ometti qualsiasi flag per lasciare invariato quel campo. `--url` da solo è
+una modifica solo ai contenuti; `--name` e `--icon` aggiornano il record e
+raggiungono i dispositivi con la prossima build operata.
 
 </Tab>
 <Tab value="MCP">
@@ -39,6 +39,4 @@ chiamerà `set_icon`.
 </Tab>
 </Tabs>
 
-Le modifiche native (nome, icona e splash screen) richiedono una nuova build
-operata da Appo. Le modifiche ai contenuti web sono attive immediatamente,
-senza passaggi di build.
+Le modifiche web sono live all'istante. Nome e icona si aggiornano subito sul record e raggiungono i dispositivi con la prossima build operata, eseguita da Appo.

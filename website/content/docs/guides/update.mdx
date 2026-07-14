@@ -4,8 +4,8 @@ description: Keep your app's content and metadata in sync with your site.
 ---
 
 Your app follows your site: web content updates are live as soon as the site
-deploys, with no action required. Changes to the name, icon, or splash screen
-trigger a new operated build by Appo.
+deploys, with no action required. Name and icon changes update the record
+immediately and reach devices with the next operated build, which Appo runs.
 
 <Tabs items={['Dashboard', 'CLI', 'MCP']}>
 <Tab value="Dashboard">
@@ -14,8 +14,8 @@ Content updates require no action: deploy your site and the app reflects the
 change immediately.
 
 For name or icon changes, open the app settings on
-[apps.goappo.io](https://apps.goappo.io) and update the fields. Appo starts a
-new operated build automatically.
+[apps.goappo.io](https://apps.goappo.io) and update the fields. The record
+updates immediately; devices receive the change with the next operated build.
 
 </Tab>
 <Tab value="CLI">
@@ -24,8 +24,9 @@ new operated build automatically.
 appo apps update <id> [--name <n>] [--url <u>] [--icon <https-url>]
 ```
 
-Omit any flag to leave that field unchanged. Passing `--name` or `--icon`
-triggers a new operated build; `--url` alone is a content-only change.
+Omit any flag to leave that field unchanged. `--url` alone is a content-only
+change; `--name` and `--icon` update the record and reach devices with the
+next operated build.
 
 </Tab>
 <Tab value="MCP">
@@ -36,5 +37,4 @@ Ask your assistant to update content fields: it calls `configure_app` with
 </Tab>
 </Tabs>
 
-Native changes — name, icon, and splash screen — require a new build operated
-by Appo. Web content changes are live instantly with no build step.
+Web changes are live instantly. Name and icon updates land on the record right away and reach devices with the next operated build, which Appo runs.

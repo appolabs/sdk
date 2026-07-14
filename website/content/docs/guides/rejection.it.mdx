@@ -10,7 +10,7 @@ gestisce la nuova sottomissione.
 <Tabs items={['Dashboard', 'CLI', 'MCP']}>
 <Tab value="Dashboard">
 
-Quando e' attivo un rifiuto, la panoramica dell'app mostra direttamente
+Quando è attivo un rifiuto, la panoramica dell'app mostra direttamente
 l'azione richiesta elaborata da Appo. Segui le
 istruzioni a schermo e conferma per ripresentare l'app.
 
@@ -35,11 +35,12 @@ appo ship <id>
 
 Chiedi al tuo assistente di gestire il rifiuto: chiamerà `get_rejection`
 (azione richiesta elaborata), poi `get_fix_recipe` (passi di correzione) e
-infine `trigger_resubmission` (con passaggio di conferma; richiede una
-credenziale Apple di proprietà del cliente).
+infine `trigger_resubmission` (con passaggio di conferma).
 
 </Tab>
 </Tabs>
 
 Appo elabora il testo del revisore in un'azione richiesta: non dovrai mai
 interpretare i messaggi grezzi della revisione.
+
+La ri-sottomissione richiede una credenziale Apple Developer di tua proprietà, da qualsiasi superficie.

@@ -35,11 +35,12 @@ appo ship <id>
 
 Ask your assistant to handle the rejection: it calls `get_rejection` (curated
 required action), then `get_fix_recipe` (remediation steps), and finally
-`trigger_resubmission` (confirm-gated; requires a customer-owned Apple
-credential).
+`trigger_resubmission` (confirm-gated).
 
 </Tab>
 </Tabs>
 
 Appo curates the reviewer text into a required action — you never parse raw
 review messages.
+
+Resubmission requires an Apple Developer credential owned by you, whatever the surface.
