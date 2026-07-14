@@ -2,10 +2,11 @@
   "title": "Documentazione",
   "pages": [
     "...getting-started",
+    "...guides",
     "...sdk",
-    "...cli",
-    "...mcp",
     "...native-app",
-    "...publishing"
+    "...publishing",
+    "...cli",
+    "...mcp"
   ]
 }

@@ -1,8 +1,10 @@
 {
-  "title": "SDK Reference",
+  "title": "Power up your app",
   "root": true,
   "pages": [
     "index",
+    "installation",
+    "environment",
     "architecture",
     "error-handling",
     "logging",

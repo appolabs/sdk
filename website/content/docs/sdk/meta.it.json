@@ -1,8 +1,10 @@
 {
-  "title": "Riferimento SDK",
+  "title": "Potenzia l'app",
   "root": true,
   "pages": [
     "index",
+    "installation",
+    "environment",
     "architecture",
     "error-handling",
     "logging",
