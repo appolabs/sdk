@@ -49,3 +49,12 @@ Appo wraps an already-hosted web app in a native iOS/Android React Native WebVie
 ## Changelog
 
 - [Changelog](CHANGELOG.md)
+
+## Documentation
+
+- [SDK, CLI or MCP?](https://goappo.io/docs/getting-started/which-tool) — Three surfaces, one platform: which one you need and when
+- [CLI documentation](https://goappo.io/docs/cli) — The appo CLI: install, appo ship, command reference
+- [CLI: appo ship](https://goappo.io/docs/cli/ship) — Create and publish a new app in one command
+- [CLI: command reference](https://goappo.io/docs/cli/commands) — Every appo command and flag
+- [MCP documentation](https://goappo.io/docs/mcp) — Drive the app lifecycle from your AI assistant with @appolabs/appo-mcp
+- [MCP: tool reference](https://goappo.io/docs/mcp/tools) — Every tool exposed by the MCP server, with outcomes and confirm gates
