@@ -4,6 +4,18 @@
 
 The SDK provides a unified API for accessing native device capabilities (push notifications, biometrics, camera, location, haptics, storage, share, network, device info, NFC) from web applications running inside React Native WebViews. Communication uses a request/response bridge over `window.ReactNativeWebView.postMessage()` with automatic browser fallbacks for non-native environments.
 
+## Appo ecosystem (this SDK is one piece)
+
+Appo wraps an already-hosted web app in a native iOS/Android React Native WebView; this SDK is the runtime bridge. Related resources:
+
+- **Detect the wrapper:** `getAppo().isNative`, or `typeof window.ReactNativeWebView !== 'undefined'` — never `navigator.standalone` / `display-mode: standalone` (PWA signals, false inside the RN WebView).
+- **CLI** `@appolabs/appo` — create / manage / publish apps from a terminal or agent (parity with the dashboard).
+- **MCP** `@appolabs/appo-mcp` — agent tooling (`create_app`, `configure_app`, `request_test_build`, `preview_app`, …); read its `appo://ecosystem` resource first.
+- **Native shell:** `@appolabs/react-native-webnavigationview` / `wrapper-mobile-app`.
+- **Dashboard:** configure an app + its injected CSS/JS (dashboard-only — not CLI/MCP).
+- **REST API:** `@appolabs/apps-api` (`/api/v1`).
+- **Site retrofit (no code changes to the site):** the `app-customization` skill generates injected CSS/JS for a generic site.
+
 ## Quick Start
 
 - [Getting Started](README.md#quick-start)
