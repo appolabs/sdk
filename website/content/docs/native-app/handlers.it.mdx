@@ -5,7 +5,7 @@ description: Come i gestori nativi processano le richieste dell'SDK usando i pac
 
 ## Architettura dei Gestori
 
-Quando l'SDK invia un messaggio al layer nativo, il message dispatcher lo instrada al gestore di funzionalita appropriato in base alla stringa del tipo di messaggio. Ogni gestore wrappa un pacchetto Expo (o un'API React Native) e traduce la richiesta dell'SDK in una chiamata nativa.
+Quando l'SDK invia un messaggio al layer nativo, il message dispatcher lo instrada al gestore di funzionalità appropriato in base alla stringa del tipo di messaggio. Ogni gestore wrappa un pacchetto Expo (o un'API React Native) e traduce la richiesta dell'SDK in una chiamata nativa.
 
 ```
 Richiesta SDK                           App Nativa
@@ -31,7 +31,7 @@ Il dispatcher divide il tipo di messaggio al primo `.` per determinare il gestor
 
 Ogni gestore mappa i metodi dell'SDK alla loro implementazione nel pacchetto Expo corrispondente.
 
-| Funzionalita SDK | Gestore | Pacchetto Expo |
+| Funzionalità SDK | Gestore | Pacchetto Expo |
 |------------------|---------|----------------|
 | `push.*` | Push | `expo-notifications` |
 | `biometrics.*` | Biometrics | `expo-local-authentication` |
@@ -79,7 +79,7 @@ La risposta viene consegnata alla WebView tramite `injectJavaScript`, che invoca
 
 ## Aggiungere Gestori Personalizzati
 
-Per estendere l'app nativa con funzionalita native aggiuntive:
+Per estendere l'app nativa con funzionalità native aggiuntive:
 
 **1. Crea la funzione gestore:**
 
@@ -103,7 +103,7 @@ async function handleMyFeature(
 
 Aggiungi il gestore alla mappa di dispatch in modo che i messaggi con tipo `"myfeature.*"` vengano instradati alla tua funzione.
 
-**3. Aggiungi la funzionalita SDK corrispondente:**
+**3. Aggiungi la funzionalità SDK corrispondente:**
 
 Crea un modulo funzionalita corrispondente nell'SDK in modo che `appo.myfeature.doSomething()` invii il tipo di messaggio corretto. Vedi l'[architettura dell'SDK](/sdk/architecture) per il protocollo dei messaggi.
 

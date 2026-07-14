@@ -18,12 +18,12 @@ Riutilizzano il core della CLI; i nomi corrispondono all'inventario canonico `/m
 | `list_apps` | Elenca le app del principale autenticato | — |
 | `get_app_overview` | Configurazione dell'app, stato di pubblicazione operata e metadati in una sola lettura; default su singola app quando `app_id` è omesso. Punto di partenza consigliato | — |
 | `preview_app` | Payload di anteprima sul dispositivo (URL TestFlight iOS, deeplink Android, destinazione QR, disponibilità per piattaforma) | — |
-| `get_build_status` | Interroga una build per id finche non raggiunge lo stato `ready` o `failed` | — |
+| `get_build_status` | Interroga una build per id finché non raggiunge lo stato `ready` o `failed` | — |
 | `request_test_build` | Avvia una build di test per un'app self-managed (mai la build di pubblicazione operata interna) | — |
 | `get_rejection` | Azione richiesta per un'app rifiutata, curata (mai il testo grezzo del revisore) | — |
 | `get_fix_recipe` | Soluzioni di remediation senza modifiche al codice per il rifiuto corrente | — |
 | `publish_app` | Avvia la pubblicazione operata negli store selezionati | confirm |
-| `unpublish_app` | Rimuove un'app dai store selezionati | confirm |
+| `unpublish_app` | Rimuove un'app dagli store selezionati | confirm |
 | `send_push` | Invia una notifica push ai dispositivi dell'app | confirm |
 | `trigger_resubmission` | Ri-sottomette un'app rifiutata per revisione (richiede una credenziale Apple di proprietà del cliente) | confirm |
 
