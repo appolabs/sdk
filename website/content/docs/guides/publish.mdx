@@ -1,0 +1,39 @@
+---
+title: Publish to the stores
+description: Start the operated publication and follow it to approval.
+---
+
+Publishing is operated: Appo runs builds, store submission and Apple review;
+you approve at the gates. One prerequisite for the App Store: an Apple
+Developer account in your name (Appo guides the enrollment).
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Open your app on [apps.goappo.io](https://apps.goappo.io).
+2. Start the publication path and choose the target stores. {/* verify: dashboard */}
+3. Confirm. Appo takes it from there and shows the publication state on the
+   app overview.
+
+</Tab>
+<Tab value="CLI">
+
+New app, one command — create plus publish intent, with a confirm gate:
+
+```bash
+appo ship --url https://example.com --name "My App"
+```
+
+Existing app: `appo ship <id>`. Follow progress with `appo status <id>`.
+
+</Tab>
+<Tab value="MCP">
+
+Ask your assistant to publish: it calls `publish_app` (confirm-gated) and
+reads progress with `get_app_overview`.
+
+</Tab>
+</Tabs>
+
+Whatever the surface, the publication state and the next required action are
+always visible: dashboard overview, `appo status`, or `get_app_overview`.

@@ -1,4 +1,5 @@
 import defaultMdxComponents from 'fumadocs-ui/mdx';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import {
   createGenerator,
   createFileSystemGeneratorCache,
@@ -13,6 +14,8 @@ const generator = createGenerator({
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
+    Tabs,
+    Tab,
     AutoTypeTable: (props) => (
       <AutoTypeTable {...props} generator={generator} />
     ),

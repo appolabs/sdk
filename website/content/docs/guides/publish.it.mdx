@@ -1,0 +1,41 @@
+---
+title: Pubblica sugli store
+description: Avvia la pubblicazione operata e seguila fino all'approvazione.
+---
+
+La pubblicazione è operata: Appo esegue le build, l'invio sugli store e la
+revisione Apple; tu approvi ai passaggi chiave. Un prerequisito per l'App
+Store: un account Apple Developer a tuo nome (Appo guida l'iscrizione).
+
+<Tabs items={['Dashboard', 'CLI', 'MCP']}>
+<Tab value="Dashboard">
+
+1. Apri la tua app su [apps.goappo.io](https://apps.goappo.io).
+2. Avvia il percorso di pubblicazione e scegli gli store di destinazione. {/* verify: dashboard */}
+3. Conferma. Da qui in poi ci pensa Appo, che mostra lo stato della
+   pubblicazione nella panoramica dell'app.
+
+</Tab>
+<Tab value="CLI">
+
+Nuova app, un solo comando: crea e avvia l'intent di pubblicazione, con un
+passaggio di conferma:
+
+```bash
+appo ship --url https://example.com --name "My App"
+```
+
+App esistente: `appo ship <id>`. Segui lo stato con `appo status <id>`.
+
+</Tab>
+<Tab value="MCP">
+
+Chiedi al tuo assistente di pubblicare: chiamerà `publish_app`
+(con passaggio di conferma) e leggerà lo stato con `get_app_overview`.
+
+</Tab>
+</Tabs>
+
+Qualunque sia la superficie, lo stato della pubblicazione e la prossima
+azione richiesta sono sempre visibili: anteprima nella dashboard, `appo
+status`, oppure `get_app_overview`.
