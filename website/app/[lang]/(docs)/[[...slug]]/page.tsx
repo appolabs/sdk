@@ -8,6 +8,7 @@ import {
 } from 'fumadocs-ui/page';
 import { notFound, redirect } from 'next/navigation';
 import { getMDXComponents } from '@/mdx-components';
+import { localizeHref } from '@/lib/localize-href';
 
 type Page = InferPageType<typeof source>;
 
@@ -26,13 +27,23 @@ export default async function DocsSlugPage(props: {
   if (!page) notFound();
 
   const MDX = page.data.body;
+  const base = getMDXComponents();
+  const DefaultAnchor = base.a ?? 'a';
+  const components = getMDXComponents({
+    a: ({ href, ...rest }: React.ComponentProps<'a'>) => (
+      <DefaultAnchor
+        href={localizeHref(href, params.lang) as string | undefined}
+        {...rest}
+      />
+    ),
+  });
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <MDX components={getMDXComponents()} />
+        <MDX components={components} />
       </DocsBody>
     </DocsPage>
   );
