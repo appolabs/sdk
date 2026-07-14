@@ -1,20 +1,22 @@
 ---
-title: SDK, CLI or MCP?
-description: Three surfaces, one platform — which one you need and when.
+title: Dashboard, CLI or MCP?
+description: "Same outcomes, three ways to drive them: pick the surface that fits your workflow."
 ---
 
-Appo ships three developer surfaces. They are complementary, not
-alternatives: most projects end up using the SDK inside the app and the CLI
-or MCP around it.
+Appo operates your app's publication. You drive that lifecycle from
+whichever surface fits how you work — the outcomes are the same on all
+three, and nothing locks you to the one you started on.
 
-| | SDK | CLI | MCP |
+| | Dashboard | CLI | MCP |
 | --- | --- | --- | --- |
-| Package | `@appolabs/sdk` | `@appolabs/appo` | `@appolabs/appo-mcp` |
-| What it is | JavaScript bridge inside your web app | Terminal client for the app lifecycle | The same lifecycle, driven by an AI assistant |
-| Use it to | Call native APIs (push, biometrics, camera, GPS) from your web code | Create, ship, publish and monitor apps from the terminal or CI | Let your agent create, ship and manage apps for you |
-| Install | `npm install @appolabs/sdk` | `npm install -g @appolabs/appo` | `claude mcp add appo -- npx -y @appolabs/appo-mcp` |
-| Start here | [Installation](/sdk/installation) | [CLI](/cli) | [MCP server](/mcp) |
+| What it is | The web interface | [`appo`](/cli) in your terminal | Your AI assistant, via [`@appolabs/appo-mcp`](/mcp) |
+| Fits when | You prefer a GUI | You live in the terminal or CI | You work with an agent |
+| Start | [apps.goappo.io](https://apps.goappo.io) | `npm install -g @appolabs/appo` | `claude mcp add appo -- npx -y @appolabs/appo-mcp` |
 
-A rule of thumb: the SDK lives in your app's code; the CLI and MCP live in
-your workflow. If you never open a terminal, the dashboard covers everything
-the CLI does.
+They share the same account, the same apps and the same operated path:
+create from the CLI, publish from the dashboard, send a push from your
+assistant — mix freely.
+
+Along the way you will also meet the [SDK](/sdk): the JavaScript bridge that
+gives your web code native APIs inside the app. It is not a surface you
+choose — you reach for it when you want native features.

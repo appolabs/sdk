@@ -1,20 +1,22 @@
 ---
-title: SDK, CLI o MCP?
-description: "Tre superfici, una piattaforma: quale ti serve e quando."
+title: Dashboard, CLI o MCP?
+description: "Stessi esiti, tre modi di guidarli: scegli la superficie adatta al tuo flusso."
 ---
 
-Appo offre tre superfici per gli sviluppatori. Sono complementari, non
-alternative: la maggior parte dei progetti usa l'SDK all'interno dell'app e
-la CLI o l'MCP intorno ad essa.
+Appo opera la pubblicazione della tua app. Guidi quel ciclo di vita dalla
+superficie che si adatta al tuo modo di lavorare — gli esiti sono gli stessi
+su tutte e tre, e nulla ti vincola a quella da cui hai iniziato.
 
-| | SDK | CLI | MCP |
+| | Dashboard | CLI | MCP |
 | --- | --- | --- | --- |
-| Pacchetto | `@appolabs/sdk` | `@appolabs/appo` | `@appolabs/appo-mcp` |
-| Cos'è | Bridge JavaScript all'interno della tua web app | Client da terminale per il ciclo di vita dell'app | Lo stesso ciclo di vita, guidato da un assistente AI |
-| Usalo per | Chiamare API native (push, biometria, fotocamera, GPS) dal codice web | Creare, pubblicare e monitorare app dal terminale o da CI | Lasciare che il tuo agente crei, pubblichi e gestisca app per te |
-| Installa | `npm install @appolabs/sdk` | `npm install -g @appolabs/appo` | `claude mcp add appo -- npx -y @appolabs/appo-mcp` |
-| Inizia da | [Installazione](/sdk/installation) | [CLI](/cli) | [Server MCP](/mcp) |
+| Cos'è | L'interfaccia web | [`appo`](/cli) nel tuo terminale | Il tuo assistente AI, via [`@appolabs/appo-mcp`](/mcp) |
+| Indicata quando | Preferisci una GUI | Vivi nel terminale o in CI | Lavori con un agente |
+| Inizia | [apps.goappo.io](https://apps.goappo.io) | `npm install -g @appolabs/appo` | `claude mcp add appo -- npx -y @appolabs/appo-mcp` |
 
-Una regola pratica: l'SDK vive nel codice della tua app; la CLI e l'MCP
-vivono nel tuo flusso di lavoro. Se non apri mai un terminale, la dashboard
-copre tutto quello che fa la CLI.
+Condividono lo stesso account, le stesse app e lo stesso percorso operato:
+crea dalla CLI, pubblica dalla dashboard, invia una push dal tuo
+assistente — mischia liberamente.
+
+Strada facendo incontrerai anche l'[SDK](/sdk): il bridge JavaScript che dà al tuo codice
+web API native dentro l'app. Non è una superficie da scegliere: lo usi
+quando vuoi funzionalità native.
