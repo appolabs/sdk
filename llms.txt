@@ -52,7 +52,7 @@ Appo wraps an already-hosted web app in a native iOS/Android React Native WebVie
 
 ## Documentation
 
-- [Dashboard, CLI or MCP?](https://goappo.io/docs/getting-started/which-tool) — Three surfaces, one platform: which one you need and when
+- [Dashboard, CLI or MCP?](https://goappo.io/docs/getting-started/which-tool) — Same outcomes, three ways to drive them: pick the surface that fits your workflow
 - [Installation](https://goappo.io/docs/sdk/installation) — Install @appolabs/sdk and configure for your app
 - [From URL to the stores](https://goappo.io/docs/getting-started/journey) — The publishing journey: create, preview, publish, update, and reach app stores
 - [Create an app](https://goappo.io/docs/guides/create-app) — Start an Appo project from a URL or existing website
