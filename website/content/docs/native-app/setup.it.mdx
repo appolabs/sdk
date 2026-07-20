@@ -1,6 +1,6 @@
 ---
 title: Creare la Tua App
-description: Crea un'app nativa dal tuo sito web usando la dashboard Appo o un plugin di piattaforma.
+description: Crea un'app nativa dal tuo sito web usando la CLI, MCP, la dashboard Appo o un plugin di piattaforma.
 ---
 
 ## Creare la Tua App
@@ -24,6 +24,18 @@ Appo crea la tua app nativa a partire dall'URL del tuo sito web. Tu fornisci l'U
 3. Appo genera il nome e l'icona dell'app dal tuo sito web.
 
 Dopo la creazione, lo stato della tua app è **In attesa** mentre Appo prepara la build nativa. Una volta pronta, puoi visualizzarla in anteprima sul tuo dispositivo e pubblicarla sugli store.
+
+### Dalla CLI
+
+```bash
+appo new --url https://example.com
+```
+
+`appo new` crea l'app dal tuo URL — nome e icona sono generati automaticamente. La prima volta, esegui `appo init` per autenticarti. Vedi la [guida CLI](/cli).
+
+### Da MCP
+
+Chiedi al tuo assistente AI di creare l'app: invoca `create_app` con `name` e `base_url`, poi `set_icon` per allegare l'icona. Vedi la [guida MCP](/mcp).
 
 ### Da un Plugin
 
