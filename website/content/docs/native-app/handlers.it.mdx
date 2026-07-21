@@ -47,11 +47,11 @@ Ogni gestore mappa i metodi dell'SDK alla loro implementazione nel pacchetto Exp
 
 Quando la WebView riceve un messaggio dall'SDK:
 
-1. **Parsing** -- La stringa grezza del messaggio viene analizzata come JSON.
-2. **Validazione** -- Il messaggio deve contenere i campi `id` (stringa) e `type` (stringa). I messaggi con un campo `event` sono trattati come eventi legacy e ignorati dal dispatcher.
-3. **Instradamento** -- Il campo `type` (es. `"push.requestPermission"`) viene diviso nel nome del gestore (`"push"`) e nell'azione (`"requestPermission"`).
-4. **Esecuzione** -- La funzione del gestore viene invocata con il nome dell'azione e l'eventuale payload.
-5. **Risposta** -- Il risultato viene inviato alla WebView come risposta JSON.
+1. **Parsing** — La stringa grezza del messaggio viene analizzata come JSON.
+2. **Validazione** — Il messaggio deve contenere i campi `id` (stringa) e `type` (stringa). I messaggi con un campo `event` sono trattati come eventi legacy e ignorati dal dispatcher.
+3. **Instradamento** — Il campo `type` (es. `"push.requestPermission"`) viene diviso nel nome del gestore (`"push"`) e nell'azione (`"requestPermission"`).
+4. **Esecuzione** — La funzione del gestore viene invocata con il nome dell'azione e l'eventuale payload.
+5. **Risposta** — Il risultato viene inviato alla WebView come risposta JSON.
 
 ## Formato della Risposta
 

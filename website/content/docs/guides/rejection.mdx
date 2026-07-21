@@ -4,7 +4,7 @@ description: Move from an App Store rejection back to review.
 ---
 
 When Apple rejects a build, Appo curates the reviewer feedback into a
-required action and a fix recipe. You act on the recipe; Appo handles
+required action and a fix recipe. You apply the recipe, and Appo handles the
 resubmission.
 
 <Tabs items={['Dashboard', 'CLI', 'MCP']}>
@@ -40,7 +40,7 @@ required action), then `get_fix_recipe` (remediation steps), and finally
 </Tab>
 </Tabs>
 
-Appo curates the reviewer text into a required action — you never parse raw
-review messages.
+Appo curates the reviewer text into a required action; parsing the raw
+review messages is not required.
 
 Resubmission requires an Apple Developer credential owned by you, whatever the surface.

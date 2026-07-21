@@ -1,22 +1,22 @@
 ---
 title: Dashboard, CLI or MCP?
-description: "Same outcomes, three ways to drive them: pick the surface that fits your workflow."
+description: "The dashboard, the CLI, and the MCP server produce the same outcomes; choose the surface that fits your workflow."
 ---
 
 Appo operates your app's publication. You drive that lifecycle from
-whichever surface fits how you work — the outcomes are the same on all
-three, and nothing locks you to the one you started on.
+whichever surface fits how you work; the outcomes are the same on all
+three, and you can switch surfaces at any time.
 
 | | Dashboard | CLI | MCP |
 | --- | --- | --- | --- |
 | What it is | The web interface | [`appo`](/cli) in your terminal | Your AI assistant, via [`@appolabs/appo-mcp`](/mcp) |
-| Fits when | You prefer a GUI | You live in the terminal or CI | You work with an agent |
+| Fits when | You prefer a GUI | You work in the terminal or CI | You work with an agent |
 | Start | [apps.goappo.io](https://apps.goappo.io) | `npm install -g @appolabs/appo` | `claude mcp add appo -- npx -y @appolabs/appo-mcp` |
 
 They share the same account, the same apps and the same operated path:
-create from the CLI, publish from the dashboard, send a push from your
-assistant — mix freely.
+you can create an app from the CLI, publish it from the dashboard, and
+send a push from your assistant.
 
-Along the way you will also meet the [SDK](/sdk): the JavaScript bridge that
-gives your web code native APIs inside the app. It is not a surface you
-choose — you reach for it when you want native features.
+The [SDK](/sdk) is a separate component: the JavaScript bridge that
+gives your web code native APIs inside the app. It is not one of these
+surfaces; it is added when you need native features.

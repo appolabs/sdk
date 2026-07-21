@@ -1,35 +1,37 @@
 ---
 title: From URL to the stores
-description: "The core path: create, preview, publish, keep it updated."
+description: "The core path: create, preview, publish, update."
 ---
 
-Four steps, each with its own guide. Every step works from the dashboard,
-the CLI or the MCP server.
+The path has four steps, each with its own guide. Every step works from
+the dashboard, the CLI, or the MCP server.
 
 ## 1. Create the app
 
-Give Appo your site's URL, a name and an icon. That is the whole input:
-your site is the app.
+The input is the site's URL, a name, and an icon; nothing else is
+required. The app loads the site as it is.
 [Create your app →](/guides/create-app)
 
-## 2. Preview it on your phone
+## 2. Preview it on a phone
 
-Within 48 hours you get an installable preview: TestFlight on iOS, a deep
-link on Android, a QR to reach both. Create from the CLI or MCP and it's
-ready in minutes — those apps are self-managed, with no Appo preparation step.
+Dashboard-created apps receive an installable preview within 48 hours:
+TestFlight on iOS, a deep link on Android, a QR code that reaches both.
+Apps created from the CLI or the MCP server are self-managed, skip the
+Appo preparation step, and are ready in minutes.
 [See the preview →](/guides/preview)
 
 ## 3. Publish
 
-Appo starts the operated publication to the stores you choose: builds,
-submission, Apple review. You approve at the gates.
+Appo runs the operated publication to the selected stores: builds,
+submission, Apple review. Each gate requires the owner's approval.
 [Publish to the stores →](/guides/publish)
 
 ## 4. Keep it updated
 
-Deploy your site and the app follows: every deploy is already in the app.
-Name, icon or splash changes get a new operated build.
+Web deploys reach the app without any store action, because the app
+loads the site. Changes to the name, icon, or splash screen require a
+new operated build.
 [Update the app →](/guides/update)
 
-Something went wrong in review? Appo curates the rejection into a required
+If a store review fails, Appo converts the rejection into a required
 action and a fix recipe: [recover from a rejection](/guides/rejection).

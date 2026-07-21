@@ -3,9 +3,9 @@ title: Trasmissione Eventi
 description: Come l'app nativa trasmette eventi alla tua applicazione web.
 ---
 
-## Cos'e la Trasmissione Eventi?
+## Cos'è la Trasmissione Eventi?
 
-La trasmissione eventi e il meccanismo con cui l'app nativa invia eventi al layer web senza una richiesta preventiva dall'SDK. A differenza del pattern richiesta/risposta (dove la web app inizia la comunicazione), le trasmissioni sono iniziate dal nativo -- attivate da eventi di sistema come notifiche push in arrivo o cambiamenti di rete.
+La trasmissione eventi è il meccanismo con cui l'app nativa invia eventi al layer web senza una richiesta preventiva dall'SDK. A differenza del pattern richiesta/risposta (dove la web app inizia la comunicazione), le trasmissioni sono iniziate dal nativo, attivate da eventi di sistema come notifiche push in arrivo o cambiamenti di rete.
 
 ## Formato degli Eventi
 
@@ -28,7 +28,7 @@ L'SDK distingue i broadcast dalle risposte verificando la presenza del campo `ev
 
 ### `push.message`
 
-Emesso quando una notifica push viene ricevuta mentre l'app e in primo piano.
+Emesso quando una notifica push viene ricevuta mentre l'app è in primo piano.
 
 **Struttura dati:** `PushMessage`
 
@@ -85,7 +85,7 @@ const unsubscribe = appo.push.onResponse((response) => {
 
 ### `network.change`
 
-Emesso quando lo stato di connettivita di rete del dispositivo cambia (es. passaggio da Wi-Fi a cellulare, disconnessione).
+Emesso quando lo stato di connettività di rete del dispositivo cambia (es. passaggio da Wi-Fi a cellulare, disconnessione).
 
 **Struttura dati:** `NetworkStatus`
 
@@ -111,14 +111,14 @@ const unsubscribe = appo.network.onChange((status) => {
 
 ## Gestione Avvio Freddo
 
-Quando un utente tocca una notifica mentre l'app e terminata, la sequenza e la seguente:
+Quando un utente tocca una notifica mentre l'app è terminata, la sequenza è la seguente:
 
 1. Il sistema operativo avvia l'app.
 2. La WebView carica la tua applicazione web.
-3. Una volta che la web app e pronta, il layer nativo consegna l'evento `push.response` in sospeso.
+3. Una volta che la web app è pronta, il layer nativo consegna l'evento `push.response` in sospeso.
 4. L'SDK distribuisce l'evento ai listener `onResponse` registrati.
 
-Per gestire le notifiche da avvio freddo, registra il listener `push.onResponse` nelle fasi iniziali dell'inizializzazione della tua applicazione -- prima di qualsiasi operazione asincrona che potrebbe ritardare la registrazione del listener.
+Per gestire le notifiche da avvio freddo, registra il listener `push.onResponse` nelle fasi iniziali dell'inizializzazione della tua applicazione, prima di qualsiasi operazione asincrona che potrebbe ritardare la registrazione del listener.
 
 ```typescript
 import { getAppo } from '@appolabs/sdk';
@@ -144,10 +144,10 @@ Tutte le sottoscrizioni agli eventi seguono lo stesso pattern:
 // Sottoscrivi
 const unsubscribe = appo.push.onMessage(handleNotification);
 
-// Annulla sottoscrizione quando non piu necessario (es. smontaggio componente)
+// Annulla sottoscrizione quando non più necessario (es. smontaggio componente)
 unsubscribe();
 ```
 
-I listener degli eventi sono gestiti dal layer bridge dell'SDK tramite `addEventListener`. Piu listener possono essere registrati per lo stesso canale di eventi -- ciascuno riceve la propria copia dei dati dell'evento.
+I listener degli eventi sono gestiti dal layer bridge dell'SDK tramite `addEventListener`. Più listener possono essere registrati per lo stesso canale di eventi; ciascuno riceve la propria copia dei dati dell'evento.
 
 Per il protocollo completo degli eventi, vedi [Architettura](/sdk/architecture).

@@ -3,7 +3,7 @@ title: appo ship
 description: Il ciclo di vita in un solo comando, dall'URL agli store.
 ---
 
-`appo ship` è il comando unico che porta un'app sugli store. Dato un URL e un
+`appo ship` porta un'app sugli store con un solo comando. Dato un URL e un
 nome, crea l'app e segnala l'intenzione di pubblicazione: Appo avvia la build
 lato server, la invia in revisione e gestisce la pubblicazione operata.
 
@@ -15,8 +15,8 @@ appo ship --url https://example.com --name "My App"
 
 1. L'app viene creata (equivalente a `appo apps create`).
 2. La CLI si ferma a un gate di conferma e mostra cosa verrà pubblicato.
-3. Alla conferma, Appo prende il controllo: build, invio agli store, revisione
-   Apple, aggiornamenti. Tu approvi; Appo esegue.
+3. Alla conferma, Appo esegue la pubblicazione: build, invio agli store,
+   revisione Apple, aggiornamenti.
 
 Passa `--yes` per saltare il gate di conferma (pipeline CI) e `--stores <list>`
 per limitare gli store di destinazione.
