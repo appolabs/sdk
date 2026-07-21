@@ -44,7 +44,7 @@ unsubscribe();
 
 ### Subscribe to Notification Taps
 
-Fires when the user taps a notification (warm, hot, or cold start). Listens on the `push.response` event channel.
+Fires when the user taps a notification, on both warm start (app in background) and cold start (app terminated). Listens on the `push.response` event channel.
 
 ```typescript
 const unsubscribe = appo.push.onResponse((response) => {

@@ -93,7 +93,7 @@ Native event fires
 | Channel | Trigger | Data Shape |
 |---------|---------|------------|
 | `push.message` | Push notification received while app is foregrounded | `PushMessage` |
-| `push.response` | User taps a notification (warm/hot or cold start) | `PushResponse` |
+| `push.response` | User taps a notification (warm start, app in background; or cold start, app terminated) | `PushResponse` |
 | `network.change` | Network connectivity state changes | `NetworkStatus` |
 
 ## Message Correlation

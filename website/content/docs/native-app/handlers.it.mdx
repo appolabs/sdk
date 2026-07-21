@@ -76,37 +76,3 @@ Quando la WebView riceve un messaggio dall'SDK:
 ```
 
 La risposta viene consegnata alla WebView tramite `injectJavaScript`, che invoca `window.postMessage` lato web. L'SDK associa l'`id` della risposta alla richiesta in sospeso originale e risolve o rifiuta la Promise di conseguenza.
-
-## Aggiungere Gestori Personalizzati
-
-Per estendere l'app nativa con funzionalità native aggiuntive:
-
-**1. Crea la funzione gestore:**
-
-```typescript
-async function handleMyFeature(
-  action: string,
-  payload: Record<string, unknown>
-): Promise<unknown> {
-  switch (action) {
-    case 'doSomething':
-      // Chiama API nativa
-      const result = await NativeModule.doSomething(payload.param);
-      return result;
-    default:
-      throw new Error(`Unknown action: myfeature.${action}`);
-  }
-}
-```
-
-**2. Registra il gestore nel dispatcher:**
-
-Aggiungi il gestore alla mappa di dispatch in modo che i messaggi con tipo `"myfeature.*"` vengano instradati alla tua funzione.
-
-**3. Aggiungi la funzionalità SDK corrispondente:**
-
-Crea un modulo funzionalità corrispondente nell'SDK in modo che `appo.myfeature.doSomething()` invii il tipo di messaggio corretto. Vedi l'[architettura dell'SDK](/sdk/architecture) per il protocollo dei messaggi.
-
-**4. Dichiara i permessi:**
-
-Se l'API nativa richiede permessi della piattaforma, aggiungili a `app.json` come descritto in [Configurazione](/native-app/configuration).

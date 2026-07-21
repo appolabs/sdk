@@ -44,7 +44,7 @@ unsubscribe();
 
 ### Sottoscriversi ai Tap sulle Notifiche
 
-Si attiva quando l'utente tocca una notifica (avvio a caldo, tiepido o a freddo). Ascolta sul canale evento `push.response`.
+Si attiva quando l'utente tocca una notifica, sia per l'avvio caldo (app in background) che per l'avvio freddo (app terminata). Ascolta sul canale evento `push.response`.
 
 ```typescript
 const unsubscribe = appo.push.onResponse((response) => {

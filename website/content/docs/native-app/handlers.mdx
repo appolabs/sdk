@@ -76,37 +76,3 @@ When the WebView receives a message from the SDK:
 ```
 
 The response is delivered to the WebView via `injectJavaScript`, which calls `window.postMessage` on the web side. The SDK matches the response `id` to the original pending request and resolves or rejects the Promise accordingly.
-
-## Adding Custom Handlers
-
-To extend the native app with additional native features:
-
-**1. Create the handler function:**
-
-```typescript
-async function handleMyFeature(
-  action: string,
-  payload: Record<string, unknown>
-): Promise<unknown> {
-  switch (action) {
-    case 'doSomething':
-      // Call native API
-      const result = await NativeModule.doSomething(payload.param);
-      return result;
-    default:
-      throw new Error(`Unknown action: myfeature.${action}`);
-  }
-}
-```
-
-**2. Register the handler in the dispatcher:**
-
-Add the handler to the dispatch map so messages with type `"myfeature.*"` route to your function.
-
-**3. Add the corresponding SDK feature:**
-
-Create a matching feature module in the SDK so `appo.myfeature.doSomething()` sends the correct message type. See the [SDK architecture](/sdk/architecture) for the message protocol.
-
-**4. Declare permissions:**
-
-If the native API requires platform permissions, add them to `app.json` as described in [Configuration](/native-app/configuration).
