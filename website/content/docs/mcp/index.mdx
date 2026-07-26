@@ -13,10 +13,22 @@ surfaces always target the same environment and share one vocabulary.
 
 ## Install
 
-Claude Code:
+The `appo` CLI installs it for you, detecting Claude Code and Codex on your PATH:
+
+```bash
+npx @appolabs/appo mcp
+```
+
+Or add it per client. Claude Code:
 
 ```bash
 claude mcp add appo -- npx -y @appolabs/appo-mcp
+```
+
+Codex:
+
+```bash
+codex mcp add appo -- npx -y @appolabs/appo-mcp
 ```
 
 Cursor, Claude Desktop, or any client reading a JSON config:
