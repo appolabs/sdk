@@ -10,6 +10,7 @@ import { notFound, redirect } from 'next/navigation';
 import type { ComponentProps, ElementType } from 'react';
 import { getMDXComponents } from '@/mdx-components';
 import { localizeHref } from '@/lib/localize-href';
+import { languageAlternates, pageUrl, techArticleSchema } from '@/lib/seo';
 
 type Page = InferPageType<typeof source>;
 
@@ -39,8 +40,19 @@ export default async function DocsSlugPage(props: {
     ),
   });
 
+  const schema = techArticleSchema({
+    lang: params.lang,
+    slugs: page.slugs,
+    title: page.data.title,
+    description: page.data.description,
+  });
+
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
+      />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
@@ -69,5 +81,9 @@ export async function generateMetadata(props: {
   return {
     title: page.data.title,
     description: page.data.description,
+    alternates: {
+      canonical: pageUrl(params.lang, page.slugs),
+      languages: languageAlternates(page.slugs),
+    },
   };
 }
