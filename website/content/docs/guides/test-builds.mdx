@@ -31,8 +31,9 @@ appo devices register
 </Tab>
 <Tab value="MCP">
 
-Ask your assistant to trigger a test build: it calls `request_test_build`,
-then polls `get_build_status` until the status is `ready` or `failed`.
+Ask your assistant to trigger a test build: it calls `request_testflight_build`,
+then reads the status with `get_app_overview`, which reports when a new read is
+worth making.
 
 </Tab>
 </Tabs>

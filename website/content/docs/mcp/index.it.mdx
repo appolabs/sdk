@@ -1,65 +1,94 @@
 ---
-title: Server MCP
-description: Gestisci il ciclo di vita delle app Appo dal tuo assistente AI con @appolabs/appo-mcp.
+title: Connettore MCP
+description: Crea, prova e pubblica un'app dal tuo assistente AI tramite il connettore remoto Appo all'indirizzo https://apps.goappo.io/mcp.
 ---
 
-`@appolabs/appo-mcp` è un server MCP (Model Context Protocol) locale che
-offre a un agente AI gli stessi risultati sul ciclo di vita delle app della
-CLI `appo`: creazione, configurazione, anteprima, pubblicazione operata, push,
-gestione dei rifiuti, build di test e ri-sottomissione.
+Appo mette a disposizione un connettore MCP (Model Context Protocol) remoto
+all'indirizzo `https://apps.goappo.io/mcp`. Un assistente AI collegato al
+connettore può creare un'app a partire da un sito web, farla provare su un
+telefono e pubblicarla su App Store e Google Play. Non si installa nulla in
+locale e non occorre gestire manualmente alcun token.
 
-Non include un client API proprio: ogni chiamata riutilizza il core della CLI,
-quindi entrambe le superfici puntano sempre allo stesso ambiente e condividono
-un unico vocabolario.
+## Collegamento
 
-## Installazione
-
-La CLI `appo` lo installa per te, rilevando Claude Code e Codex nel tuo PATH:
+Lo strumento a riga di comando `appo` registra il connettore su ogni agente
+supportato presente nel PATH (Claude Code e Codex):
 
 ```bash
 npx @appolabs/appo mcp
 ```
 
-Oppure aggiungilo per singolo client. Claude Code:
+Per ciascun agente registrato aggiunge inoltre una breve sezione, delimitata da
+`<!-- appo-start -->` e `<!-- appo-end -->`, nel file di istruzioni a livello
+utente dell'agente (`~/.claude/CLAUDE.md` per Claude Code, `~/.codex/AGENTS.md`
+per Codex). La sezione indica all'agente che un'app di questo tipo risiede in
+Appo, così che una richiesta come "qual è lo stato della mia app" non venga
+interpretata come una domanda sulla directory di lavoro. La sezione può essere
+modificata o rimossa liberamente.
+
+Per aggiungere il connettore manualmente, si usa l'indirizzo
+`https://apps.goappo.io/mcp` nel client prescelto.
+
+Claude Code:
 
 ```bash
-claude mcp add appo -- npx -y @appolabs/appo-mcp
+claude mcp add --transport http --scope user appo https://apps.goappo.io/mcp
 ```
 
-Codex:
+Codex CLI:
 
 ```bash
-codex mcp add appo -- npx -y @appolabs/appo-mcp
+codex mcp add appo --url https://apps.goappo.io/mcp
 ```
 
-Cursor, Claude Desktop o qualsiasi client che legge una configurazione JSON:
+Claude sul web e Claude Desktop: aprire **Customize**, poi **Connectors**,
+scegliere **Add custom connector**, inserire l'indirizzo e selezionare **Sign in
+now**. Se la finestra propone la scelta della modalità del client OAuth,
+selezionare **Register automatically**.
+
+Gli altri client che accettano un server MCP remoto tramite URL, come ChatGPT,
+Cursor, Windsurf e VS Code, utilizzano lo stesso indirizzo. Per un client che
+legge una configurazione JSON:
 
 ```json
-{
-  "mcpServers": {
-    "appo": {
-      "command": "npx",
-      "args": ["-y", "@appolabs/appo-mcp"]
-    }
-  }
-}
+{ "mcpServers": { "appo": { "url": "https://apps.goappo.io/mcp" } } }
 ```
 
-## Autenticazione
+Le opzioni dei client cambiano da una versione all'altra; per i parametri e le
+etichette esatti fa fede l'output della guida del client o la sua finestra di
+configurazione dei connettori.
 
-Il server non richiede credenziali in modo interattivo. Le risolve esattamente
-come fa la CLI:
+## Accesso
 
-1. `appo login` una volta con la CLI: il token viene salvato nel profilo e il
-   server lo legge da lì.
-2. Variabile d'ambiente `APPO_TOKEN`: fornisce un PAT direttamente (CI,
-   ambienti non interattivi); ha precedenza sul token del profilo.
-3. L'URL base e il profilo seguono `APPO_API_BASE` e `APPO_ENV`, come nella CLI.
+Al primo utilizzo si apre l'accesso ad Appo, seguito da una schermata di
+consenso che indica il client e l'unico permesso richiesto. L'accesso avviene
+con Google oppure con email e password e può essere revocato dal client.
 
-Senza un token, i tool del ciclo di vita restituiscono un errore strutturato
-`not_authenticated` che indica all'operatore di eseguire `appo login`; non
-vanno in crash.
+## Cosa si può fare
+
+- Creare l'app a partire dall'indirizzo del suo sito web.
+- Adattare il sito web all'app. Se ne occupa lo sviluppatore del sito oppure il
+  team di Appo, in genere entro 24-48 ore.
+- Provare l'app tramite un unico link di anteprima che funziona su qualsiasi
+  telefono: lo si apre sul telefono oppure se ne inquadra il codice QR da un
+  computer.
+- Pubblicare sugli store. La pubblicazione richiede un abbonamento attivo per
+  l'app e una conferma esplicita.
+- Seguire la revisione degli store e gestire un eventuale rifiuto.
+- Inviare notifiche push.
+- Modificare icona, permessi e aspetto dell'app.
+
+## Cosa non fa
+
+La gestione dei pagamenti e dell'abbonamento resta nella dashboard di Appo, a
+cui il connettore rimanda tramite un link.
+
+## Privacy, termini e assistenza
+
+- [Informativa sulla privacy](https://apps.goappo.io/legal/privacy-policy)
+- [Termini di servizio](https://apps.goappo.io/legal/terms)
+- [Contatti](https://goappo.io/contatti)
 
 ## Prossimi passi
 
-- [Riferimento tool](/mcp/tools) — ogni tool, il suo risultato e il suo gate.
+- [Riferimento strumenti](/mcp/tools): ogni strumento, il suo risultato e il suo gate.

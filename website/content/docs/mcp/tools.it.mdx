@@ -1,56 +1,34 @@
 ---
-title: Riferimento tool
-description: Tutti i tool esposti da @appolabs/appo-mcp, con risultati e gate di conferma.
+title: Riferimento strumenti
+description: I 15 strumenti del connettore Appo all'indirizzo https://apps.goappo.io/mcp, con risultati e gate di conferma.
 ---
 
-I nomi dei tool rispecchiano il vocabolario canonico del server `/mcp`, quindi
-un agente vede un unico vocabolario su entrambe le superfici MCP.
+Il connettore all'indirizzo `https://apps.goappo.io/mcp` espone 15 strumenti.
+`get_app_overview` è la lettura da cui partire: riporta lo stato dell'app e
+l'unica azione successiva. Non esiste uno strumento separato per elencare le
+app.
 
-## Ciclo di vita dell'app
-
-Riutilizzano il core della CLI; i nomi corrispondono all'inventario canonico `/mcp`.
-
-| Tool | Risultato | Gate |
+| Strumento | Risultato | Gate |
 | --- | --- | --- |
-| `create_app` | Crea un'app (`name`, `base_url`) | — |
-| `configure_app` | Imposta i campi di contenuto (`name`, `base_url`); solo contenuto, rispecchia `apps update` della CLI | — |
-| `set_icon` | Imposta l'icona dell'app da un `icon_url` https | — |
-| `list_apps` | Elenca le app del principale autenticato | — |
-| `get_app_overview` | Configurazione dell'app, stato di pubblicazione operata e metadati in una sola lettura; default su singola app quando `app_id` è omesso. Punto di partenza consigliato | — |
-| `preview_app` | Payload di anteprima sul dispositivo (URL TestFlight iOS, deeplink Android, destinazione QR, disponibilità per piattaforma) | — |
-| `get_build_status` | Interroga una build per id finché non raggiunge lo stato `ready` o `failed` | — |
-| `request_test_build` | Avvia una build di test per un'app self-managed (mai la build di pubblicazione operata interna) | — |
-| `get_rejection` | Azione richiesta per un'app rifiutata, curata (mai il testo grezzo del revisore) | — |
-| `get_fix_recipe` | Soluzioni di remediation senza modifiche al codice per il rifiuto corrente | — |
-| `publish_app` | Avvia la pubblicazione operata negli store selezionati | confirm |
-| `unpublish_app` | Rimuove un'app dagli store selezionati | confirm |
-| `send_push` | Invia una notifica push ai dispositivi dell'app | confirm |
-| `trigger_resubmission` | Ri-sottomette un'app rifiutata per revisione (richiede una credenziale Apple di proprietà del cliente) | confirm |
+| `get_app_overview` | Legge la configurazione dell'app, il suo stato di pubblicazione e l'azione successiva | — |
+| `create_app` | Crea un'app a partire dall'indirizzo del suo sito web | — |
+| `configure_app` | Aggiorna nome e indirizzo del sito e stabilisce chi adatta il sito all'app | — |
+| `preview_app` | Indica se l'app si può provare ora su un telefono e restituisce l'unico link di anteprima | — |
+| `set_icon` | Imposta l'icona dell'app a partire dall'indirizzo di un'immagine | — |
+| `set_permissions` | Imposta i permessi nativi dell'app (tracciamento, fotocamera, microfono, NFC) | — |
+| `customize_appearance` | Applica modifiche CSS e JavaScript all'aspetto del sito dentro l'app | confirm |
+| `suggest_customizations` | Ispeziona il sito e propone modifiche per `customize_appearance`; non cambia nulla | — |
+| `request_testflight_build` | Richiede una build TestFlight per provare l'app su un dispositivo reale prima della pubblicazione | confirm |
+| `publish_app` | Avvia la pubblicazione sugli store selezionati | confirm |
+| `get_rejection` | Restituisce lo stato di pubblicazione e l'azione richiesta per un'app rifiutata, senza il testo originale del revisore | — |
+| `get_fix_recipe` | Descrive i passaggi che risolvono il rifiuto in corso | — |
+| `trigger_resubmission` | Sottopone di nuovo l'app alla revisione dello store dopo un rifiuto; richiede una credenziale Apple intestata al cliente | confirm |
+| `send_push` | Invia una notifica push agli utenti dell'app | confirm |
+| `remove_app` | Rimuove un'app non pubblicata | confirm |
 
-Non esiste intenzionalmente un tool `ship` né un trigger di build di
-pubblicazione. Gli agenti concatenano `create_app` poi `publish_app` (e
-`trigger_resubmission` per i cicli di rifiuto). La build di pubblicazione
-operata è interna (Nova Release); solo la build di test è self-serve.
+## Gate di conferma
 
-## Tool di sviluppo locale
-
-Operano sul progetto locale; nessun equivalente nella CLI o nel server MCP remoto.
-
-| Tool | Descrizione |
-| --- | --- |
-| `generate_hook` | Genera un hook React per una funzionalità dell'SDK |
-| `generate_component` | Genera un componente UI con integrazione SDK |
-| `scaffold_feature` | Crea lo scheletro di una funzionalità (hook + componente + tipi) |
-| `validate_setup` | Verifica l'installazione e la configurazione dell'SDK |
-| `check_permissions` | Analizza i pattern di gestione dei permessi |
-| `diagnose_issue` | Diagnostica i problemi comuni di integrazione dell'SDK |
-| `generate_universal_links` | Genera `apple-app-site-association` e `assetlinks.json` con istruzioni di hosting |
-
-## Semantica del gate di conferma
-
-I tool distruttivi (`publish_app`, `unpublish_app`, `send_push`,
-`trigger_resubmission`) accettano un parametro opzionale `confirm: boolean`.
-Senza `confirm: true` non eseguono alcuna scrittura e restituiscono un
-envelope di anteprima (`{ error: "confirm_required", will, ..., next_actions }`)
-che descrive cosa accadrebbe. Questo rispecchia la semantica del flag
-`--confirm` della CLI all'interno dell'idioma MCP.
+Gli strumenti contrassegnati `confirm` accettano l'argomento `confirm`. Senza
+`confirm: true` non apportano alcuna modifica e rispondono con la descrizione di
+ciò che accadrebbe; l'azione viene eseguita quando la chiamata è ripetuta con
+`confirm: true`.

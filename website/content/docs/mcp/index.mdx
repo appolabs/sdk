@@ -1,63 +1,91 @@
 ---
-title: MCP server
-description: Drive the Appo app lifecycle from your AI assistant with @appolabs/appo-mcp.
+title: MCP connector
+description: Create, try and publish an app from your AI assistant through the remote Appo connector at https://apps.goappo.io/mcp.
 ---
 
-`@appolabs/appo-mcp` is a local MCP (Model Context Protocol) server that gives
-an AI agent the same app lifecycle outcomes as the `appo` CLI: create,
-configure, preview, publish, push, rejection recovery, test builds and
-resubmission.
+Appo offers a remote MCP (Model Context Protocol) connector at
+`https://apps.goappo.io/mcp`. An AI assistant connected to it can create an app
+from a website, let you try it on a phone, and publish it to the App Store and
+Google Play. Nothing is installed locally and no token is managed by hand.
 
-It carries no API client of its own: every call reuses the CLI core, so both
-surfaces always target the same environment and share one vocabulary.
+## Connect
 
-## Install
-
-The `appo` CLI installs it for you, detecting Claude Code and Codex on your PATH:
+The `appo` command-line tool registers the connector on every supported agent
+it finds on the PATH (Claude Code and Codex):
 
 ```bash
 npx @appolabs/appo mcp
 ```
 
-Or add it per client. Claude Code:
+For each agent it registers, it also adds a short section, delimited by
+`<!-- appo-start -->` and `<!-- appo-end -->`, to that agent's user-level
+instructions file (`~/.claude/CLAUDE.md` for Claude Code, `~/.codex/AGENTS.md`
+for Codex). The section tells the agent that an app of this kind lives in Appo,
+so that a request such as "what is the status of my app" is not read as a
+question about the working directory. The section can be edited or removed
+freely.
+
+To add the connector by hand, use the address `https://apps.goappo.io/mcp` in
+the client of your choice.
+
+Claude Code:
 
 ```bash
-claude mcp add appo -- npx -y @appolabs/appo-mcp
+claude mcp add --transport http --scope user appo https://apps.goappo.io/mcp
 ```
 
-Codex:
+Codex CLI:
 
 ```bash
-codex mcp add appo -- npx -y @appolabs/appo-mcp
+codex mcp add appo --url https://apps.goappo.io/mcp
 ```
 
-Cursor, Claude Desktop, or any client reading a JSON config:
+Claude on the web and Claude Desktop: open **Customize**, then **Connectors**,
+choose **Add custom connector**, enter the address and select **Sign in now**.
+When the dialog offers a choice of OAuth client mode, select **Register
+automatically**.
+
+Other clients that accept a remote MCP server by URL, such as ChatGPT, Cursor,
+Windsurf and VS Code, take the same address. For a client that reads a JSON
+configuration:
 
 ```json
-{
-  "mcpServers": {
-    "appo": {
-      "command": "npx",
-      "args": ["-y", "@appolabs/appo-mcp"]
-    }
-  }
-}
+{ "mcpServers": { "appo": { "url": "https://apps.goappo.io/mcp" } } }
 ```
 
-## Authentication
+Client options change between releases; the client's own help output or
+connector dialog is authoritative for the exact flags and labels.
 
-The server never prompts for credentials. It resolves them exactly as the CLI
-does:
+## Sign in
 
-1. `appo login` once with the CLI: the token is stored in your profile and the
-   server reads it from there.
-2. `APPO_TOKEN` env var: supply a PAT directly (CI, non-interactive); it takes
-   precedence over the profile token.
-3. Base URL and profile follow `APPO_API_BASE` and `APPO_ENV`, like the CLI.
+The first use opens Appo's sign-in, followed by a consent screen that names the
+client and the single permission requested. Sign-in is by Google or by email and
+password. Access can be revoked from the client.
 
-Without a token, lifecycle tools return a structured `not_authenticated`
-error telling the operator to run `appo login`; they do not crash.
+## What you can do
+
+- Create the app from the address of its website.
+- Adapt the website to the app. This is done by the site's developer, or by
+  Appo's team, typically within 24 to 48 hours.
+- Try the app through one preview link that works on every phone: it is opened
+  on the phone, or scanned as a QR code from a computer.
+- Publish to the stores. Publication requires an active subscription for the
+  app and an explicit confirmation.
+- Follow store review and handle a rejection.
+- Send push notifications.
+- Adjust the icon, the permissions and the appearance of the app.
+
+## What it does not do
+
+Payment and subscription management stay in the Appo dashboard, which the
+connector points to with a link.
+
+## Privacy, terms and support
+
+- [Privacy policy](https://apps.goappo.io/legal/privacy-policy)
+- [Terms of service](https://apps.goappo.io/legal/terms)
+- [Contact](https://goappo.io/en/contact)
 
 ## Next
 
-- [Tool reference](/mcp/tools) — every tool, its outcome and its gate.
+- [Tool reference](/mcp/tools): every tool, its outcome and its gate.
