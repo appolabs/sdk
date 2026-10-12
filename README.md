@@ -4,8 +4,8 @@ JavaScript bridge SDK for accessing native device features from web apps running
 
 > Looking for the terminal or agent tooling? The app lifecycle lives in
 > [`@appolabs/appo`](https://www.npmjs.com/package/@appolabs/appo) (CLI) and
-> [`@appolabs/appo-mcp`](https://www.npmjs.com/package/@appolabs/appo-mcp)
-> (MCP server). Docs: <https://goappo.io/docs>.
+> in the remote MCP connector, `https://apps.goappo.io/mcp`, which
+> `npx @appolabs/appo mcp` registers. Docs: <https://goappo.io/docs>.
 
 ## Installation
 

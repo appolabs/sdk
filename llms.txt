@@ -9,12 +9,12 @@ The SDK provides a unified API for accessing native device capabilities (push no
 Appo wraps an already-hosted web app in a native iOS/Android React Native WebView; this SDK is the runtime bridge. Related resources:
 
 - **Detect the wrapper:** `getAppo().isNative`, or `typeof window.ReactNativeWebView !== 'undefined'` — never `navigator.standalone` / `display-mode: standalone` (PWA signals, false inside the RN WebView).
-- **CLI** `@appolabs/appo` — create / manage / publish apps from a terminal or agent (parity with the dashboard).
-- **MCP** `@appolabs/appo-mcp` — agent tooling (`create_app`, `configure_app`, `request_test_build`, `preview_app`, …); read its `appo://ecosystem` resource first.
-- **Native shell:** `@appolabs/react-native-webnavigationview` / `wrapper-mobile-app`.
-- **Dashboard:** configure an app + its injected CSS/JS (dashboard-only — not CLI/MCP).
-- **REST API:** `@appolabs/apps-api` (`/api/v1`).
-- **Site retrofit (no code changes to the site):** the `app-customization` skill generates injected CSS/JS for a generic site.
+- **CLI** `@appolabs/appo` — create, try and publish apps from a terminal or agent (parity with the dashboard).
+- **MCP connector** `https://apps.goappo.io/mcp` — remote server with OAuth sign-in for AI assistants (`create_app`, `configure_app`, `preview_app`, `publish_app`, …); `npx @appolabs/appo mcp` registers it in Claude Code and Codex. The `@appolabs/appo-mcp` package is retired.
+- **Dashboard:** `https://apps.goappo.io` — the same apps and lifecycle in a web interface.
+- **REST API:** `/api/v1` — OpenAPI at `https://apps.goappo.io/docs/api/v1.json`.
+- **Native shell:** built and published by Appo; nothing is installed in the site.
+- **Layout fixes without changing the site:** CSS/JS applied by the shell at load time, set through the connector's `customize_appearance` tool.
 
 ## Quick Start
 
@@ -61,9 +61,9 @@ Appo wraps an already-hosted web app in a native iOS/Android React Native WebVie
 - [Update your app](https://goappo.io/docs/guides/update) — Deploy your site and the app follows; name and icon land with the next operated build
 - [Push notifications](https://goappo.io/docs/guides/push) — Add push messaging to your app
 - [Handle App Store rejections](https://goappo.io/docs/guides/rejection) — The curated required action, the fix recipe, and resubmission
-- [Test builds](https://goappo.io/docs/guides/test-builds) — Self-serve test binaries for self-managed apps (CLI and MCP)
+- [Test builds](https://goappo.io/docs/guides/test-builds) — Installable test binaries (CLI and MCP)
 - [CLI documentation](https://goappo.io/docs/cli) — The appo CLI: install, appo ship, command reference
-- [CLI: appo ship](https://goappo.io/docs/cli/ship) — Create and publish a new app in one command
+- [CLI: appo ship](https://goappo.io/docs/cli/ship) — Publish an app to the stores
 - [CLI: command reference](https://goappo.io/docs/cli/commands) — Every appo command and flag
-- [MCP documentation](https://goappo.io/docs/mcp) — Drive the app lifecycle from your AI assistant with @appolabs/appo-mcp
+- [MCP documentation](https://goappo.io/docs/mcp) — Drive the app lifecycle from your AI assistant through the remote Appo connector
 - [MCP: tool reference](https://goappo.io/docs/mcp/tools) — Every tool exposed by the MCP server, with outcomes and confirm gates
