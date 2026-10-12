@@ -18,14 +18,14 @@ Developer account in your name (Appo guides the enrollment).
 </Tab>
 <Tab value="CLI">
 
-For a new app, a single command creates it and registers the publish intent,
-with a confirm gate:
+`appo ship` registers the publish intent, with a confirm gate:
 
 ```bash
-appo ship --url https://example.com --name "My App"
+appo ship <id>
 ```
 
-Existing app: `appo ship <id>`. Follow progress with `appo status <id>`.
+Follow progress with `appo status <id>`. A new app is created first with
+`appo new` (see [Create an app](/guides/create-app)).
 
 </Tab>
 <Tab value="MCP">

@@ -17,12 +17,13 @@ piattaforme sono gratuite. Le app create dalla dashboard sono disponibili entro 
 <Tab value="CLI">
 
 ```bash
-appo preview [id]
+appo run [id]
 ```
 
-Restituisce l'URL TestFlight (iOS), il deep link (Android) e il target per il
-codice QR. Se `id` viene omesso, il comando usa l'app collegata alla directory
-corrente.
+Avvia una build TestFlight se non ce n'è una pronta, poi restituisce l'URL
+TestFlight (iOS), il deep link (Android) e un codice QR. Se `id` viene omesso,
+il comando usa la tua unica app, oppure mostra un selettore quando l'account
+ne ha più d'una.
 
 </Tab>
 <Tab value="MCP">

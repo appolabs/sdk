@@ -1,30 +1,31 @@
 ---
 title: appo ship
-description: Il ciclo di vita in un solo comando, dall'URL agli store.
+description: Pubblica un'app sugli store con un solo comando.
 ---
 
-`appo ship` porta un'app sugli store con un solo comando. Dato un URL e un
-nome, crea l'app e segnala l'intenzione di pubblicazione: Appo avvia la build
-lato server, la invia in revisione e gestisce la pubblicazione operata.
+`appo ship <id>` porta sugli store un'app esistente. Segnala l'intenzione di
+pubblicazione: Appo avvia la build lato server, la invia in revisione e
+gestisce la pubblicazione operata. L'app si crea prima con `appo new`, che ne
+stampa l'id.
 
 ```bash
-appo ship --url https://example.com --name "My App"
+appo new --url https://example.com --name "My App"
+appo ship <id>
 ```
 
 ## Cosa succede
 
-1. L'app viene creata (equivalente a `appo apps create`).
-2. La CLI si ferma a un gate di conferma e mostra cosa verrà pubblicato.
-3. Alla conferma, Appo esegue la pubblicazione: build, invio agli store,
+1. La CLI si ferma a un gate di conferma e mostra cosa verrà pubblicato.
+2. Alla conferma, Appo esegue la pubblicazione: build, invio agli store,
    revisione Apple, aggiornamenti.
 
 Passa `--yes` per saltare il gate di conferma (pipeline CI) e `--stores <list>`
 per limitare gli store di destinazione.
 
-## Pubblicare un'app esistente
+## Ripubblicare e inviare di nuovo
 
-`appo ship <id>` ripubblica un'app esistente, inclusa la nuova sottomissione
-dopo un rifiuto dall'App Store. Combinalo con:
+Lo stesso comando ripubblica un'app, incluso il nuovo invio dopo un rifiuto
+dall'App Store. Combinalo con:
 
 - `appo status <id>` — stato di pubblicazione e azione successiva.
 - `appo rejection <id>` — il rifiuto attivo dall'App Store, se presente.
@@ -32,6 +33,7 @@ dopo un rifiuto dall'App Store. Combinalo con:
 
 ## Anteprima prima di pubblicare
 
-`appo preview [id]` mostra la destinazione di anteprima per il tuo telefono
-(TestFlight o deep link, con QR code). Senza id usa la tua unica app, oppure
-mostra un selettore.
+`appo run [id]` avvia una build TestFlight se non ce n'è una pronta, poi mostra
+la destinazione di anteprima per il tuo telefono (link TestFlight o deep link
+Android, con QR code). Senza id usa la tua unica app, oppure mostra un
+selettore.

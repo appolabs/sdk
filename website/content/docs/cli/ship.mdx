@@ -1,30 +1,31 @@
 ---
 title: appo ship
-description: The one-command lifecycle, from URL to the app stores.
+description: Publish an app to the stores with one command.
 ---
 
-`appo ship` takes an app to the stores in a single command. Given a URL
-and a name it creates the app, then signals publish intent: Appo issues the
-build server-side, submits it for review and operates the publication.
+`appo ship <id>` takes an existing app to the stores. It signals publish
+intent: Appo issues the build server-side, submits it for review and operates
+the publication. The app is created beforehand with `appo new`, which prints
+its id.
 
 ```bash
-appo ship --url https://example.com --name "My App"
+appo new --url https://example.com --name "My App"
+appo ship <id>
 ```
 
 ## What happens
 
-1. The app is created (equivalent to `appo apps create`).
-2. The CLI stops at a confirm gate and shows what will be published.
-3. On confirmation, Appo executes the publication: builds, store submission,
+1. The CLI stops at a confirm gate and shows what will be published.
+2. On confirmation, Appo executes the publication: builds, store submission,
    Apple review, updates.
 
 Pass `--yes` to skip the confirm gate (CI pipelines), and `--stores <list>`
 to restrict the target stores.
 
-## Shipping an existing app
+## Republishing and resubmitting
 
-`appo ship <id>` republishes an existing app, including resubmission after an
-App Store rejection. Pair it with:
+The same command republishes an app, including resubmission after an App Store
+rejection. Pair it with:
 
 - `appo status <id>` — publication state and the next action.
 - `appo rejection <id>` — the active App Store rejection, if any.
@@ -32,6 +33,6 @@ App Store rejection. Pair it with:
 
 ## Preview before shipping
 
-`appo preview [id]` prints the preview target for your phone (TestFlight or
-deep link, with a QR code). With no id it uses your only app, or shows a
-picker.
+`appo run [id]` triggers a TestFlight build if none is ready, then shows the
+on-device target for your phone (TestFlight link or Android deep link, with a
+QR code). With no id it uses your only app, or shows a picker.

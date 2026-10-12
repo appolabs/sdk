@@ -34,27 +34,32 @@ command: `--api <url>` overrides the API base (env `APPO_API_BASE`),
 | `appo apps create --name <n> --url <u>` | Create a new app |
 | `appo apps list` | List your apps |
 | `appo apps show <id>` | Show one app |
-| `appo apps update <id> [--name <n>] [--url <u>] [--icon <https-url>]` | Update name, URL and icon |
+| `appo apps update <id> [--name <n>] [--url <u>] [--icon <https-url>] [--permission <name>=<on\|off>]` | Update name, URL, icon and permissions |
+| `appo apps update <id> [--prepare on\|off]` | Have Appo's team adapt the site to the app, or take that back |
 
 ## Lifecycle
 
 | Command | What it does |
 | --- | --- |
-| `appo new --url <u> [--name <n>]` | Create an app — name defaults from the URL |
-| `appo ship --url <u> --name <n> [--stores <list>] [--yes]` | Create and ship a new app |
-| `appo ship <id> [--yes]` | Ship an existing app (republish or resubmit) |
+| `appo new --url <u> [--name <n>] [--prepare]` | Create an app (the name defaults from the URL; `--prepare` has Appo's team adapt the site) |
+| `appo ship <id> [--stores <list>] [--yes]` | Ship the app to the stores (also republish, or resubmit after a rejection) |
 | `appo status <id>` | App overview: publication state and next action |
-| `appo preview [id]` | Preview target (TestFlight or deep link, with QR) |
+| `appo run [id]` | Try it: trigger a TestFlight build if none is ready, then show the on-device target (join link and QR). No id: your only app, or a picker |
 | `appo rejection <id>` | Show the active App Store rejection |
 | `appo fix-recipe <id>` | Show the fix recipe for a rejection |
 | `appo publish <id> [--confirm]` | Publish an already-built app to its stores |
 | `appo push <id> --title <t> --body <b> [--target-url <u>] [--image-path <p>] [--scheduled-at <when>] --confirm` | Send a push notification |
 
-## Test builds (self-managed apps)
+## Test builds and devices
 
 | Command | What it does |
 | --- | --- |
-| `appo build <id> [--platform ios\|android]` | Trigger a test build (default android) |
-| `appo download <id> [--build <n>] [--output <path>]` | Download the installable artifact |
-| `appo devices list` | List registered iOS test devices |
-| `appo devices register` | iOS device registration link and QR |
+| `appo download <id> [--build <n>] [--output <path>]` | Download the installable artifact once ready (prepare one with `appo run`) |
+| `appo devices list` | List your registered iOS test devices |
+| `appo devices register` | iOS device registration link and QR (once per device) |
+
+## AI editor
+
+| Command | What it does |
+| --- | --- |
+| `appo mcp` | Connect your AI agent to Appo (Claude Code, Codex, Cursor): registers the Appo [MCP connector](/mcp) |

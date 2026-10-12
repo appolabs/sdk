@@ -18,14 +18,15 @@ Store: un account Apple Developer a tuo nome (Appo guida l'iscrizione).
 </Tab>
 <Tab value="CLI">
 
-Per una nuova app, un solo comando la crea e registra l'intent di
-pubblicazione, con un passaggio di conferma:
+`appo ship` registra l'intenzione di pubblicazione, con un passaggio di
+conferma:
 
 ```bash
-appo ship --url https://example.com --name "My App"
+appo ship <id>
 ```
 
-App esistente: `appo ship <id>`. Segui lo stato con `appo status <id>`.
+Segui lo stato con `appo status <id>`. Una nuova app si crea prima con
+`appo new` (vedi [Crea un'app](/guides/create-app)).
 
 </Tab>
 <Tab value="MCP">

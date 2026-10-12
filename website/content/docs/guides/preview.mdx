@@ -19,11 +19,12 @@ ready in minutes.
 <Tab value="CLI">
 
 ```bash
-appo preview [id]
+appo run [id]
 ```
 
-Returns the TestFlight URL (iOS), deep link (Android), and a QR target. If
-`id` is omitted, the command uses the app linked to the current directory.
+Triggers a TestFlight build if none is ready, then returns the TestFlight URL
+(iOS), the deep link (Android) and a QR code. If `id` is omitted, the command
+uses your only app, or shows a picker when the account has several.
 
 </Tab>
 <Tab value="MCP">
