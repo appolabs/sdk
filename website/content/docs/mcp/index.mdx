@@ -40,6 +40,13 @@ Codex CLI:
 codex mcp add appo --url https://apps.goappo.io/mcp
 ```
 
+The default sandbox of Codex blocks network access and makes the configuration
+outside the working folder read-only, so `npx @appolabs/appo`, the `appo`
+commands and `codex mcp add` can fail there. In that case Codex should ask the
+user to approve network access for the command, or to run it in their own
+terminal. The `appo` command-line tool prints a line saying so when it detects
+the case.
+
 Claude on the web and Claude Desktop: open **Customize**, then **Connectors**,
 choose **Add custom connector**, enter the address and select **Sign in now**.
 When the dialog offers a choice of OAuth client mode, select **Register
