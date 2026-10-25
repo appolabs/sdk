@@ -44,7 +44,7 @@ su ogni comando: `--api <url>` sovrascrive la base API (env `APPO_API_BASE`),
 | `appo new --url <u> [--name <n>] [--prepare]` | Crea un'app (il nome deriva dall'URL; con `--prepare` il team Appo adatta il sito) |
 | `appo ship <id> [--stores <list>] [--yes]` | Pubblica l'app sugli store (anche ripubblicazione, o nuovo invio dopo un rifiuto) |
 | `appo status <id>` | Panoramica app: stato di pubblicazione e azione successiva |
-| `appo run [id]` | Prova l'app: avvia una build TestFlight se non ce n'è una pronta, poi mostra la destinazione sul dispositivo (link di accesso e QR). Senza id: la tua unica app, oppure un selettore |
+| `appo run [id]` | Prova l'app: stampa il link di anteprima e il QR code per il telefono, oppure lo stato dei lavori di Appo; non avvia alcuna build. Senza id: la tua unica app, oppure un selettore |
 | `appo rejection <id>` | Mostra il rifiuto attivo dall'App Store |
 | `appo fix-recipe <id>` | Mostra la soluzione suggerita per un rifiuto |
 | `appo publish <id> [--confirm]` | Pubblica un'app già compilata sui suoi store |
@@ -54,7 +54,7 @@ su ogni comando: `--api <url>` sovrascrive la base API (env `APPO_API_BASE`),
 
 | Comando | Cosa fa |
 | --- | --- |
-| `appo download <id> [--build <n>] [--output <path>]` | Scarica l'artefatto installabile quando è pronto (si prepara con `appo run`) |
+| `appo download <id> [--build <n>] [--output <path>]` | Scarica l'artefatto installabile quando è pronto (le build partono da sole quando l'app è pronta) |
 | `appo devices list` | Elenca i tuoi dispositivi iOS di test registrati |
 | `appo devices register` | Link e QR per la registrazione del dispositivo iOS (una volta per dispositivo) |
 

@@ -44,7 +44,7 @@ command: `--api <url>` overrides the API base (env `APPO_API_BASE`),
 | `appo new --url <u> [--name <n>] [--prepare]` | Create an app (the name defaults from the URL; `--prepare` has Appo's team adapt the site) |
 | `appo ship <id> [--stores <list>] [--yes]` | Ship the app to the stores (also republish, or resubmit after a rejection) |
 | `appo status <id>` | App overview: publication state and next action |
-| `appo run [id]` | Try it: trigger a TestFlight build if none is ready, then show the on-device target (join link and QR). No id: your only app, or a picker |
+| `appo run [id]` | Try it: print the preview link and QR code for your phone, or what Appo is still doing; starts no build. No id: your only app, or a picker |
 | `appo rejection <id>` | Show the active App Store rejection |
 | `appo fix-recipe <id>` | Show the fix recipe for a rejection |
 | `appo publish <id> [--confirm]` | Publish an already-built app to its stores |
@@ -54,7 +54,7 @@ command: `--api <url>` overrides the API base (env `APPO_API_BASE`),
 
 | Command | What it does |
 | --- | --- |
-| `appo download <id> [--build <n>] [--output <path>]` | Download the installable artifact once ready (prepare one with `appo run`) |
+| `appo download <id> [--build <n>] [--output <path>]` | Download the installable artifact once ready (builds start automatically once the app is ready) |
 | `appo devices list` | List your registered iOS test devices |
 | `appo devices register` | iOS device registration link and QR (once per device) |
 
