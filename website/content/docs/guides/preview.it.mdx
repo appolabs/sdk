@@ -1,41 +1,97 @@
 ---
 title: Anteprima sul dispositivo
-description: Ricevi un'anteprima installabile della tua app sul telefono, senza costi aggiuntivi, entro 48 ore dalla dashboard, in pochi minuti da CLI o MCP.
+description: Prova la tua app sul telefono prima della pubblicazione, senza costi aggiuntivi, con un unico link di anteprima dalla dashboard, dalla CLI o da un assistente AI.
 ---
 
-L'anteprima rende la tua app installabile su un dispositivo reale: TestFlight su iOS e un deep link per Android. Entrambe le
-piattaforme sono gratuite. Le app create dalla dashboard sono disponibili entro 48 ore; da CLI o MCP l'anteprima è pronta in pochi minuti.
+L'anteprima installa la tua app su un telefono reale prima della
+pubblicazione, senza costi aggiuntivi. È un unico link valido su qualsiasi
+telefono: aperto sul telefono, installa la versione adatta; aperto su un
+computer, mostra un codice QR da inquadrare con il telefono.
 
-<Tabs items={['Dashboard', 'CLI', 'MCP']}>
-<Tab value="Dashboard">
+## Quando l'anteprima è disponibile
+
+Dipende da chi adatta il sito all'app:
+
+- **Tu o il tuo sviluppatore**, se il codice del sito lo gestite voi
+  (self-managed): l'app si può provare subito. La versione per telefono viene
+  compilata la prima volta che si prova l'app e richiede qualche minuto.
+- **Il team di Appo**: l'app si può provare dopo che il team ha adattato il
+  sito, in genere entro 24-48 ore.
+
+Le app create dalla dashboard sono preparate di norma dal team di Appo. Dalla
+CLI o da un assistente AI la scelta si fa al momento della creazione dell'app.
+
+## Dalla dashboard
 
 1. Apri la tua app su [apps.goappo.io](https://apps.goappo.io).
-2. Usa l'azione di apertura sul dispositivo o di anteprima. Viene mostrato un
-   codice QR per entrambe le piattaforme.
+2. Seleziona **Prova sul telefono**. Sul telefono si apre la pagina di
+   anteprima; su un computer lo stesso link compare come codice QR.
 
-</Tab>
-<Tab value="CLI">
+## Da un assistente AI o dalla CLI
+
+Chiedi al tuo assistente di provare l'app. L'assistente chiama `preview_app`,
+che restituisce lo stato dell'anteprima (`ready`, `preparing`, `building` o
+`failed`) con un messaggio per te. Quando lo stato è `ready`, la risposta
+contiene anche:
+
+- `preview_url`: il link di anteprima, valido su qualsiasi telefono;
+- `preview_qr`: lo stesso link come codice QR disegnato in testo, per gli
+  assistenti che lavorano in un terminale;
+- `how_to_open`: una breve indicazione su come aprire il link.
+
+Finché l'app non è pronta, la risposta elenca le possibilità, per esempio
+attendere il team di Appo oppure fare le correzioni in prima persona.
+
+Dalla riga di comando:
 
 ```bash
 appo run [id]
 ```
 
-Avvia una build TestFlight se non ce n'è una pronta, poi restituisce l'URL
-TestFlight (iOS), il deep link (Android) e un codice QR. Se `id` viene omesso,
-il comando usa la tua unica app, oppure mostra un selettore quando l'account
-ne ha più d'una.
+Stampa il link di anteprima e il relativo codice QR, oppure ciò che Appo sta
+ancora facendo; non avvia alcuna build. Se `id` viene omesso, il comando usa la
+tua unica app, oppure mostra un selettore quando l'account ne ha più d'una.
 
-</Tab>
-<Tab value="MCP">
+## Sul telefono
 
-Chiedi al tuo assistente di visualizzare l'anteprima: chiamerà `preview_app`,
-che restituisce l'URL TestFlight per iOS, il deep link per Android, il target
-QR e i flag di disponibilità per piattaforma.
+### Android
 
-</Tab>
-</Tabs>
+La pagina di anteprima prepara l'app Android, il che richiede qualche minuto:
+tieni aperta la pagina. L'app viene poi scaricata e, per completare
+l'installazione, basta aprire il file scaricato. Android può chiedere di
+consentire l'installazione di app dal browser.
 
-La disponibilità dell'anteprima su iOS può essere in ritardo rispetto ad
-Android: richiede una build TestFlight, che aggiunge tempi di elaborazione da
-parte di Apple. L'anteprima Android è disponibile non appena il record
-dell'app esiste.
+### iPhone, se il codice del sito lo gestisci tu
+
+L'app si installa direttamente sull'iPhone, senza TestFlight. Apple consente
+questo tipo di installazione solo sui dispositivi registrati per i test, perciò
+la prima volta l'iPhone va registrato:
+
+1. Apri il link di anteprima sull'iPhone e tocca **Installa l'app**. La pagina
+   chiede prima di registrare l'iPhone: tocca **Registra questo iPhone**.
+2. Nella pagina di registrazione tocca **Installa profilo** e consenti il
+   download.
+3. Apri **Impostazioni**, tocca **Profilo scaricato** in alto, poi **Installa**.
+   Se la voce non compare più, il profilo si trova in **Impostazioni > Generali
+   > VPN e gestione dispositivi**. Il profilo invia ad Appo l'identificativo del
+   dispositivo (UDID), il modello e la versione di iOS; non aggiunge app né
+   icone alla schermata Home.
+4. Torna alla pagina di anteprima (**Torna alla tua app**). Appo prepara l'app
+   per l'iPhone registrato, il che richiede qualche minuto: tieni aperta la
+   pagina.
+5. L'installazione parte: conferma nella finestra di iOS. L'icona dell'app
+   compare sulla schermata Home dopo qualche secondo.
+
+La registrazione serve una sola volta per ogni iPhone e account Appo. Se la
+pagina la richiede di nuovo su un iPhone già registrato, scegli **Già
+registrato? Installa**. Il numero di dispositivi
+registrabili per i test è limitato da Apple. Quando il limite è stato raggiunto
+e nessuno dei tuoi iPhone è registrato, la pagina indica che l'anteprima iOS non
+è disponibile; l'anteprima Android non ne risente.
+
+### iPhone, se l'app la prepara il team di Appo
+
+La pagina di anteprima apre l'app nell'app TestFlight di Apple; se TestFlight
+non è installata, la si scarica dall'App Store. Finché la build TestFlight non è disponibile,
+la pagina indica che Appo sta predisponendo il test su iPhone e apre l'app non
+appena è pronta.

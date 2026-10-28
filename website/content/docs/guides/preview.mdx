@@ -1,41 +1,92 @@
 ---
 title: Preview on device
-description: Get an installable preview of your app on your phone at no extra cost, within 48 hours from the dashboard, minutes from the CLI or MCP.
+description: Try your app on your phone before publishing, at no extra cost, through one preview link from the dashboard, the CLI or an AI assistant.
 ---
 
-Preview makes your app installable on a real device: TestFlight for iOS
-and a deep link for Android. Both platforms are free. Dashboard-created apps
-are available within 48 hours; created from the CLI or MCP, the preview is
-ready in minutes.
+The preview installs your app on a real phone before it is published, at no
+extra cost. It is one link that works on every phone: opened on the phone, it
+installs the right version for it; opened on a computer, it shows a QR code to
+scan with the phone.
 
-<Tabs items={['Dashboard', 'CLI', 'MCP']}>
-<Tab value="Dashboard">
+## When the preview is available
+
+It depends on who adapts the website to the app:
+
+- **You or your developer**, when you maintain the website's code
+  (self-managed): the app can be tried right away. The phone version is built
+  the first time the app is tried, which takes a few minutes.
+- **Appo's team**: the app can be tried once the team has adapted the website,
+  typically within 24 to 48 hours.
+
+Apps created from the dashboard are prepared by Appo's team by default. From
+the CLI or an AI assistant, you choose when the app is created.
+
+## From the dashboard
 
 1. Open your app on [apps.goappo.io](https://apps.goappo.io).
-2. Use the open-on-device or preview action. A QR code is shown for both
-   platforms.
+2. Select **Try on your phone**. On a phone, the preview page opens; on a
+   computer, the same link is shown as a QR code.
 
-</Tab>
-<Tab value="CLI">
+## From an AI assistant or the CLI
+
+Ask your assistant to let you try the app. It calls `preview_app`, which
+returns the state of the preview (`ready`, `preparing`, `building` or `failed`)
+with a message for you. When the state is `ready`, the answer also contains:
+
+- `preview_url`: the preview link, valid on every phone;
+- `preview_qr`: the same link as a QR code drawn in text, for assistants that
+  run in a terminal;
+- `how_to_open`: a short note on how to open the link.
+
+While the app is not ready, the answer lists what you can do, for example wait
+for Appo's team or make the fixes yourself.
+
+From the command line:
 
 ```bash
 appo run [id]
 ```
 
-Triggers a TestFlight build if none is ready, then returns the TestFlight URL
-(iOS), the deep link (Android) and a QR code. If `id` is omitted, the command
-uses your only app, or shows a picker when the account has several.
+Prints the preview link and its QR code, or what Appo is still doing; it starts
+no build. If `id` is omitted, the command uses your only app, or shows a picker
+when the account has several.
 
-</Tab>
-<Tab value="MCP">
+## On the phone
 
-Ask your assistant to preview the app: it calls `preview_app`, which returns
-the iOS TestFlight URL, Android deep link, QR target, and per-platform
-readiness flags.
+### Android
 
-</Tab>
-</Tabs>
+The preview page prepares the Android app, which takes a few minutes; keep the
+page open. The app is then downloaded: open the downloaded file to finish the
+installation. Android may ask you to allow installing apps from the browser.
 
-iOS preview readiness can lag Android: it requires a TestFlight build, which
-adds processing time on Apple's side. Android preview is available as soon as
-the app record exists.
+### iPhone, when you maintain the website's code
+
+The app installs directly on the iPhone, without TestFlight. Apple allows this
+kind of installation only on devices registered for testing, so the first time
+the iPhone is registered:
+
+1. Open the preview link on the iPhone and tap **Install app**. The page asks
+   you to register the iPhone first: tap **Register this iPhone**.
+2. On the registration page, tap **Install profile** and allow the download.
+3. Open **Settings**, tap **Profile Downloaded** at the top, then **Install**.
+   If that entry is gone, the profile is under **Settings > General > VPN &
+   Device Management**. The profile sends Appo the iPhone's device identifier
+   (UDID), model and iOS version; it adds no app or icon to the Home Screen.
+4. Go back to the preview page (**Back to your app**). Appo prepares the app for
+   the registered iPhone, which takes a few minutes; keep the page open.
+5. The installation starts: confirm in the iOS dialog. The app's icon appears
+   on the Home Screen within a few seconds.
+
+Registration is needed once per iPhone and Appo account. If the page asks
+again on an iPhone that is already registered, choose **Already registered?
+Install**. The number of devices that can be registered for testing is
+limited by Apple. When the limit has been reached and none of your iPhones is
+registered, the page says that the iOS preview is not available; the Android
+preview is not affected.
+
+### iPhone, when Appo's team prepares the app
+
+The preview page opens the app in Apple's TestFlight app; if TestFlight is not
+installed, install it from the App Store. Until the TestFlight build is available,
+the page says that Appo is setting up iPhone testing and opens the app as soon
+as it is ready.
