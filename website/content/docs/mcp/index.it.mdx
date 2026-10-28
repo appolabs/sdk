@@ -9,6 +9,18 @@ connettore può creare un'app a partire da un sito web, farla provare su un
 telefono e pubblicarla su App Store e Google Play. Non si installa nulla in
 locale e non occorre gestire manualmente alcun token.
 
+## Prima di iniziare
+
+- Un account Appo. La pagina di accesso che si apre la prima volta che
+  l'assistente usa Appo permette anche di crearlo, con Google oppure con email
+  e password.
+- Un sito web di cui si è titolari o che si è autorizzati a pubblicare come app.
+  Appo parte da un sito esistente e raggiungibile pubblicamente; non crea siti
+  web.
+- Per pubblicare: un piano Appo attivo per l'app e, per l'App Store,
+  un'iscrizione all'Apple Developer Program intestata a sé o alla propria
+  azienda. Per Google Play non serve un account sviluppatore proprio.
+
 ## Collegamento
 
 Lo strumento a riga di comando `appo` registra il connettore su ogni agente
@@ -18,13 +30,17 @@ supportato presente nel PATH (Claude Code e Codex):
 npx @appolabs/appo mcp
 ```
 
-Per ciascun agente registrato aggiunge inoltre una breve sezione, delimitata da
-`<!-- appo-start -->` e `<!-- appo-end -->`, nel file di istruzioni a livello
-utente dell'agente (`~/.claude/CLAUDE.md` per Claude Code, `~/.codex/AGENTS.md`
-per Codex). La sezione indica all'agente che un'app di questo tipo risiede in
-Appo, così che una richiesta come "qual è lo stato della mia app" non venga
-interpretata come una domanda sulla directory di lavoro. La sezione può essere
-modificata o rimossa liberamente.
+In un terminale il comando chiede inoltre, per ciascun agente registrato, se
+aggiungere una breve sezione, delimitata da `<!-- appo-start -->` e
+`<!-- appo-end -->`, nel file di istruzioni a livello utente dell'agente
+(`~/.claude/CLAUDE.md` per Claude Code, `~/.codex/AGENTS.md` per Codex). Una
+risposta vuota vale come sì, `n` la salta. Senza terminale, oppure con
+`--json`, non viene scritto nulla a meno che non si passi
+`--agent-instructions`. La sezione indica all'agente che un'app di questo tipo
+risiede in Appo, così che una richiesta come "qual è lo stato della mia app" non
+venga interpretata come una domanda sulla directory di lavoro. Il testo al di
+fuori dei delimitatori non viene toccato e la sezione può essere modificata o
+rimossa liberamente.
 
 Per aggiungere il connettore manualmente, si usa l'indirizzo
 `https://apps.goappo.io/mcp` nel client prescelto.
@@ -69,7 +85,9 @@ configurazione dei connettori.
 
 Al primo utilizzo si apre l'accesso ad Appo, seguito da una schermata di
 consenso che indica il client e l'unico permesso richiesto. L'accesso avviene
-con Google oppure con email e password e può essere revocato dal client.
+con Google oppure con email e password. L'accesso concesso all'assistente si
+può revocare in qualsiasi momento, come descritto in
+[Dati e privacy](#dati-e-privacy).
 
 ## Cosa si può fare
 
@@ -79,22 +97,183 @@ con Google oppure con email e password e può essere revocato dal client.
 - Provare l'app tramite un unico link di anteprima che funziona su qualsiasi
   telefono: lo si apre sul telefono oppure se ne inquadra il codice QR da un
   computer.
-- Pubblicare sugli store. La pubblicazione richiede un abbonamento attivo per
-  l'app e una conferma esplicita.
+- Pubblicare sugli store. La pubblicazione richiede un piano attivo per l'app e
+  una conferma esplicita.
 - Seguire la revisione degli store e gestire un eventuale rifiuto.
 - Inviare notifiche push.
 - Modificare icona, permessi e aspetto dell'app.
 
+## Esempi di richieste
+
+**"Trasforma il mio sito https://www.example.com in un'app per iOS e Android."**
+L'assistente chiede prima di confermare di essere titolari del sito o
+autorizzati a pubblicarlo e di accettare i Termini di servizio; senza entrambe
+le conferme non viene creata alcuna app. Appo verifica poi che il sito sia
+raggiungibile e crea l'app. Se il codice del sito lo si gestisce in prima
+persona, l'app si può provare subito; altrimenti il team di Appo adatta il sito
+all'app, in genere entro 24-48 ore.
+
+**"Voglio provare la mia app sul telefono."**
+Quando l'app è pronta, la risposta contiene un link valido su qualsiasi
+telefono, il codice QR dello stesso link e una breve indicazione su come
+aprirlo. Se l'app è ancora in preparazione o in compilazione, la risposta lo
+dice e indica quando conviene chiedere di nuovo.
+
+**"A che punto è la mia app?"**
+La risposta riporta lo stato dell'app (non ancora pronta, pronta, in revisione
+negli store, pubblicata, rifiutata) e il passo successivo.
+
+**"Pubblica la mia app su App Store e Google Play."**
+Se l'app non ha un piano attivo, la risposta spiega che per pubblicare ne serve
+uno e rimanda alla pagina dei prezzi. Con un piano attivo, Appo mostra gli
+store a cui invierà l'app e attende la conferma. La revisione richiede poi in
+genere da 1 a 7 giorni da parte di Apple e da 1 a 3 giorni da parte di Google.
+
+**"Apple ha rifiutato la mia app. Perché, e cosa devo fare?"**
+La risposta riporta lo stato della pubblicazione, l'azione richiesta e i passi
+per risolvere. Dopo la correzione si può chiedere di inviare di nuovo l'app:
+Appo mostra che cosa farà e attende la conferma. Il nuovo invio all'App Store
+avviene con il proprio account sviluppatore Apple.
+
+**"Invia una notifica push agli utenti della mia app con titolo 'Aperti domenica' e testo 'Siamo aperti dalle 10 alle 18.'"**
+Appo mostra la notifica e quanti dispositivi la riceveranno, e la invia dopo la
+conferma.
+
+## Conferma prima delle modifiche
+
+Sei strumenti accettano l'argomento `confirm`: `publish_app`,
+`trigger_resubmission`, `request_testflight_build`, `send_push`, `remove_app` e
+`customize_appearance`. Chiamati senza `confirm: true` non modificano nulla e
+rispondono con un'anteprima di ciò che accadrebbe; l'assistente ripete la
+chiamata con `confirm: true` dopo l'approvazione dell'utente.
+
+Alcune richieste vengono respinte prima di qualsiasi anteprima:
+
+- `publish_app`, per un'app senza piano attivo, risponde `plan_required` con il
+  link alla pagina dei prezzi. Finché il team di Appo sta ancora adattando il
+  sito, risponde `app_not_ready`.
+- `remove_app` elimina soltanto un'app mai pubblicata. Un'app pubblicata o in
+  corso di pubblicazione non si può eliminare dall'assistente; la risposta
+  rimanda alla dashboard. Un'app con un piano attivo non viene eliminata finché
+  il piano non è chiuso. Un'app eliminata non si può ripristinare.
+
+`create_app` non accetta `confirm`, ma non crea nulla finché l'utente non ha
+confermato di essere titolare del sito, o autorizzato a pubblicarlo, e non ha
+accettato i Termini di servizio. `configure_app`, `set_icon` e
+`set_permissions` applicano la modifica immediatamente. `preview_app` può
+avviare la compilazione della versione per telefono dell'app. Gli altri
+strumenti si limitano a leggere.
+
 ## Cosa non fa
 
-La gestione dei pagamenti e dell'abbonamento resta nella dashboard di Appo, a
-cui il connettore rimanda tramite un link.
+- Il connettore non vende piani e non riceve pagamenti. Quando un'azione
+  richiede un piano, lo dice e rimanda alla pagina dei prezzi, che descrive i
+  piani. Piani e pagamenti si gestiscono nella dashboard di Appo.
+- Nessuno strumento accetta nomi utente o password. Quando la revisione dello
+  store richiede un account di prova, la risposta indica la pagina in cui
+  fornirlo.
+- Non crea siti web: parte da un sito esistente.
+
+## Dati e privacy
+
+Il connettore riceve soltanto i parametri di ciascuna richiesta, come l'app
+interessata, l'indirizzo del sito o il testo di una notifica. Non registra le
+chiamate agli strumenti e non conserva i metadati che alcuni assistenti
+aggiungono alla richiesta, per esempio la lingua, una posizione approssimativa o
+identificativi anonimi. Non riceve la conversazione, la sua cronologia, i file
+o la memoria dell'assistente. Le risposte contengono solo ciò che serve, per
+esempio lo stato dell'app, il link di anteprima o la sintesi di un rifiuto
+dello store.
+
+Il fornitore dell'assistente tratta la conversazione secondo la propria
+informativa sulla privacy. Il trattamento dei dati personali da parte di Appo è
+descritto nell'[informativa sulla privacy](https://goappo.io/it/privacy).
+
+L'accesso dell'assistente si può revocare in qualsiasi momento dalla dashboard
+di Appo, in **Impostazioni > API e CLI > Assistenti collegati**, oppure
+rimuovendo il connettore Appo dalle impostazioni dell'assistente.
+
+## Risoluzione dei problemi
+
+### La pagina di accesso non si apre, o l'accesso non riesce
+
+Consentire le finestre pop-up per il sito dell'assistente e riprovare. Se la
+pagina di accesso indica che l'indirizzo accede con Google, usare il pulsante di
+Google. Se il problema persiste, rimuovere il connettore Appo dalle impostazioni
+dell'assistente e collegarlo di nuovo.
+
+### L'assistente non usa gli strumenti di Appo
+
+Verificare che il connettore Appo sia attivo per la conversazione. Se è stato
+collegato a conversazione già aperta, avviarne una nuova.
+
+### L'app non si può ancora provare
+
+La risposta a "voglio provare la mia app" indica lo stato:
+
+- Il team di Appo sta adattando il sito: di solito servono 24-48 ore. Chi
+  gestisce il codice del sito può fare le correzioni in prima persona e provare
+  subito l'app.
+- La versione per telefono è in compilazione: chiedere di nuovo dopo qualche
+  minuto.
+- Il sito non è raggiungibile: controllare l'indirizzo del sito e chiedere ad
+  Appo di verificarlo di nuovo.
+- Appo ci sta lavorando: non serve alcuna azione. Se l'attesa si allunga oltre
+  il solito, la risposta indica che Appo è stata avvisata.
+
+### L'anteprima non si installa su iPhone
+
+Se il codice del sito lo si gestisce in prima persona, l'app si installa
+direttamente sull'iPhone, senza TestFlight, e Apple lo consente solo sui
+dispositivi registrati per i test. La prima volta la pagina di anteprima chiede
+di registrare l'iPhone: si installa il profilo proposto, poi si apre
+**Impostazioni**, si tocca **Profilo scaricato** e quindi **Installa**. Se la
+voce non compare più, il profilo si trova in **Impostazioni > Generali > VPN e
+gestione dispositivi**. Tornati alla pagina di anteprima, Appo prepara in pochi
+minuti l'app per l'iPhone registrato e poi l'installazione parte. Se è stato
+raggiunto il limite di registrazioni e nessuno dei propri iPhone è registrato,
+la pagina indica che l'anteprima iOS non è disponibile; l'anteprima Android non
+ne risente.
+
+Quando è il team di Appo ad adattare il sito, l'iPhone apre l'app tramite l'app
+TestFlight di Apple, non appena la build TestFlight è disponibile. I singoli
+passaggi sono descritti in [Anteprima sul dispositivo](/guides/preview).
+
+### L'anteprima non si installa sul telefono Android
+
+La pagina di anteprima prepara l'app Android in pochi minuti e poi la scarica:
+per completare l'installazione si apre il file scaricato. Android può chiedere
+di consentire l'installazione di app dal browser.
+
+### La pubblicazione è bloccata
+
+La risposta ne indica il motivo: l'app non ha un piano attivo (con il link alla
+pagina dei prezzi), il suo piano non è più attivo, il team di Appo sta ancora
+adattando il sito, oppure il sito richiede una correzione. I piani si gestiscono
+nella dashboard di Appo.
+
+### L'app è stata rifiutata da uno store
+
+Chiedere all'assistente perché l'app è stata rifiutata e come correggerla. Dopo
+la correzione, chiedere di inviarla di nuovo: Appo mostra un'anteprima e attende
+la conferma.
+
+### Una notifica push non è arrivata
+
+Le notifiche raggiungono i dispositivi su cui l'app è installata e le notifiche
+sono consentite. L'anteprima di una notifica indica quanti dispositivi la
+riceveranno; zero significa che nessun dispositivo può ancora riceverla.
+
+### Serve altro aiuto?
+
+Scrivere a [support@goappo.io](mailto:support@goappo.io) indicando il nome
+dell'app.
 
 ## Privacy, termini e assistenza
 
-- [Informativa sulla privacy](https://apps.goappo.io/legal/privacy-policy)
-- [Termini di servizio](https://apps.goappo.io/legal/terms)
-- [Contatti](https://goappo.io/contatti)
+- [Informativa sulla privacy](https://goappo.io/it/privacy)
+- [Termini di servizio](https://goappo.io/termini)
+- Assistenza: [support@goappo.io](mailto:support@goappo.io)
 
 ## Prossimi passi
 

@@ -8,6 +8,16 @@ Appo offers a remote MCP (Model Context Protocol) connector at
 from a website, let you try it on a phone, and publish it to the App Store and
 Google Play. Nothing is installed locally and no token is managed by hand.
 
+## Before you start
+
+- An Appo account. The sign-in page that opens the first time the assistant
+  uses Appo also creates one, with Google or with email and password.
+- A website you own or are authorized to publish as an app. Appo starts from an
+  existing, publicly reachable website; it does not create websites.
+- To publish: an active Appo plan for the app and, for the App Store, an Apple
+  Developer Program membership in your name or your company's. Google Play
+  needs no developer account of your own.
+
 ## Connect
 
 The `appo` command-line tool registers the connector on every supported agent
@@ -17,13 +27,15 @@ it finds on the PATH (Claude Code and Codex):
 npx @appolabs/appo mcp
 ```
 
-For each agent it registers, it also adds a short section, delimited by
-`<!-- appo-start -->` and `<!-- appo-end -->`, to that agent's user-level
-instructions file (`~/.claude/CLAUDE.md` for Claude Code, `~/.codex/AGENTS.md`
-for Codex). The section tells the agent that an app of this kind lives in Appo,
-so that a request such as "what is the status of my app" is not read as a
-question about the working directory. The section can be edited or removed
-freely.
+In a terminal, the command also asks, for each agent it registers, whether to
+add a short section, delimited by `<!-- appo-start -->` and `<!-- appo-end -->`,
+to that agent's user-level instructions file (`~/.claude/CLAUDE.md` for Claude
+Code, `~/.codex/AGENTS.md` for Codex). An empty answer means yes, `n` skips it.
+Without a terminal, or with `--json`, nothing is written unless
+`--agent-instructions` is given. The section tells the agent that an app of
+this kind lives in Appo, so that a request such as "what is the status of my
+app" is not read as a question about the working directory. Text outside the
+markers is left untouched, and the section can be edited or removed freely.
 
 To add the connector by hand, use the address `https://apps.goappo.io/mcp` in
 the client of your choice.
@@ -67,7 +79,8 @@ connector dialog is authoritative for the exact flags and labels.
 
 The first use opens Appo's sign-in, followed by a consent screen that names the
 client and the single permission requested. Sign-in is by Google or by email and
-password. Access can be revoked from the client.
+password. Access can be revoked at any time, as described under
+[Data and privacy](#data-and-privacy).
 
 ## What you can do
 
@@ -76,22 +89,175 @@ password. Access can be revoked from the client.
   Appo's team, typically within 24 to 48 hours.
 - Try the app through one preview link that works on every phone: it is opened
   on the phone, or scanned as a QR code from a computer.
-- Publish to the stores. Publication requires an active subscription for the
-  app and an explicit confirmation.
+- Publish to the stores. Publication requires an active plan for the app and an
+  explicit confirmation.
 - Follow store review and handle a rejection.
 - Send push notifications.
 - Adjust the icon, the permissions and the appearance of the app.
 
+## Example prompts
+
+**"Turn my website https://www.example.com into an iOS and Android app."**
+The assistant first asks you to confirm that you own the website or are
+authorized to publish it, and that you accept the Terms of Service; without
+both, no app is created. Appo then checks that the website can be reached and
+creates the app. If you maintain the website's code, the app can be tried right
+away; otherwise Appo's team adapts the website to the app, typically within 24
+to 48 hours.
+
+**"I want to try my app on my phone."**
+When the app is ready, you get one link that works on every phone, a QR code of
+the same link and a short note on how to open it. While the app is still being
+prepared or built, the answer says so and when it is worth asking again.
+
+**"What is the status of my app?"**
+The answer gives the app's state (not ready yet, ready, in store review, live,
+rejected) and the single next step.
+
+**"Publish my app to the App Store and Google Play."**
+If the app has no active plan, the answer says that publishing needs one and
+links to the pricing page. With an active plan, Appo shows the stores it will
+submit to and waits for your confirmation. Store review then typically takes 1
+to 7 days at Apple and 1 to 3 days at Google.
+
+**"Apple rejected my app. Why, and what do I need to do?"**
+You get the publication status, the action required and the steps to fix it.
+After the fix, you can ask to resubmit: Appo shows what it will do and waits for
+your confirmation. Resubmission to the App Store uses your own Apple developer
+account.
+
+**"Send a push notification to my app's users with the title 'Open this Sunday' and the text 'We are open from 10 to 18.'"**
+Appo shows the notification and how many devices will receive it, and sends it
+after you confirm.
+
+## Confirmation before changes
+
+Six tools take a `confirm` argument: `publish_app`, `trigger_resubmission`,
+`request_testflight_build`, `send_push`, `remove_app` and
+`customize_appearance`. Called without `confirm: true`, they change nothing and
+answer with a preview of what would happen; the assistant repeats the call with
+`confirm: true` after you approve it.
+
+Some requests are refused before any preview:
+
+- `publish_app` for an app without an active plan answers `plan_required`, with
+  a link to the pricing page. While Appo's team is still adapting the website,
+  it answers `app_not_ready`.
+- `remove_app` deletes only an app that was never published. An app that is
+  published or in publication cannot be deleted from the assistant; the answer
+  points to the dashboard. An app with an active plan is not deleted until the
+  plan is closed. A deleted app cannot be restored.
+
+`create_app` does not take `confirm`, but creates nothing until you have
+confirmed that you own or may publish the website and accepted the Terms of
+Service. `configure_app`, `set_icon` and `set_permissions` apply their change
+immediately. `preview_app` may start building the phone version of the app.
+The other tools only read.
+
 ## What it does not do
 
-Payment and subscription management stay in the Appo dashboard, which the
-connector points to with a link.
+- The connector doesn't sell plans or take payments. When an action needs a
+  plan, it says so and links to the pricing page, which describes the plans.
+  Plans and payments are managed in the Appo dashboard.
+- No tool accepts a user name or password. When store review needs a test
+  account, the answer links the page where you provide it.
+- It doesn't create websites: it starts from an existing one.
+
+## Data and privacy
+
+The connector receives only the parameters of each request, such as the app
+concerned, the website address or the text of a notification. It does not log
+tool calls, and it does not store the metadata that some assistants attach to a
+request, for example the language, an approximate location or anonymous
+identifiers. It does not receive your conversation, its history, your files or
+the assistant's memory. Answers contain only what the reply needs, for example
+the app's state, the preview link or the summary of a store rejection.
+
+Your assistant's provider processes the conversation under its own privacy
+policy. How Appo processes personal data is described in the
+[privacy policy](https://goappo.io/en/privacy).
+
+You can revoke the assistant's access at any time in the Appo dashboard, under
+**Settings > API & CLI > Connected assistants**, or by removing the Appo
+connector in the assistant's settings.
+
+## Troubleshooting
+
+### The sign-in page doesn't open, or sign-in fails
+
+Allow pop-ups for the assistant's site and try again. If the sign-in page says
+that the address signs in with Google, use the Google button. If it still
+fails, remove the Appo connector from the assistant's settings and connect it
+again.
+
+### The assistant doesn't use Appo's tools
+
+Check that the Appo connector is enabled for the conversation. If you connected
+it while the conversation was open, start a new conversation.
+
+### The app can't be tried yet
+
+The answer to "try my app" names the state:
+
+- Appo's team is adapting the website: this usually takes 24 to 48 hours. If you
+  maintain the website's code, you can make the fixes yourself and try the app
+  right away.
+- The phone version is being built: ask again after a few minutes.
+- The website could not be reached: check the website address and ask Appo to
+  check it again.
+- Appo is on it: no action is needed on your side. If it takes longer than
+  usual, the answer says that Appo has been notified.
+
+### The preview doesn't install on my iPhone
+
+When you maintain the website's code, the app installs directly on the iPhone,
+without TestFlight, and Apple allows this only on devices registered for
+testing. The first time, the preview page asks you to register the iPhone:
+install the profile it offers, then open **Settings**, tap **Profile
+Downloaded** and then **Install**. If that entry is gone, the profile is under
+**Settings > General > VPN & Device Management**. Back on the preview page,
+Appo prepares the app for the registered iPhone in a few minutes, then the
+installation starts. If the registration limit has been reached and none of
+your iPhones is registered, the page says that the iOS preview is not
+available; the Android preview is not affected.
+
+When Appo's team adapts the website, the iPhone opens the app through Apple's
+TestFlight app, as soon as the TestFlight build is available. See
+[Preview on device](/guides/preview) for each step.
+
+### The preview doesn't install on my Android phone
+
+The preview page prepares the Android app in a few minutes and then downloads
+it: open the downloaded file to finish the installation. Android may ask you to
+allow installing apps from the browser.
+
+### Publishing is blocked
+
+The answer says why: the app has no active plan (with a link to the pricing
+page), its plan is no longer active, Appo's team is still adapting the website,
+or the website needs a fix. Plans are managed in the Appo dashboard.
+
+### The app was rejected by a store
+
+Ask the assistant why the app was rejected and how to fix it. After fixing it,
+ask to resubmit: Appo shows a preview and waits for your confirmation.
+
+### A push notification didn't arrive
+
+Notifications reach the devices where the app is installed and notifications are
+allowed. The preview of a notification shows how many devices will receive it;
+zero means that no device can receive it yet.
+
+### Still stuck?
+
+Write to [support@goappo.io](mailto:support@goappo.io) with the name of your
+app.
 
 ## Privacy, terms and support
 
-- [Privacy policy](https://apps.goappo.io/legal/privacy-policy)
-- [Terms of service](https://apps.goappo.io/legal/terms)
-- [Contact](https://goappo.io/en/contact)
+- [Privacy policy](https://goappo.io/en/privacy)
+- [Terms of service](https://goappo.io/en/terms)
+- Support: [support@goappo.io](mailto:support@goappo.io)
 
 ## Next
 
