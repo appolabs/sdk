@@ -33,6 +33,7 @@ rejection. Pair it with:
 
 ## Preview before shipping
 
-`appo run [id]` triggers a TestFlight build if none is ready, then shows the
-on-device target for your phone (TestFlight link or Android deep link, with a
-QR code). With no id it uses your only app, or shows a picker.
+`appo run [id]` prints the preview link, valid on every phone, with its QR code
+and a note on how to open it; while the app is not ready yet, it prints what
+Appo is still doing and the options you have. The command starts no TestFlight
+build. With no id it uses your only app, or shows a picker.
