@@ -89,8 +89,8 @@ password. Access can be revoked at any time, as described under
   Appo's team, typically within 24 to 48 hours.
 - Try the app through one preview link that works on every phone: it is opened
   on the phone, or scanned as a QR code from a computer.
-- Publish to the stores. Publication requires an active plan for the app and an
-  explicit confirmation.
+- Publish to the stores. Publication requires an active plan for the app and
+  happens only at your request.
 - Follow store review and handle a rejection.
 - Send push notifications.
 - Adjust the icon, the permissions and the appearance of the app.
@@ -116,27 +116,30 @@ rejected) and the single next step.
 
 **"Publish my app to the App Store and Google Play."**
 If the app has no active plan, the answer says that publishing needs one and
-links to the pricing page. With an active plan, Appo shows the stores it will
-submit to and waits for your confirmation. Store review then typically takes 1
-to 7 days at Apple and 1 to 3 days at Google.
+links to the pricing page. With an active plan, Appo starts the publication to
+the stores you name; the assistant may first show them and ask you to confirm.
+Store review then typically takes 1 to 7 days at Apple and 1 to 3 days at
+Google.
 
 **"Apple rejected my app. Why, and what do I need to do?"**
 You get the publication status, the action required and the steps to fix it.
-After the fix, you can ask to resubmit: Appo shows what it will do and waits for
-your confirmation. Resubmission to the App Store uses your own Apple developer
+After the fix, you can ask to resubmit; the assistant may first show what will
+be resubmitted. Resubmission to the App Store uses your own Apple developer
 account.
 
 **"Send a push notification to my app's users with the title 'Open this Sunday' and the text 'We are open from 10 to 18.'"**
-Appo shows the notification and how many devices will receive it, and sends it
-after you confirm.
+Appo sends the notification; the assistant may first show it with the number
+of devices that will receive it.
 
 ## Confirmation before changes
 
 Six tools take a `confirm` argument: `publish_app`, `trigger_resubmission`,
 `request_testflight_build`, `send_push`, `remove_app` and
 `customize_appearance`. Called without `confirm: true`, they change nothing and
-answer with a preview of what would happen; the assistant repeats the call with
-`confirm: true` after you approve it.
+answer with a preview of what would happen; called with `confirm: true`, they
+act. Whether the assistant shows the preview first or acts on an explicit
+request depends on the assistant and on the approval settings of the app in
+which it runs.
 
 Some requests are refused before any preview:
 
@@ -242,7 +245,7 @@ or the website needs a fix. Plans are managed in the Appo dashboard.
 ### The app was rejected by a store
 
 Ask the assistant why the app was rejected and how to fix it. After fixing it,
-ask to resubmit: Appo shows a preview and waits for your confirmation.
+ask to resubmit; the assistant may first show what will be resubmitted.
 
 ### A push notification didn't arrive
 

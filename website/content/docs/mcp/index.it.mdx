@@ -98,7 +98,7 @@ può revocare in qualsiasi momento, come descritto in
   telefono: lo si apre sul telefono oppure se ne inquadra il codice QR da un
   computer.
 - Pubblicare sugli store. La pubblicazione richiede un piano attivo per l'app e
-  una conferma esplicita.
+  avviene solo su richiesta.
 - Seguire la revisione degli store e gestire un eventuale rifiuto.
 - Inviare notifiche push.
 - Modificare icona, permessi e aspetto dell'app.
@@ -125,27 +125,30 @@ negli store, pubblicata, rifiutata) e il passo successivo.
 
 **"Pubblica la mia app su App Store e Google Play."**
 Se l'app non ha un piano attivo, la risposta spiega che per pubblicare ne serve
-uno e rimanda alla pagina dei prezzi. Con un piano attivo, Appo mostra gli
-store a cui invierà l'app e attende la conferma. La revisione richiede poi in
-genere da 1 a 7 giorni da parte di Apple e da 1 a 3 giorni da parte di Google.
+uno e rimanda alla pagina dei prezzi. Con un piano attivo, Appo avvia la
+pubblicazione sugli store indicati; l'assistente può prima mostrarli e chiedere
+conferma. La revisione richiede poi in genere da 1 a 7 giorni da parte di Apple
+e da 1 a 3 giorni da parte di Google.
 
 **"Apple ha rifiutato la mia app. Perché, e cosa devo fare?"**
 La risposta riporta lo stato della pubblicazione, l'azione richiesta e i passi
-per risolvere. Dopo la correzione si può chiedere di inviare di nuovo l'app:
-Appo mostra che cosa farà e attende la conferma. Il nuovo invio all'App Store
-avviene con il proprio account sviluppatore Apple.
+per risolvere. Dopo la correzione si può chiedere di inviare di nuovo l'app;
+l'assistente può prima mostrare che cosa verrà inviato. Il nuovo invio all'App
+Store avviene con il proprio account sviluppatore Apple.
 
 **"Invia una notifica push agli utenti della mia app con titolo 'Aperti domenica' e testo 'Siamo aperti dalle 10 alle 18.'"**
-Appo mostra la notifica e quanti dispositivi la riceveranno, e la invia dopo la
-conferma.
+Appo invia la notifica; l'assistente può prima mostrarla insieme al numero di
+dispositivi che la riceveranno.
 
 ## Conferma prima delle modifiche
 
 Sei strumenti accettano l'argomento `confirm`: `publish_app`,
 `trigger_resubmission`, `request_testflight_build`, `send_push`, `remove_app` e
 `customize_appearance`. Chiamati senza `confirm: true` non modificano nulla e
-rispondono con un'anteprima di ciò che accadrebbe; l'assistente ripete la
-chiamata con `confirm: true` dopo l'approvazione dell'utente.
+rispondono con un'anteprima di ciò che accadrebbe; chiamati con
+`confirm: true`, agiscono. Se l'assistente mostri prima l'anteprima o agisca su
+una richiesta esplicita dipende dall'assistente e dalle impostazioni di
+approvazione dell'app in cui opera.
 
 Alcune richieste vengono respinte prima di qualsiasi anteprima:
 
@@ -258,8 +261,8 @@ nella dashboard di Appo.
 ### L'app è stata rifiutata da uno store
 
 Chiedere all'assistente perché l'app è stata rifiutata e come correggerla. Dopo
-la correzione, chiedere di inviarla di nuovo: Appo mostra un'anteprima e attende
-la conferma.
+la correzione, chiedere di inviarla di nuovo; l'assistente può prima mostrare
+che cosa verrà inviato.
 
 ### Una notifica push non è arrivata
 
