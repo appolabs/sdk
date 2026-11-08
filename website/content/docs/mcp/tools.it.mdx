@@ -16,8 +16,8 @@ app.
 | `preview_app` | Indica se l'app si può provare ora su un telefono e restituisce l'unico link di anteprima | — |
 | `set_icon` | Imposta l'icona dell'app a partire dall'indirizzo di un'immagine | — |
 | `set_permissions` | Imposta i permessi nativi dell'app (tracciamento, fotocamera, microfono, NFC) | — |
-| `customize_appearance` | Applica modifiche CSS e JavaScript all'aspetto del sito dentro l'app | confirm |
-| `suggest_customizations` | Ispeziona il sito e propone modifiche per `customize_appearance`; non cambia nulla | — |
+| `customize_appearance` | Applica all'aspetto del sito dentro l'app una modifica CSS o JavaScript specifica, richiesta dall'utente; rifiuta il codice con caratteri non ASCII e, quando il controllo della sintassi è disponibile, il JavaScript che non supera l'analisi sintattica | confirm |
+| `get_adaptation_brief` | Restituisce il contratto della WebView dell'app, la politica di adattamento e ciò che Appo conosce del sito, per un assistente che modifica il codice del sito; non cambia nulla | — |
 | `request_testflight_build` | Ricrea la build TestFlight che Appo avvia da sé per le app che prepara | confirm |
 | `publish_app` | Avvia la pubblicazione sugli store selezionati | confirm |
 | `get_rejection` | Restituisce lo stato di pubblicazione e l'azione richiesta per un'app rifiutata, senza il testo originale del revisore | — |

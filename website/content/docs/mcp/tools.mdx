@@ -15,8 +15,8 @@ action. There is no separate tool for listing apps.
 | `preview_app` | Tells whether the app can be tried on a phone now and returns the single preview link | — |
 | `set_icon` | Sets the app icon from an image address | — |
 | `set_permissions` | Sets the app's native permissions (tracking, camera, microphone, NFC) | — |
-| `customize_appearance` | Applies CSS and JavaScript adjustments to how the website looks inside the app | confirm |
-| `suggest_customizations` | Inspects the website and proposes adjustments for `customize_appearance`; changes nothing | — |
+| `customize_appearance` | Applies a specific CSS or JavaScript change, requested by the user, to how the website looks inside the app; refuses code that contains characters outside ASCII and, when the syntax check is available, JavaScript that does not parse | confirm |
+| `get_adaptation_brief` | Returns the contract of the app's WebView, the adaptation policy and what Appo holds about the website, for an assistant that edits the website's code; changes nothing | — |
 | `request_testflight_build` | Rebuilds the TestFlight build that Appo starts itself for the apps it prepares | confirm |
 | `publish_app` | Starts publication to the selected stores | confirm |
 | `get_rejection` | Returns the publication status and the required action for a rejected app, without raw reviewer text | — |
